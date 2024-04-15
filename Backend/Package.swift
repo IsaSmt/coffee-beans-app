@@ -11,6 +11,8 @@ let package = Package(
     dependencies: [
         // 💧 A server-side Swift web framework.
         .package(url: "https://github.com/vapor/vapor.git", from: "4.92.4"),
+        .package(url: "https://github.com/vapor/fluent.git", from: "4.0.0"), // Fluent package
+        .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.0.0"), //FluentPostgresDriver
     ],
     targets: [
         .executableTarget(
@@ -19,6 +21,8 @@ let package = Package(
             // what does each target depend on
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
+                .product(name: "Fluent", package: "fluent"), // Fluent dependency
+                .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver") //FluentPostgresDriver dependency
             ],
             swiftSettings: swiftSettings
         ),
