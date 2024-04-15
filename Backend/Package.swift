@@ -1,7 +1,9 @@
 // swift-tools-version:5.10
+// importing the description of a package
 import PackageDescription
 
 let package = Package(
+    // package name
     name: "hello",
     platforms: [
        .macOS(.v13)
@@ -12,14 +14,18 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
+            // this is my main Application
             name: "App",
+            // what does each target depend on
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
             ],
             swiftSettings: swiftSettings
         ),
         .testTarget(
+            // this seems to be for unit tests
             name: "AppTests",
+            // what does each target depend on
             dependencies: [
                 .target(name: "App"),
                 .product(name: "XCTVapor", package: "vapor"),
@@ -30,6 +36,8 @@ let package = Package(
 )
 
 var swiftSettings: [SwiftSetting] { [
+    // used to opt into a future Swift concurrency feature that affects actor type inference
     .enableUpcomingFeature("DisableOutwardActorInference"),
+    // enables stricter concurrency checking in Swift
     .enableExperimentalFeature("StrictConcurrency"),
 ] }

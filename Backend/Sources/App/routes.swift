@@ -1,5 +1,8 @@
 import Vapor
 
+//The `routes` function will define all of the route handlers that your application should register. These
+// routes are responsible for handling incoming HTTP requests and returning responses to the client
+
 func routes(_ app: Application) throws {
     
     // when opening localhost:8080; define a GET path for root
