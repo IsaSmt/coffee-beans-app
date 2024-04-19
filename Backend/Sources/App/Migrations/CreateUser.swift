@@ -1,16 +1,16 @@
 import Foundation
 import Fluent
 
-struct CreateProduct: Migration {
+struct CreateUser: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
-        database.schema("products")
+        database.schema("user")
             .id()
-            .field("name", .string, .required)
-            .field("description", .string, .required)
+            .field("username", .string, .required)
+            .field("country", .string, .required)
             .create()
     }
     
     func revert(on database: Database) -> EventLoopFuture<Void> {
-        database.schema("products").delete()
+        database.schema("user").delete()
     }
 }

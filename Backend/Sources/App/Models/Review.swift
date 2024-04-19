@@ -2,9 +2,9 @@ import Foundation
 import Fluent
 import Vapor
 
-final class Product: Model, Content {
+final class Review: Model, Content {
     // defines the table name if its not the same as the model name; wohin wird das model gemappt
-    static let schema = "products"
+    static let schema = "review"
     
     // defines fields with porperty wrappers
     
@@ -14,31 +14,21 @@ final class Product: Model, Content {
     var id: UUID?
     
     // @ Field = required; also important to include required in the migration file
-    @Field(key: "name")
-    var name: String
+    @Field(key: "star_rating")
+    var star_rating: Int
     
-    @Field(key: "description")
-    var description: String
+    @OptionalField(key: "reason")
+    var reason: String?
     
-    // Rösterei
-    @Field(key: "producer")
-    var producer: String
-    
-    // herkunft Bohne
-    @Field(key: "origin")
-    var origin: String
-    
-    
-    
-    // Other fields and relationships...
+    //relationships (Parent Child)
     
     // empty initalizer to fulfill the requreement of model
     init() { }
     
     // Custom initalizer if needed
-    init(id: UUID? = nil, name: String, description: String) {
+    init(id: UUID? = nil, star_rating: Int, reason: String? = nil) {
         self.id = id
-        self.name = name
-        self.description = description
+        self.star_rating = star_rating
+        self.reason = reason
     }
 }
