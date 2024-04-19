@@ -18,14 +18,17 @@ final class Keyword: Model, Content {
     var keyword: String
 
     //relationships (Parent Child)
+    @Parent(key: "coffee_id")
+    var coffee: Coffee
     
     // empty initalizer to fulfill the requreement of model
     init() { }
     
     // Custom initalizer if needed
     // if no processing is given, the database will insert NULL
-    init(id: UUID? = nil, keyword: String) {
+    init(id: UUID? = nil, keyword: String, coffeeID: Coffee.IDValue) {
         self.id = id
         self.keyword = keyword
+        self.$coffee.id = coffeeID
     }
 }

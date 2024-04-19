@@ -23,7 +23,13 @@ public func configure(_ app: Application) async throws {
     ), as: .psql)*/
     
     // Register migrations
-       app.migrations.add(CreateProduct())
+    app.migrations.add(CreateCoffee())
+    app.migrations.add(CreateKeyword())
+    app.migrations.add(CreatePicture())
+    app.migrations.add(CreatePostcode())
+    app.migrations.add(CreateReview())
+    app.migrations.add(CreateRoastery())
+    app.migrations.add(CreateUser())
     
     // try lets the app throw an error if there is one
     // calls function name ROUTE and passes on the instance

@@ -21,6 +21,9 @@ final class Review: Model, Content {
     var reason: String?
     
     //relationships (Parent Child)
+    // children relationships dont need to be initalized. fluent seems to handle that
+    @Children(for: \.$review)
+    var coffee: [Coffee]
     
     // empty initalizer to fulfill the requreement of model
     init() { }

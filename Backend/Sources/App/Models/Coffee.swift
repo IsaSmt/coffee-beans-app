@@ -33,18 +33,29 @@ final class Coffee: Model, Content {
     var processing: String?
     
     //relationships (Parent Child)
+    // one coffee can have many reviews
+    @Parent(key: "review_id")
+    var review: Review
+    
+    @Children(for: \.$coffee)
+    var keywords: [Keyword]
+    
+    @Children(for: \.$coffee)
+    var pictures: [Picture]
     
     // empty initalizer to fulfill the requreement of model
     init() { }
     
     // Custom initalizer if needed
     // if no processing is given, the database will insert NULL
-    init(id: UUID? = nil, name: String, description: String, beantype: String, origin: String, processing: String? = nil) {
+    init(id: UUID? = nil, name: String, description: String, beantype: String, origin: String, processing: String? = nil, reviewID: Review.IDValue) {
         self.id = id
         self.name = name
         self.description = description
         self.beantype = beantype
         self.origin = origin
         self.processing = processing
+        // only parent relations need the following line
+        self.$review.id = reviewID
     }
 }

@@ -12,6 +12,8 @@ struct CreateCoffee: Migration {
             .field("origin", .string, .required) // Creates an 'origin' column that is a non-nullable String.
             // Creates an 'processing' column that is a nullable String (optional).
             .field("processing", .string) // By omitting '.required', it makes the column optional.
+            // relations (only parent relations need that line)
+            .field("review_id", .uuid, .required, .references("review","id",onDelete: .cascade))
             .create()
     }
 
