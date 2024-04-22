@@ -2,26 +2,32 @@ import Vapor
 import Fluent
 import FluentPostgresDriver
 
-// configures your application
-// Public = Configure function accessible from anywhere (typically used on startup
+// Configures your application
 public func configure(_ app: Application) async throws {
-    // uncomment to serve files from /Public folder
+    // Uncomment to serve files from /Public folder
     // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
-    // register routes
+    // Register routes
     
-    // Configure the database (example from GPT, replace placeholders with credentials on startup)
-    /*let hostname = "my_postgres" // Container name of the PostgreSQL service
-    let username = "postgres" // Default PostgreSQL username
-    let password = "my_password" // Password you set for PostgreSQL
-    let databaseName = "my_database" // The database name
-    
-    app.databases.use(.postgres(
+    // Configure the database (replace placeholders with credentials on startup)
+    let hostname = Environment.get("POSTGRES_HOST") ?? "localhost"
+    let username = Environment.get("POSTGRES_USER") ?? "postgres"
+    let password = Environment.get("POSTGRES_PASSWORD") ?? "password" // Replace with default password if needed
+    let databaseName = Environment.get("POSTGRES_DB") ?? "vapor_database" // Default database name can be changed
+    let port = Environment.get("POSTGRES_PORT").flatMap(Int.init(_:)) ?? PostgresConfiguration.ianaPortNumber
+
+    // Initialize PostgresConfiguration with the parameters
+    let postgresConfig = PostgresConfiguration(
         hostname: hostname,
+        port: port,
         username: username,
         password: password,
         database: databaseName
-    ), as: .psql)*/
+        // If you need TLS:
+        // tlsConfiguration: .forClient(certificateVerification: .none) // Don't use .none in production
+    )
     
+    app.databases.use(.postgres(configuration: postgresConfig), as: .psql)
+
     // Register migrations
     app.migrations.add(CreateCoffee())
     app.migrations.add(CreateKeyword())
@@ -31,7 +37,14 @@ public func configure(_ app: Application) async throws {
     app.migrations.add(CreateRoastery())
     app.migrations.add(CreateUser())
     
-    // try lets the app throw an error if there is one
-    // calls function name ROUTE and passes on the instance
+    // Try to run the routes (configure routes)
     try routes(app)
+
+    // Perform automatic migrations at application start
+    do {
+        try await app.autoMigrate().wait()
+    } catch {
+        app.logger.error("Failed to migrate the database: \(error)")
+    }
 }
+
