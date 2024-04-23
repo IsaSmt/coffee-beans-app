@@ -1,16 +1,18 @@
 # Digital_Entrepreneurship
 
-## Name
-CoffeCup Marktplatz
+# CoffeeCup App
 
-## Description
-Ein Marktplatz wie Vivino nur mit anderer Zielgruppe.
+Welcome to CoffeeCup! An app for coffee lovers to discover, purchase, and enjoy various coffee varieties.
 
-## Installation
-Das Projekt soll im groben wie folgt umgesetzt werden:
-    Frontend
-    Backend
+## About the App
 
-## Roadmap
-Main Roadmap ist der Zeitplan von Digital Entrepreneurship.
+CoffeeCup is a mobile application that allows users to explore a variety of coffee blends, discover roasteries, buy coffee, and find recipes for brewing. The app provides a user-friendly interface to make it easy for users to find their favorite coffees and discover new ones.
+
+## Features
+
+- Browse a variety of coffee blends by origin, roastery, and more
+- Purchase coffee directly from top roasteries
+- Bookmark your favorite coffees and save them to your favorites list
+- Find brewing guides for different coffee blends
+- Discover new roasteries and coffee regions
 
