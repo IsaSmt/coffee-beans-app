@@ -2,9 +2,9 @@ import Foundation
 import Fluent
 import Vapor
 
-final class Picture: Model, Content {
+final class Recipe: Model, Content {
     // defines the table name if its not the same as the model name; wohin wird das model gemappt
-    static let schema = "picture"
+    static let schema = "Recipe"
     
     // defines fields with porperty wrappers
     
@@ -14,8 +14,25 @@ final class Picture: Model, Content {
     var id: UUID?
     
     // @ Field = required; also important to include required in the migration file
-    @Field(key: "url")
-    var url: String
+    // Siebträger, French Press, Vollautomat
+    @Field(key: "machine")
+    var machine: String
+    
+    // how much time to finish
+    @Field(key: "time")
+    var time: String
+    
+    // how much coffee
+    @Field(key: "amount")
+    var amount: String
+    
+    // amount of espresso
+    @Field(key: "espressocount")
+    var espressocount: String
+    
+    // weight of the mug after the coffee ran through
+    @Field(key: "mugweight")
+    var mugweight: String
 
     //relationships (Parent Child)
     @Parent(key: "coffee_id")
@@ -26,9 +43,13 @@ final class Picture: Model, Content {
     
     // Custom initalizer if needed
     // if no processing is given, the database will insert NULL
-    init(id: UUID? = nil, url: String, coffeeID: Coffee.IDValue) {
+    init(id: UUID? = nil, machine: String, time: String, amount: String, espressocount: String, mugweight: String, coffeeID: Coffee.IDValue) {
         self.id = id
-        self.url = url
+        self.machine = machine
+        self.time = time
+        self.amount = amount
+        self.espressocount = espressocount
+        self.mugweight = mugweight
         self.$coffee.id = coffeeID
     }
 }

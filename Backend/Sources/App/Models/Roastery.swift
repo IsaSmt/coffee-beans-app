@@ -31,17 +31,25 @@ final class Roastery: Model, Content {
     var street: String?
     
     // relationships (parent child)
+    @Parent(key: "coffee_id")
+    var coffee: Coffee
     
+    @Parent(key: "review_id")
+    var review: Review
+
     // empty initalizer to fulfill the requreement of model
     init() { }
     
     // Custom initalizer if needed
-    init(id: UUID? = nil, name: String, description: String, email: String? = nil, phone: String? = nil, street: String? = nil) {
+    init(id: UUID? = nil, name: String, description: String, email: String? = nil, phone: String? = nil, street: String? = nil, coffeeID: Coffee.IDValue, reviewID: Review.IDValue) {
         self.id = id
         self.name = name
         self.description = description
         self.email = email
         self.phone = phone
         self.street = street
+        // only parent relations need the following line
+        self.$coffee.id = coffeeID
+        self.$review.id = reviewID
     }
 }

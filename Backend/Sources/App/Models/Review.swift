@@ -25,6 +25,12 @@ final class Review: Model, Content {
     @Children(for: \.$review)
     var coffee: [Coffee]
     
+    @Children(for: \.$review)
+    var roastery: [Roastery]
+    
+    @Children(for: \.$review)
+    var customer: [Customer]
+    
     // empty initalizer to fulfill the requreement of model
     init() { }
     

@@ -35,7 +35,8 @@ public func configure(_ app: Application) async throws {
     app.migrations.add(CreatePostcode())
     app.migrations.add(CreateReview())
     app.migrations.add(CreateRoastery())
-    app.migrations.add(CreateUser())
+    app.migrations.add(CreateCustomer())
+    app.migrations.add(CreateRecipe())
     
     // Try to run the routes (configure routes)
     try routes(app)

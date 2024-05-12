@@ -28,6 +28,9 @@ final class Coffee: Model, Content {
     @Field(key: "origin")
     var origin: String
     
+    @OptionalField(key: "roastdate")
+    var roastdate: String?
+    
     // Honey, Washed, Natural ....
     @OptionalField(key: "processing")
     var processing: String?
@@ -35,7 +38,7 @@ final class Coffee: Model, Content {
     //relationships (Parent Child)
     // one coffee can have many reviews
     @Parent(key: "review_id")
-    var review: Review
+    var reviews: Review
     
     @Children(for: \.$coffee)
     var keywords: [Keyword]
@@ -43,19 +46,29 @@ final class Coffee: Model, Content {
     @Children(for: \.$coffee)
     var pictures: [Picture]
     
+    @Children(for: \.$coffee)
+    var recipes: [Recipe]
+    
+    @Children(for: \.$coffee)
+    var roasteries: [Roastery]
+    
+    @Children(for: \.$coffee)
+    var customers: [Customer]
+    
     // empty initalizer to fulfill the requreement of model
     init() { }
     
     // Custom initalizer if needed
     // if no processing is given, the database will insert NULL
-    init(id: UUID? = nil, name: String, description: String, beantype: String, origin: String, processing: String? = nil, reviewID: Review.IDValue) {
+    init(id: UUID? = nil, name: String, description: String, beantype: String, origin: String, roastdate: String? = nil, processing: String? = nil, reviewID: Review.IDValue) {
         self.id = id
         self.name = name
         self.description = description
         self.beantype = beantype
         self.origin = origin
+        self.roastdate = roastdate
         self.processing = processing
         // only parent relations need the following line
-        self.$review.id = reviewID
+        self.$reviews.id = reviewID
     }
 }
