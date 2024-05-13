@@ -11,6 +11,7 @@ struct CreatePostcode: Migration {
     }
     
     func revert(on database: Database) -> EventLoopFuture<Void> {
+        // Delete the table if we need to revert the migration
         database.schema("postcode").delete()
     }
 }

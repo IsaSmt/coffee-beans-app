@@ -11,6 +11,7 @@ struct CreateReview: Migration {
     }
     
     func revert(on database: Database) -> EventLoopFuture<Void> {
+        // Delete the table if we need to revert the migration
         database.schema("review").delete()
     }
 }

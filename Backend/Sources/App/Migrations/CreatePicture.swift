@@ -7,6 +7,7 @@ struct CreatePicture: Migration {
         database.schema("picture")
             .id() // Creates an 'id' column that is a UUID and the primary key.
             .field("url", .string, .required) // Creates a 'name' column that is a non-nullable String.
+            // relations (only parent relations need that line)
             .field("coffee_id", .uuid, .required, .references("coffee","id",onDelete: .cascade))
             .create()
     }
