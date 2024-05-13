@@ -42,21 +42,22 @@ final class Recipe: Model, Content {
     // children dont need to be optional since the array is empty, if there are no associated children
     // children relationships dont need to be initalized. fluent seems to handle that
     // one recipe can be used for many different coffees
-    @Parent(key: "coffee_id")
-    var coffee: Coffee    
+    // This array is 'optional' in the sense that it can contain zero or many Coffee objects.
+    // It's inherently 'optional' without additional annotation.
+    @Siblings(through: CoffeeRecipePivot.self, from: \.$recipe, to: \.$coffee)
+    var coffees: [Coffee]
     
     // empty initalizer to fulfill the requreement of model
     init() { }
     
     // Custom initalizer if needed
     // if no processing is given, the database will insert NULL
-    init(id: UUID? = nil, machine: String, time: Int, amount: Double, espressocount: Int, mugweight: Double, coffeeID: Coffee.IDValue) {
+    init(id: UUID? = nil, machine: String, time: Int, amount: Double, espressocount: Int, mugweight: Double) {
         self.id = id
         self.machine = machine
         self.time = time
         self.amount = amount
         self.espressocount = espressocount
         self.mugweight = mugweight
-        self.$coffee.id = coffeeID
     }
 }

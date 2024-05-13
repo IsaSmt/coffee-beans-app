@@ -55,8 +55,10 @@ final class Coffee: Model, Content {
     var picture: [Picture]
     
     // many receipts can use one bean
-    @Children(for: \.$coffee)
-    var recipe: [Recipe]
+    // This array is 'optional' in the sense that it can contain zero or many Recipe objects.
+    // You do not need to do anything extra to make a siblings relationship 'optional'.
+    @Siblings(through: CoffeeRecipePivot.self, from: \.$coffee, to: \.$recipe)
+    var recipes: [Recipe]
     
     // one roastery may have many different coffees
     @Children(for: \.$coffee)
