@@ -22,12 +22,15 @@ final class Review: Model, Content {
     
     //relationships (Parent Child)
     // children relationships dont need to be initalized. fluent seems to handle that
+    // one review points to one coffee
     @Children(for: \.$review)
     var coffee: [Coffee]
     
+    // one review points to one coffee
     @Children(for: \.$review)
     var roastery: [Roastery]
     
+    // one review points to one customer
     @Children(for: \.$review)
     var customer: [Customer]
     

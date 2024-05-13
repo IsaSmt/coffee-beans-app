@@ -14,6 +14,7 @@ final class Postcode: Model, Content {
     var id: UUID?
     
     // @ Field = required; also important to include required in the migration file
+    // postcode for a certain village/city
     @Field(key: "postcode")
     var postcode: String
     

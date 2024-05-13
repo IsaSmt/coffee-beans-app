@@ -35,6 +35,8 @@ final class Recipe: Model, Content {
     var mugweight: String
 
     //relationships (Parent Child)
+    // children relationships dont need to be initalized. fluent seems to handle that
+    // one recipe can be used for many different coffees
     @Parent(key: "coffee_id")
     var coffee: Coffee    
     

@@ -17,6 +17,7 @@ final class Coffee: Model, Content {
     @Field(key: "name")
     var name: String
     
+    // small description about the coffee
     @Field(key: "description")
     var description: String
     
@@ -28,6 +29,7 @@ final class Coffee: Model, Content {
     @Field(key: "origin")
     var origin: String
     
+    // when got the coffee roasted
     @OptionalField(key: "roastdate")
     var roastdate: String?
     
@@ -36,24 +38,30 @@ final class Coffee: Model, Content {
     var processing: String?
     
     //relationships (Parent Child)
+    // children relationships dont need to be initalized. fluent seems to handle that
     // one coffee can have many reviews
     @Parent(key: "review_id")
-    var reviews: Review
+    var review: Review
     
+    // many keywords can describe one coffee
     @Children(for: \.$coffee)
-    var keywords: [Keyword]
+    var keyword: [Keyword]
     
+    // many pictures can show a coffee
     @Children(for: \.$coffee)
-    var pictures: [Picture]
+    var picture: [Picture]
     
+    // many receipts can use one bean
     @Children(for: \.$coffee)
-    var recipes: [Recipe]
+    var recipe: [Recipe]
     
+    // one roastery may have many different coffees
     @Children(for: \.$coffee)
-    var roasteries: [Roastery]
+    var roasterie: [Roastery]
     
+    // many customers may wish one certain coffee
     @Children(for: \.$coffee)
-    var customers: [Customer]
+    var customer: [Customer]
     
     // empty initalizer to fulfill the requreement of model
     init() { }
@@ -69,6 +77,6 @@ final class Coffee: Model, Content {
         self.roastdate = roastdate
         self.processing = processing
         // only parent relations need the following line
-        self.$reviews.id = reviewID
+        self.$review.id = reviewID
     }
 }

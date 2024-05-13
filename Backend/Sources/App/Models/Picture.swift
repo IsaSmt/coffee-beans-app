@@ -14,10 +14,13 @@ final class Picture: Model, Content {
     var id: UUID?
     
     // @ Field = required; also important to include required in the migration file
+    // the url pointing to a certain picture where it can be found inside the hard drive
     @Field(key: "url")
     var url: String
 
     //relationships (Parent Child)
+    // children relationships dont need to be initalized. fluent seems to handle that
+    // one picture can belong to one coffee
     @Parent(key: "coffee_id")
     var coffee: Coffee    
     

@@ -17,12 +17,15 @@ final class Roastery: Model, Content {
     @Field(key: "name")
     var name: String
     
+    // short description of the coffee
     @Field(key: "description")
     var description: String
     
+    // way of contacting the roastery
     @OptionalField(key: "email")
     var email: String?
     
+    // way of contacting the roastery
     @OptionalField(key: "phone")
     var phone: String?
     
@@ -34,6 +37,7 @@ final class Roastery: Model, Content {
     @Parent(key: "coffee_id")
     var coffee: Coffee
     
+    // one review points to one roastery 
     @Parent(key: "review_id")
     var review: Review
 

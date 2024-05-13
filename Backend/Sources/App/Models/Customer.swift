@@ -17,13 +17,17 @@ final class Customer: Model, Content {
     @Field(key: "username")
     var username: String
     
+    // where does a customer come from
     @Field(key: "country")
     var country: String
     
-    // Other fields and relationships...
+    // relationships (parent child)
+    // children relationships dont need to be initalized. fluent seems to handle that
+    // one customer can leave many reviews
     @Parent(key: "review_id")
     var review: Review
     
+    // one customer can safe many different coffees
     @Parent(key: "coffee_id")
     var coffee: Coffee
     

@@ -14,10 +14,13 @@ final class Keyword: Model, Content {
     var id: UUID?
     
     // @ Field = required; also important to include required in the migration file
+    // a keyword to describe a coffee (fruchtig, schokoladig, nussig, ...)
     @Field(key: "keyword")
     var keyword: String
 
     //relationships (Parent Child)
+    // children relationships dont need to be initalized. fluent seems to handle that
+    // one keyword can describe many coffees
     @Parent(key: "coffee_id")
     var coffee: Coffee
     
