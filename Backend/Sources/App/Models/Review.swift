@@ -15,12 +15,14 @@ final class Review: Model, Content {
     
     // @ Field = required; also important to include required in the migration file
     @Field(key: "star_rating")
-    var star_rating: Int
+    var star_rating: Double
     
     @OptionalField(key: "reason")
     var reason: String?
     
     //relationships (Parent Child)
+    // Parents can be optional
+    // children dont need to be optional since the array is empty, if there are no associated children
     // children relationships dont need to be initalized. fluent seems to handle that
     // one review points to one coffee
     @Children(for: \.$review)
@@ -38,7 +40,7 @@ final class Review: Model, Content {
     init() { }
     
     // Custom initalizer if needed
-    init(id: UUID? = nil, star_rating: Int, reason: String? = nil) {
+    init(id: UUID? = nil, star_rating: Double, reason: String? = nil) {
         self.id = id
         self.star_rating = star_rating
         self.reason = reason

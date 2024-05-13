@@ -22,6 +22,8 @@ final class Customer: Model, Content {
     var country: String
     
     // relationships (parent child)
+    // Parents can be optional
+    // children dont need to be optional since the array is empty, if there are no associated children
     // children relationships dont need to be initalized. fluent seems to handle that
     // one customer can leave many reviews
     @Parent(key: "review_id")

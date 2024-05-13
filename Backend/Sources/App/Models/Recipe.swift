@@ -19,22 +19,27 @@ final class Recipe: Model, Content {
     var machine: String
     
     // how much time to finish
+    // please add "sec." in the frontend
     @Field(key: "time")
-    var time: String
+    var time: Int
     
     // how much coffee
+    // please add "g" in the frontend
     @Field(key: "amount")
-    var amount: String
+    var amount: Double
     
     // amount of espresso
     @Field(key: "espressocount")
-    var espressocount: String
+    var espressocount: Int
     
     // weight of the mug after the coffee ran through
+    // please add "g" in the frontend
     @Field(key: "mugweight")
-    var mugweight: String
+    var mugweight: Double
 
     //relationships (Parent Child)
+    // Parents can be optional
+    // children dont need to be optional since the array is empty, if there are no associated children
     // children relationships dont need to be initalized. fluent seems to handle that
     // one recipe can be used for many different coffees
     @Parent(key: "coffee_id")
@@ -45,7 +50,7 @@ final class Recipe: Model, Content {
     
     // Custom initalizer if needed
     // if no processing is given, the database will insert NULL
-    init(id: UUID? = nil, machine: String, time: String, amount: String, espressocount: String, mugweight: String, coffeeID: Coffee.IDValue) {
+    init(id: UUID? = nil, machine: String, time: Int, amount: Double, espressocount: Int, mugweight: Double, coffeeID: Coffee.IDValue) {
         self.id = id
         self.machine = machine
         self.time = time

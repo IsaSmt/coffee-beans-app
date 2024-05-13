@@ -15,6 +15,7 @@ final class Postcode: Model, Content {
     
     // @ Field = required; also important to include required in the migration file
     // postcode for a certain village/city
+    // to include leading 0 as well as alphanummeric characters, postcode will stay as string
     @Field(key: "postcode")
     var postcode: String
     

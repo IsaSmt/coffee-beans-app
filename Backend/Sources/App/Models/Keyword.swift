@@ -19,6 +19,8 @@ final class Keyword: Model, Content {
     var keyword: String
 
     //relationships (Parent Child)
+    // Parents can be optional
+    // children dont need to be optional since the array is empty, if there are no associated children
     // children relationships dont need to be initalized. fluent seems to handle that
     // one keyword can describe many coffees
     @Parent(key: "coffee_id")

@@ -34,6 +34,8 @@ final class Roastery: Model, Content {
     var street: String?
     
     // relationships (parent child)
+    // Parents can be optional
+    // children dont need to be optional since the array is empty, if there are no associated children
     @Parent(key: "coffee_id")
     var coffee: Coffee
     

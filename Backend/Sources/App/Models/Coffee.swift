@@ -30,14 +30,17 @@ final class Coffee: Model, Content {
     var origin: String
     
     // when got the coffee roasted
+    // Date format would be usually yyyy-mm-dd
     @OptionalField(key: "roastdate")
-    var roastdate: String?
+    var roastdate: Date?
     
     // Honey, Washed, Natural ....
     @OptionalField(key: "processing")
     var processing: String?
     
     //relationships (Parent Child)
+    // Parents can be optional
+    // children dont need to be optional since the array is empty, if there are no associated children
     // children relationships dont need to be initalized. fluent seems to handle that
     // one coffee can have many reviews
     @Parent(key: "review_id")
@@ -68,7 +71,7 @@ final class Coffee: Model, Content {
     
     // Custom initalizer if needed
     // if no processing is given, the database will insert NULL
-    init(id: UUID? = nil, name: String, description: String, beantype: String, origin: String, roastdate: String? = nil, processing: String? = nil, reviewID: Review.IDValue) {
+    init(id: UUID? = nil, name: String, description: String, beantype: String, origin: String, roastdate: Date? = nil, processing: String? = nil, reviewID: Review.IDValue) {
         self.id = id
         self.name = name
         self.description = description
