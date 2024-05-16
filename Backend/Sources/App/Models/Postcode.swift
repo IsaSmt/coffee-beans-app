@@ -24,6 +24,8 @@ final class Postcode: Model, Content {
     var place: String
     
     // Other fields and relationships...
+    @Children(for: \.$postcode)
+        var roasteries: [Roastery]
     
     // empty initalizer to fulfill the requreement of model
     init() { }

@@ -10,6 +10,11 @@ struct CreateRoastery: Migration {
             .field("email", .string) // By omitting '.required', it makes the column optional.
             .field("phone", .string) // By omitting '.required', it makes the column optional.
             .field("street", .string) // By omitting '.required', it makes the column optional.
+            // only the parent relations need the following line
+            // Foreign key 'postcode_id' referencing the primary key ('id') of 'postcodes' table
+            .field("postcode_id", .uuid, .required, .references("postcodes", "id"))
+            .unique(on: "email") // Assuming you want the email to be unique if provided
+            .unique(on: "phone") 
             .create()
     }
     

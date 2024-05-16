@@ -35,6 +35,9 @@ final class Roastery: Model, Content {
     
     // relationships (parent child)
     // Parents can be optional
+    // Foreign key to the Postcode table
+    @Parent(key: "postcode_id")
+        var postcode: Postcode
     // children dont need to be optional since the array is empty, if there are no associated children
     // One roastery has many coffees. Note: This array does not need initialization.
     // One roastery has many Coffees
@@ -49,12 +52,14 @@ final class Roastery: Model, Content {
     init() { }
     
     // Custom initalizer if needed
-    init(id: UUID? = nil, name: String, description: String, email: String? = nil, phone: String? = nil, street: String? = nil) {
+    init(id: UUID? = nil, name: String, description: String, email: String? = nil, phone: String? = nil, street: String? = nil, postcodeID: UUID) {
         self.id = id
         self.name = name
         self.description = description
         self.email = email
         self.phone = phone
         self.street = street
+        // only parent relations need the following line
+        self.$postcode.id = postcodeID
     }
 }
