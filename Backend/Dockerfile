@@ -3,7 +3,7 @@
 # ================================
 FROM swift:5.10-jammy as build
 
-# Install OS updates
+# Install OS updates and any necessary dependencies, such as libjemalloc-dev for memory efficiency optimizations
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
     && apt-get -q update \
     && apt-get -q dist-upgrade -y \
@@ -20,28 +20,30 @@ COPY ./Package.* ./
 RUN swift package resolve --skip-update \
         $([ -f ./Package.resolved ] && echo "--force-resolved-versions" || true)
 
-# Copy entire repo into container
+# Copy entire repo into the container
 COPY . .
 
-# Build everything, with optimizations, with static linking, and using jemalloc
-# N.B.: The static version of jemalloc is incompatible with the static Swift runtime.
+# Build everything, with optimizations, and using jemalloc
+# Since we're now using "CoffeeDatabase" instead of "App",
+# we don't pass the --static-swift-stdlib flag as it's incompatible
+# with dynamic libraries used in some Vapor configurations.
 RUN swift build -c release \
-                --static-swift-stdlib \
                 -Xlinker -ljemalloc
 
 # Switch to the staging area
 WORKDIR /staging
 
-# Copy main executable to staging area
-RUN cp "$(swift build --package-path /build -c release --show-bin-path)/App" ./
+# Copy built executable to the staging area with its new name "CoffeeDatabase"
+# Ensure you use the correct name for your built executable
+RUN cp "$(swift build --package-path /build -c release --show-bin-path)/CoffeeDatabase" ./
 
-# Copy static swift backtracer binary to staging area
+# Copy static swift backtracer binary to the staging area
 RUN cp "/usr/libexec/swift/linux/swift-backtrace-static" ./
 
-# Copy resources bundled by SPM to staging area
+# Copy resources bundled by SPM to the staging area
 RUN find -L "$(swift build --package-path /build -c release --show-bin-path)/" -regex '.*\.resources$' -exec cp -Ra {} ./ \;
 
-# Copy any resources from the public directory and views directory if the directories exist
+# Copy contents from the Public directory if it exists
 # Ensure that by default, neither the directory nor any of its contents are writable.
 RUN [ -d /build/Public ] && { mv /build/Public ./Public && chmod -R a-w ./Public; } || true
 RUN [ -d /build/Resources ] && { mv /build/Resources ./Resources && chmod -R a-w ./Resources; } || true
@@ -51,7 +53,7 @@ RUN [ -d /build/Resources ] && { mv /build/Resources ./Resources && chmod -R a-w
 # ================================
 FROM ubuntu:jammy
 
-# Make sure all system packages are up to date, and install only essential packages.
+# Install OS updates and essential system packages
 RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
     && apt-get -q update \
     && apt-get -q dist-upgrade -y \
@@ -59,23 +61,19 @@ RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
       libjemalloc2 \
       ca-certificates \
       tzdata \
-# If your app or its dependencies import FoundationNetworking, also install `libcurl4`.
-      # libcurl4 \
-# If your app or its dependencies import FoundationXML, also install `libxml2`.
-      # libxml2 \
     && rm -r /var/lib/apt/lists/*
 
-# Create a vapor user and group with /app as its home directory
+# Create a non-root user and group `vapor` to run the app
 RUN useradd --user-group --create-home --system --skel /dev/null --home-dir /app vapor
 
-# Switch to the new home directory
+# Switch to the new user's home directory
 WORKDIR /app
 
-# Copy built executable and any staged resources from builder
+# Copy built executable and any resources from the builder to this new directory
 COPY --from=build --chown=vapor:vapor /staging /app
 
-# Provide configuration needed by the built-in crash reporter and some sensible default behaviors.
-ENV SWIFT_BACKTRACE=enable=yes,sanitize=yes,threads=all,images=all,interactive=no,swift-backtrace=./swift-backtrace-static
+# Environment variable for the Swift backtrace
+ENV SWIFT_BACKTRACE=1
 
 # Ensure all further commands run as the vapor user
 USER vapor:vapor
@@ -83,6 +81,7 @@ USER vapor:vapor
 # Let Docker bind to port 8080
 EXPOSE 8080
 
-# Start the Vapor service when the image is run, default to listening on 8080 in production environment
-ENTRYPOINT ["./App"]
+# Start the Vapor service when the image is run, default to listening on 8080 in the production environment
+# The name of the binary has been updated to "CoffeeDatabase"
+ENTRYPOINT ["./CoffeeDatabase"]
 CMD ["serve", "--env", "production", "--hostname", "0.0.0.0", "--port", "8080"]

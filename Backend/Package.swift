@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     // package name
-    name: "hello",
+    name: "CoffeeDatabase",
     platforms: [
        .macOS(.v13)
     ],
