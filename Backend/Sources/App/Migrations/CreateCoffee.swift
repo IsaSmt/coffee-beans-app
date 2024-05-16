@@ -14,7 +14,8 @@ struct CreateCoffee: Migration {
             .field("processing", .string) // By omitting '.required', it makes the column optional.
             .field("roastdate", .datetime)
         // relations (only parent relations need this line)
-        .field("roastery_id", .uuid, .required, .references("roasteries", "id")) // Foreign key to the Roastery table
+        // commented the required out for mvp/protoype purposes
+        .field("roastery_id", .uuid, /*.required,*/ .references("roasteries", "id")) // Foreign key to the Roastery table
             .create()
     }
 
