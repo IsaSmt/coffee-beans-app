@@ -25,8 +25,8 @@ final class Review: Model, Content {
     // children dont need to be optional since the array is empty, if there are no associated children
     // children relationships dont need to be initalized. fluent seems to handle that
     // one review points to one coffee
-    @Children(for: \.$review)
-    var coffee: [Coffee]
+    @OptionalParent(key: "coffee_id")
+        var coffee: Coffee?
     
     // one review points to one coffee
     @Children(for: \.$review)
@@ -40,9 +40,11 @@ final class Review: Model, Content {
     init() { }
     
     // Custom initalizer if needed
-    init(id: UUID? = nil, star_rating: Double, reason: String? = nil) {
+    init(id: UUID? = nil, star_rating: Double, reason: String? = nil, coffeeID: Coffee.IDValue) {
         self.id = id
         self.star_rating = star_rating
         self.reason = reason
+        // only parent relations need the following line
+        self.$coffee.id = coffeeID
     }
 }

@@ -7,6 +7,8 @@ struct CreateReview: Migration {
             .id()
             .field("star_rating", .int, .required)
             .field("reason", .string) // By omitting '.required', it makes the column optional.
+            // relations; only parents need the following line
+            .field("coffee_id", .uuid, .references("coffee", "id", onDelete: .setNull)) // Optional foreign key.
             .create()
     }
     

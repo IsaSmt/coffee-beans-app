@@ -43,37 +43,38 @@ final class Coffee: Model, Content {
     // children dont need to be optional since the array is empty, if there are no associated children
     // children relationships dont need to be initalized. fluent seems to handle that
     // one coffee can have many reviews
-    @Parent(key: "review_id")
-    var review: Review
-    
-    // many keywords can describe one coffee
+    // This property is an array of child `Review` entities, which represents the one-to-many relationship.
     @Children(for: \.$coffee)
-    var keyword: [Keyword]
+       var reviews: [Review]
     
     // many pictures can show a coffee
     @Children(for: \.$coffee)
     var picture: [Picture]
-    
-    // many receipts can use one bean
-    // This array is 'optional' in the sense that it can contain zero or many Recipe objects.
-    // You do not need to do anything extra to make a siblings relationship 'optional'.
-    @Siblings(through: CoffeeRecipePivot.self, from: \.$coffee, to: \.$recipe)
-    var recipes: [Recipe]
     
     // one roastery may have many different coffees
     @Children(for: \.$coffee)
     var roasterie: [Roastery]
     
     // many customers may wish one certain coffee
-    @Children(for: \.$coffee)
-    var customer: [Customer]
+    // This array is 'optional' in the sense that it can contain zero or many Recipe objects.
+    // You do not need to do anything extra to make a siblings relationship 'optional'.
+    @Siblings(through: CustomerCoffeeListPivot.self, from: \.$coffee, to: \.$customer)
+    var customers: [Customer]
+    
+    // many receipts can use one bean
+    @Siblings(through: CoffeeRecipePivot.self, from: \.$coffee, to: \.$recipe)
+    var recipes: [Recipe]
+    
+    // many keywords can describe one coffee
+    @Siblings(through: CoffeeKeywordPivot.self, from: \.$coffee, to: \.$keyword)
+        var keywords: [Keyword]
     
     // empty initalizer to fulfill the requreement of model
     init() { }
     
     // Custom initalizer if needed
     // if no processing is given, the database will insert NULL
-    init(id: UUID? = nil, name: String, description: String, beantype: String, origin: String, roastdate: Date? = nil, processing: String? = nil, reviewID: Review.IDValue) {
+    init(id: UUID? = nil, name: String, description: String, beantype: String, origin: String, roastdate: Date? = nil, processing: String? = nil) {
         self.id = id
         self.name = name
         self.description = description
@@ -81,7 +82,5 @@ final class Coffee: Model, Content {
         self.origin = origin
         self.roastdate = roastdate
         self.processing = processing
-        // only parent relations need the following line
-        self.$review.id = reviewID
     }
 }

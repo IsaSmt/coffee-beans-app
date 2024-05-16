@@ -23,17 +23,19 @@ final class Keyword: Model, Content {
     // children dont need to be optional since the array is empty, if there are no associated children
     // children relationships dont need to be initalized. fluent seems to handle that
     // one keyword can describe many coffees
-    @Parent(key: "coffee_id")
-    var coffee: Coffee
+    // This defines the many-to-many relationship between Keywords and Coffees.
+    // This array is 'optional' in the sense that it can contain zero or many Recipe objects.
+    // You do not need to do anything extra to make a siblings relationship 'optional'.
+    @Siblings(through: CoffeeKeywordPivot.self, from: \.$keyword, to: \.$coffee)
+    var coffees: [Coffee]
     
     // empty initalizer to fulfill the requreement of model
     init() { }
     
     // Custom initalizer if needed
     // if no processing is given, the database will insert NULL
-    init(id: UUID? = nil, keyword: String, coffeeID: Coffee.IDValue) {
+    init(id: UUID? = nil, keyword: String) {
         self.id = id
         self.keyword = keyword
-        self.$coffee.id = coffeeID
     }
 }

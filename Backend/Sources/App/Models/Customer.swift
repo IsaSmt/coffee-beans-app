@@ -29,19 +29,21 @@ final class Customer: Model, Content {
     @Parent(key: "review_id")
     var review: Review
     
-    // one customer can safe many different coffees
-    @Parent(key: "coffee_id")
-    var coffee: Coffee
+    // one customer can 'bookmark' many different coffees on their reminder list
+    // This defines the many-to-many relationship between Coffees and Customer.
+    // This array is 'optional' in the sense that it can contain zero or many Recipe objects.
+    // You do not need to do anything extra to make a siblings relationship 'optional'.
+    @Siblings(through: CustomerCoffeeListPivot.self, from: \.$customer, to: \.$coffee)
+    var coffees: [Coffee]
     
     // empty initalizer to fulfill the requreement of model
     init() { }
     
     // Custom initalizer if needed
-    init(id: UUID? = nil, username: String, country: String, coffeeID: Coffee.IDValue, reviewID: Review.IDValue){
+    init(id: UUID? = nil, username: String, country: String, reviewID: Review.IDValue){
         self.id = id
         self.username = username
         self.country = country
-        self.$coffee.id = coffeeID
         self.$review.id = reviewID
     }
 }
