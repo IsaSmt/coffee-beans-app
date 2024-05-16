@@ -28,23 +28,25 @@ final class Review: Model, Content {
     @OptionalParent(key: "coffee_id")
         var coffee: Coffee?
     
-    // one review points to one coffee
-    @Children(for: \.$review)
-    var roastery: [Roastery]
+    // One review is associated with one roastery
+     @Parent(key: "roastery_id")
+     var roastery: Roastery
     
-    // one review points to one customer
-    @Children(for: \.$review)
-    var customer: [Customer]
+    // one review is written by one customer
+    @Parent(key: "customer_id")
+    var customer: Customer
     
     // empty initalizer to fulfill the requreement of model
     init() { }
     
     // Custom initalizer if needed
-    init(id: UUID? = nil, star_rating: Double, reason: String? = nil, coffeeID: Coffee.IDValue) {
+    init(id: UUID? = nil, star_rating: Double, reason: String? = nil, coffeeID: Coffee.IDValue?, customerID: Customer.IDValue, roasteryID: Roastery.IDValue) {
         self.id = id
         self.star_rating = star_rating
         self.reason = reason
         // only parent relations need the following line
         self.$coffee.id = coffeeID
+        self.$customer.id = customerID
+        self.$roastery.id = roasteryID
     }
 }

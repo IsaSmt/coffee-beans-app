@@ -13,6 +13,8 @@ struct CreateCoffee: Migration {
             // Creates an 'processing' column that is a nullable String (optional).
             .field("processing", .string) // By omitting '.required', it makes the column optional.
             .field("roastdate", .datetime)
+        // relations (only parent relations need this line)
+        .field("roastery_id", .uuid, .required, .references("roasteries", "id")) // Foreign key to the Roastery table
             .create()
     }
 

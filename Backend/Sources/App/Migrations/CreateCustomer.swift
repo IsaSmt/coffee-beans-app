@@ -7,9 +7,6 @@ struct CreateCustomer: Migration {
             .id()
             .field("username", .string, .required)
             .field("country", .string, .required)
-            // relations (only parent relations need that line)
-            .field("review_id", .uuid, .required, .references("review","id",onDelete: .cascade))
-            .field("coffee_id", .uuid, .required, .references("coffee","id",onDelete: .cascade))
             .create()
     }
     

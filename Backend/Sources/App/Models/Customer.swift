@@ -26,8 +26,8 @@ final class Customer: Model, Content {
     // children dont need to be optional since the array is empty, if there are no associated children
     // children relationships dont need to be initalized. fluent seems to handle that
     // one customer can leave many reviews
-    @Parent(key: "review_id")
-    var review: Review
+    @Children(for: \.$customer)
+        var reviews: [Review]
     
     // one customer can 'bookmark' many different coffees on their reminder list
     // This defines the many-to-many relationship between Coffees and Customer.
@@ -40,10 +40,9 @@ final class Customer: Model, Content {
     init() { }
     
     // Custom initalizer if needed
-    init(id: UUID? = nil, username: String, country: String, reviewID: Review.IDValue){
+    init(id: UUID? = nil, username: String, country: String){
         self.id = id
         self.username = username
         self.country = country
-        self.$review.id = reviewID
     }
 }

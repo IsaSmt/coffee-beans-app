@@ -40,6 +40,9 @@ final class Coffee: Model, Content {
     
     //relationships (Parent Child)
     // Parents can be optional
+    // One coffee is roasted by one roastery
+    @Parent(key: "roastery_id")
+        var roastery: Roastery
     // children dont need to be optional since the array is empty, if there are no associated children
     // children relationships dont need to be initalized. fluent seems to handle that
     // one coffee can have many reviews
@@ -50,10 +53,6 @@ final class Coffee: Model, Content {
     // many pictures can show a coffee
     @Children(for: \.$coffee)
     var picture: [Picture]
-    
-    // one roastery may have many different coffees
-    @Children(for: \.$coffee)
-    var roasterie: [Roastery]
     
     // many customers may wish one certain coffee
     // This array is 'optional' in the sense that it can contain zero or many Recipe objects.
@@ -74,7 +73,7 @@ final class Coffee: Model, Content {
     
     // Custom initalizer if needed
     // if no processing is given, the database will insert NULL
-    init(id: UUID? = nil, name: String, description: String, beantype: String, origin: String, roastdate: Date? = nil, processing: String? = nil) {
+    init(id: UUID? = nil, name: String, description: String, beantype: String, origin: String, roastdate: Date? = nil, processing: String? = nil, roasteryID: Roastery.IDValue) {
         self.id = id
         self.name = name
         self.description = description
@@ -82,5 +81,7 @@ final class Coffee: Model, Content {
         self.origin = origin
         self.roastdate = roastdate
         self.processing = processing
+        // only parent relations need the following line
+        self.$roastery.id = roasteryID // Set the parent roastery ID
     }
 }

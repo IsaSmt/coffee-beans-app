@@ -10,9 +10,6 @@ struct CreateRoastery: Migration {
             .field("email", .string) // By omitting '.required', it makes the column optional.
             .field("phone", .string) // By omitting '.required', it makes the column optional.
             .field("street", .string) // By omitting '.required', it makes the column optional.
-            // relations (only parent relations need that line)
-            .field("coffee_id", .uuid, .required, .references("coffee","id",onDelete: .cascade))
-            .field("review_id", .uuid, .required, .references("review","id",onDelete: .cascade))
             .create()
     }
     
