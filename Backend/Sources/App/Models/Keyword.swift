@@ -4,7 +4,7 @@ import Vapor
 
 final class Keyword: Model, Content {
     // defines the table name if its not the same as the model name; wohin wird das model gemappt
-    static let schema = "keyword"
+    static let schema = "keywords"
     
     // defines fields with porperty wrappers
     

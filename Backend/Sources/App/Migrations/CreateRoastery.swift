@@ -3,7 +3,7 @@ import Fluent
 
 struct CreateRoastery: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
-        database.schema("roastery")
+        database.schema("roasteries")
             .id()
             .field("name", .string, .required)
             .field("description", .string, .required)
@@ -15,6 +15,6 @@ struct CreateRoastery: Migration {
     
     func revert(on database: Database) -> EventLoopFuture<Void> {
         // Delete the table if we need to revert the migration
-        database.schema("roastery").delete()
+        database.schema("roasteries").delete()
     }
 }

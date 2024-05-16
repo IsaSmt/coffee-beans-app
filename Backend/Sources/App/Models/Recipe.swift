@@ -4,7 +4,7 @@ import Vapor
 
 final class Recipe: Model, Content {
     // defines the table name if its not the same as the model name; wohin wird das model gemappt
-    static let schema = "Recipe"
+    static let schema = "recipes"
     
     // defines fields with porperty wrappers
     

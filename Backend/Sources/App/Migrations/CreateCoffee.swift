@@ -4,7 +4,7 @@ import Fluent
 struct CreateCoffee: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         // Create a new table for 'Coffee'
-        database.schema("coffee")
+        database.schema("coffees")
             .id() // Creates an 'id' column that is a UUID and the primary key.
             .field("name", .string, .required) // Creates a 'name' column that is a non-nullable String.
             .field("description", .string, .required) // Creates a 'description' column that is a non-nullable String.
@@ -20,6 +20,6 @@ struct CreateCoffee: Migration {
 
     func revert(on database: Database) -> EventLoopFuture<Void> {
         // Delete the table if we need to revert the migration
-        database.schema("coffee").delete()
+        database.schema("coffees").delete()
     }
 }

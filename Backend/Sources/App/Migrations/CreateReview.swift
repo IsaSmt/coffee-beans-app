@@ -3,7 +3,7 @@ import Fluent
 
 struct CreateReview: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
-        database.schema("review")
+        database.schema("reviews")
             .id()
             .field("star_rating", .double, .required)
             .field("reason", .string) // By omitting '.required', it makes the column optional.
@@ -16,6 +16,6 @@ struct CreateReview: Migration {
     
     func revert(on database: Database) -> EventLoopFuture<Void> {
         // Delete the table if we need to revert the migration
-        database.schema("review").delete()
+        database.schema("reviews").delete()
     }
 }

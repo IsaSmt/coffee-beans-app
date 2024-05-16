@@ -4,7 +4,7 @@ import Vapor
 
 final class Postcode: Model, Content {
     // defines the table name if its not the same as the model name; wohin wird das model gemappt
-    static let schema = "postcode"
+    static let schema = "postcodes"
     
     // defines fields with porperty wrappers
     

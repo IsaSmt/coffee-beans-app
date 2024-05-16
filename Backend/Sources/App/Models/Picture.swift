@@ -4,7 +4,7 @@ import Vapor
 
 final class Picture: Model, Content {
     // defines the table name if its not the same as the model name; wohin wird das model gemappt
-    static let schema = "picture"
+    static let schema = "pictures"
     
     // defines fields with porperty wrappers
     

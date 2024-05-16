@@ -4,7 +4,7 @@ import Vapor
 
 final class Coffee: Model, Content {
     // defines the table name if its not the same as the model name; wohin wird das model gemappt
-    static let schema = "coffee"
+    static let schema = "coffees"
     
     // defines fields with porperty wrappers
     

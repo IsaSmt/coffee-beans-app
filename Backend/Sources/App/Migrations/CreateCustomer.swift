@@ -3,7 +3,7 @@ import Fluent
 
 struct CreateCustomer: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
-        database.schema("customer")
+        database.schema("customers")
             .id()
             .field("username", .string, .required)
             .field("country", .string, .required)
@@ -12,6 +12,6 @@ struct CreateCustomer: Migration {
     
     func revert(on database: Database) -> EventLoopFuture<Void> {
         // Delete the table if we need to revert the migration
-        database.schema("customer").delete()
+        database.schema("customers").delete()
     }
 }
