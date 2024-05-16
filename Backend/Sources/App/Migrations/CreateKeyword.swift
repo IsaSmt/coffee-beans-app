@@ -8,7 +8,7 @@ struct CreateKeyword: Migration {
             .id() // Creates an 'id' column that is a UUID and the primary key.
             .field("keyword", .string, .required) // Creates a 'name' column that is a non-nullable String.
             // realtions (ony prents relations need that line
-            .field("coffee_id", .uuid, .required, .references("coffee","id",onDelete: .cascade))
+            .field("coffee_id", .uuid, .required, .references("coffees","id",onDelete: .cascade))
             .create()
     }
 

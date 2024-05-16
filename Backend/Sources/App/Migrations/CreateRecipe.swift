@@ -12,7 +12,7 @@ struct CreateRecipe: Migration {
             .field("espressocount", .string, .required) // Creates a 'name' column that is a non-nullable String.
             .field("mugweight", .string, .required) // Creates a 'name' column that is a non-nullable String.
             // relations (only parent relations need that line)
-            .field("coffee_id", .uuid, .required, .references("coffee","id",onDelete: .cascade))
+            .field("coffee_id", .uuid, .required, .references("coffees","id",onDelete: .cascade))
             .create()
     }
 
