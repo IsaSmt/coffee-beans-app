@@ -53,7 +53,7 @@ final class Coffee: Model, Content {
     
     // many pictures can show a coffee
     @Children(for: \.$coffee)
-    var picture: [Picture]
+    var pictures: [Picture]
     
     // many customers may wish one certain coffee
     // This array is 'optional' in the sense that it can contain zero or many Recipe objects.
