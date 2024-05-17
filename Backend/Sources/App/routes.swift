@@ -9,14 +9,17 @@ func routes(_ app: Application) throws {
     let coffeeController = CoffeeController()
     let recipeController = RecipeController()
     let keywordController = KeywordController()
+    let coffeeRecipePivotController = CoffeeRecipePivotController()
+    let coffeeKeywordPivotController = CoffeeKeywordPivotController()
     // Any other controllers you have would be similarly instantiated and registered below.
     
     // Register the controller routes with the application
     try app.register(collection: coffeeController)
     try app.register(collection: recipeController)
     try app.register(collection: keywordController)
-    
-    // Root path handler
+    try app.register(collection: coffeeRecipePivotController)
+    try app.register(collection: coffeeKeywordPivotController)
+        // Root path handler
     app.get { req async in
         "It works! Welcome to the CoffeeDatabase API!"
     }
