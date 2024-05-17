@@ -5,29 +5,29 @@ import Vapor
 
 func routes(_ app: Application) throws {
     
-    // Create an instance of the CoffeeController
+    // Instantiate controllers
     let coffeeController = CoffeeController()
+    let recipeController = RecipeController()
+    let keywordController = KeywordController()
+    // Any other controllers you have would be similarly instantiated and registered below.
     
-    // Register the CoffeeController routes
+    // Register the controller routes with the application
     try app.register(collection: coffeeController)
+    try app.register(collection: recipeController)
+    try app.register(collection: keywordController)
     
-    // A simple root handler to confirm the server is running
-    // When accessing the root path (localhost:8080), a simple message is returned
-    // when opening localhost:8080; define a GET path for root
+    // Root path handler
     app.get { req async in
-        // returning the following string
         "It works! Welcome to the CoffeeDatabase API!"
     }
     
-    /* just in case
-     // when opening localhost:8080/hello; define a GET path for /hello
-     app.get("hello") { req async -> String in
-         // returning the following string
-         "Hello, world!"
-     }*/
+    // The commented-out path for "hello" can be enabled if needed.
+    // app.get("hello") { req async -> String in
+    //     "Hello, world!"
+    // }
     
-    // You can add any other routes for different controllers or functionalities here
-    // For instance, if you had a UserController for handling users, you would set up its routes similarly:
+    // Add more routes or route collections here, as needed.
+    // For example:
     // let userController = UserController()
     // try app.register(collection: userController)
 }
