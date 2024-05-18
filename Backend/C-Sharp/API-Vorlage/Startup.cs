@@ -77,6 +77,14 @@ namespace API {
             context.PLZs.AddRange(listOfPLZs);
             context.SaveChanges();
 
+            var listOfCustomers = new Customer[]{
+                new(){ Username = "Franz Kafka", Country = "Germany"},
+                new(){ Username = "Mr. Tschaikofsky", Country = "Russia"},
+                new(){ Username = "G. W. Bush", Country = "U. S. A."},
+            };
+            context.PLZs.AddRange(listOfCustomers);
+            context.SaveChanges();
+
             var listOfMaterials = new Material[]{
                 new(){ MaterialName = "Holz", MaterialArt="Fichte", Werk="Basel"},
                 new(){ MaterialName = "Holz", MaterialArt="Kirsche", Werk="Tokyo"},
