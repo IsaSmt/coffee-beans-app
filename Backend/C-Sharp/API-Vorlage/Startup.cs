@@ -82,7 +82,7 @@ namespace API {
                 new(){ Username = "Mr. Tschaikofsky", Country = "Russia"},
                 new(){ Username = "G. W. Bush", Country = "U. S. A."},
             };
-            context.PLZs.AddRange(listOfCustomers);
+            context.Customers.AddRange(listOfCustomers);
             context.SaveChanges();
             
             }
