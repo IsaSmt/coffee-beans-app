@@ -34,7 +34,7 @@ namespace API.Store {
         public DbSet<PLZ> PLZs { get; set; }
         public DbSet<Roastery> Roasteries { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
-        public DbSet<Material> Materials { get; set; }
+        public DbSet<Coffee> Coffees { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Review> Reviews { get; set; }
 
