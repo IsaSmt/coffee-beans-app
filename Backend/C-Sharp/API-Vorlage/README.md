@@ -39,6 +39,8 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
         - Name
         - Beschreibung
     
+
+    Check für plz verbindung !!!!
     Bevor der Eintrag angelegt wird, muss eine Überprüfungen durchlaufen werden:
         Ist die ID des Materials in der Materialdatenbank eingetragen
 

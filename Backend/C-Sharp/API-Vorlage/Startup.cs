@@ -59,7 +59,7 @@ namespace API {
             });
 
             //Initialize Data
-            if(context.Keywords.Where(c => c.Id == 1).FirstOrDefault() == null) {
+            if(context.Keywords.Where(k => k.Id == 1).FirstOrDefault() == null) {
                 context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Schokolade" });
                 context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Nuss" });
                 context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Yogurt" });
