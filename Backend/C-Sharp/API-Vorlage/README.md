@@ -18,6 +18,7 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
 (3) Rösterei anlegen
 (4) Rezept anlegen
 (5) Kaffee anlegen
+(6) Kunde anlegen
 
 ### (1) Keyword anlegen
 
@@ -99,3 +100,9 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
                 -> Ausgabe: Wenn sie eine Offer haben, wird sie ausgegeben, sonst kommt eine leere Menge.
 
 ### (5) Kaffee
+### (6) Kunde
+
+    Hier muss neben der Benutzernamen 
+    das Herkunftsland angegeben werden.
+    
+    Die ID wird automatisch vergeben.
