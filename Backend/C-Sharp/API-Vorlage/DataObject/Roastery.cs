@@ -14,27 +14,27 @@ namespace API.DataObject {
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
-        public string name { get; set; }
+        public string RoasteryName { get; set; }
 
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
         // short description of the roastery
-        public string beschreibung { get; set; }
+        public string RoasteryDescription { get; set; }
 
         [MinLength(1)]
         [MaxLength(100)]
         // way of contacting the orastery
-        public string email { get; set; }
+        public string Email { get; set; }
         
         [MinLength(1)]
         [MaxLength(100)]
         // way of contacting the roastery
-        public string phone { get; set; }
+        public string Phone { get; set; }
         
         [MinLength(1)]
         [MaxLength(100)]
         // streetname and number in here
-        public string street { get; set; }
+        public string Street { get; set; }
     }
 }

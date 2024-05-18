@@ -60,12 +60,12 @@ namespace API {
 
             //Initialize Data
             if(context.Keywords.Where(k => k.Id == 1).FirstOrDefault() == null) {
-                context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Schokolade" });
-                context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Nuss" });
-                context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Yogurt" });
-                context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Kirsche" });
-                context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Kräuter" });
-                context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Passionsfrucht" });
+                context.Keywords.Add(new DataObject.Keyword() { DescriptionKey = "Schokolade" });
+                context.Keywords.Add(new DataObject.Keyword() { DescriptionKey = "Nuss" });
+                context.Keywords.Add(new DataObject.Keyword() { DescriptionKey = "Yogurt" });
+                context.Keywords.Add(new DataObject.Keyword() { DescriptionKey = "Kirsche" });
+                context.Keywords.Add(new DataObject.Keyword() { DescriptionKey = "Kräuter" });
+                context.Keywords.Add(new DataObject.Keyword() { DescriptionKey = "Passionsfrucht" });
                 context.SaveChanges();
             
 

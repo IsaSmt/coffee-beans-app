@@ -14,12 +14,12 @@ namespace API.DataObject {
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
-        public string starrating { get; set; }
+        public float StarRating { get; set; }
 
 
         [MinLength(1)]
         [MaxLength(250)]
-        public string reason { get; set; }
+        public string Reason { get; set; }
 
        
     }

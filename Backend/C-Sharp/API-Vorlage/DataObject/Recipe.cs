@@ -15,34 +15,34 @@ namespace API.DataObject {
         [MinLength(1)]
         [MaxLength(100)]
         // Siebträger, French Press, Vollautomat
-        public string machine { get; set; }
+        public string Machine { get; set; }
 
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
         // how much time to finish
         // please add "sec." in the frontend
-        public int time { get; set; }
+        public int Time { get; set; }
 
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
         // how much coffee
         // please add "g" in the frontend
-        public string amount { get; set; }
+        public float Amount { get; set; }
         
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
         // how many espressos are going to be produced
-        public int espressocount { get; set; }
+        public int Espressocount { get; set; }
 
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
          // weight of the mug after the coffee ran through
         // please add "g" in the frontend
-        public string mugweight { get; set; }
+        public float Mugweight { get; set; }
 
     }
 }
