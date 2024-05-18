@@ -59,13 +59,13 @@ namespace API {
             });
 
             //Initialize Data
-            if(context.Customers.Where(c => c.Id == 1).FirstOrDefault() == null) {
-                context.Customers.Add(new DataObject.Customer() { Name = "Test1" });
-                context.Customers.Add(new DataObject.Customer() { Name = "Test2" });
-                context.Customers.Add(new DataObject.Customer() { Name = "Test3" });
-                context.Customers.Add(new DataObject.Customer() { Name = "Test4" });
-                context.Customers.Add(new DataObject.Customer() { Name = "Test5" });
-                context.Customers.Add(new DataObject.Customer() { Name = "Test6" });
+            if(context.Keywords.Where(c => c.Id == 1).FirstOrDefault() == null) {
+                context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Schokolade" });
+                context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Nuss" });
+                context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Yogurt" });
+                context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Kirsche" });
+                context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Kräuter" });
+                context.Keywords.Add(new DataObject.Keyword() { descriptionKey = "Passionsfrucht" });
                 context.SaveChanges();
             
 

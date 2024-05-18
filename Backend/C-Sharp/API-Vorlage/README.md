@@ -2,23 +2,27 @@
 
 ## Aufruf
 
+Im Stammordner muss als erstes über das Terminal der
+Befehl "dotnet run" ausgeführt werden.
+Sollte ein "trusted certificate" fehlen, bitte auf die
+Ausgaben achten.
+
 Am simpelsten ist der Aufruf über Swagger:
     https://localhost:5001/swagger
 
 ## Aufbau
 
 Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
-(1) Lieferanten anlegen
+(1) Keyword anlegen
 (2) Materialstammsatz anlegen
 (3) Bestellanforderung anlegen
 (4) Angebotsanfrage anlegen
 
-### (1) Lieferanten anlegen
+### (1) Keyword anlegen
 
-    Bei der Anlage eines Lieferanten ist als minimum nötig, 
-    eine Anrede, ein Name sowie Suchbegriff einzutragen
-    Alle weiteren Werte sind optional.
-    Die ID wird automatisch vergeben.
+    Das Keyword erstellt automatisch eine eigene ID.
+    Was benötigt wird, ist die ausformulierte Definition
+    (z.B. schokoladig, fruchtig, ...).
 
 ### (2) Materialstammsatz anlegen
 

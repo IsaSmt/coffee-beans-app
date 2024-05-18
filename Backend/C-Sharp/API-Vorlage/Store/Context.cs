@@ -24,9 +24,9 @@ namespace API.Store {
         }
 
         /// <summary>
-        /// database table Customers
+        /// database table keywords
         /// </summary>
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Keyword> Keywords { get; set; }
 
         // Here you have to copy the line above and 
         // change the attributes, so that each

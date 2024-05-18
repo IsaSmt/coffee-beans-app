@@ -6,7 +6,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace API.DataObject {
-    public class Customer  {
+    public class Keyword  {
 
         [Key]
         public int Id { get; set; }
@@ -14,12 +14,7 @@ namespace API.DataObject {
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// This property is not required
-        /// </summary>
-        public string PhoneNumber { get; set; }
+        public string descriptionKey { get; set; }
 
     }
 }
