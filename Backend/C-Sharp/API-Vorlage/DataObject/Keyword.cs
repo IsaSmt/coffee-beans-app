@@ -14,6 +14,7 @@ namespace API.DataObject {
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
+        // a keyword to describe a coffee (fruchtig, schokoladig, nussig, ...)
         public string descriptionKey { get; set; }
 
     }

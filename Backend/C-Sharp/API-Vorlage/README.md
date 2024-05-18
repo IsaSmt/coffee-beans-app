@@ -61,14 +61,16 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
 
 ### (4) Rezept anlegen
 
-    In der Angebotsanfrage benoetigt man  beim Anlegen des Eintrages drei
+    In der Rezepteingabe benoetigt man beim Anlegen des Eintrages diese
     Felder:
-        - Anfrageart
-        - Anfragedatum
-        - Werk
-        - Bestellanforderung (ID als int)
-        - Lieferant (ID als int)
+        - Maschine
+        - Zeit
+        - Menge
+        - Espressoanzahl
+        - Tassengewicht
 
+    
+    CHECK für Kaffee Verbindung !!!!
     Bevor der Eintrag angelegt wird, müssen drei Überprüfungen durchlaufen werden:
         1. Ist die ID des Lieferanten in der Lieferantendatenbank eingetragen
         2. Ist die ID der Bestellanforderung in der Bestellanforderungsdatenbank eingetragen
