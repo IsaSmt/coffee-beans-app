@@ -19,7 +19,7 @@ x-shared_environment: &shared_environment
   
 services:
   swift-backend:
-    image: hello:latest
+    image: coffeedatabase:latest
     build:
       context: .
     environment:
@@ -46,3 +46,4 @@ services:
       
 volumes:
   postgres-data:
+    external: true
