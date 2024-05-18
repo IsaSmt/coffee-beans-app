@@ -84,15 +84,6 @@ namespace API {
             };
             context.PLZs.AddRange(listOfCustomers);
             context.SaveChanges();
-
-            var listOfMaterials = new Material[]{
-                new(){ MaterialName = "Holz", MaterialArt="Fichte", Werk="Basel"},
-                new(){ MaterialName = "Holz", MaterialArt="Kirsche", Werk="Tokyo"},
-                new(){ MaterialName = "Stein", MaterialArt="Edelstein", Werk="Zillertal"},
-                new(){ MaterialName = "Wasser", MaterialArt="Quellwasser", Werk="Zugspitze"}
-            };
-            context.Materials.AddRange(listOfMaterials);
-            context.SaveChanges();
             
             }
 

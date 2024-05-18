@@ -19,6 +19,7 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
 (4) Rezept anlegen
 (5) Kaffee anlegen
 (6) Kunde anlegen
+(7) Bewertung anlegen
 
 ### (1) Keyword anlegen
 
@@ -104,5 +105,12 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
 
     Hier muss neben der Benutzernamen 
     das Herkunftsland angegeben werden.
+    
+    Die ID wird automatisch vergeben.
+
+### (7) Bewertung
+
+    Hier kann neben der Bewertung 
+    eine Begründung angegeben werden.
     
     Die ID wird automatisch vergeben.
