@@ -14,9 +14,10 @@ Am simpelsten ist der Aufruf über Swagger:
 
 Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
 (1) Keyword anlegen
-(2) Materialstammsatz anlegen
-(3) Bestellanforderung anlegen
-(4) Angebotsanfrage anlegen
+(2) PLZ anlegen
+(3) Rösterei anlegen
+(4) Rezept anlegen
+(5) Kaffee anlegen
 
 ### (1) Keyword anlegen
 
@@ -24,16 +25,14 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
     Was benötigt wird, ist die ausformulierte Definition
     (z.B. schokoladig, fruchtig, ...).
 
-### (2) Materialstammsatz anlegen
+### (2) PLZ anlegen
 
-    Hier sind drei Attribute minimal nötig:
-        - Materialname
-        - Materialart
-        - Werk
-    Alle weiteren Werte sind optional.
+    Hier muss neben der Postleitzahl 
+    der dazugehörige Ort angegeben werden.
+    
     Die ID wird automatisch vergeben.
 
-### (3) Bestellanforderung anlegen
+### (3) Rösterei anlegen
 
     In der Bestellanforderung sind beim Anlegen des Eintrages vier
     Felder erforderlich:
@@ -60,7 +59,7 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
             enthalten ist.
             -> Ausgabe: alle fünf Orders
 
-### (4) Angebotsanfrage anlegen
+### (4) Rezept anlegen
 
     In der Angebotsanfrage benoetigt man  beim Anlegen des Eintrages drei
     Felder:
@@ -96,3 +95,5 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
             Bsp.
                 Man gibt einen Lieferanten und eine Bestellanforderung ein
                 -> Ausgabe: Wenn sie eine Offer haben, wird sie ausgegeben, sonst kommt eine leere Menge.
+
+### (5) Kaffee

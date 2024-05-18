@@ -96,27 +96,27 @@
             Adds a order.
             </summary>
         </member>
-        <member name="T:API.Controllers.SupplierController">
+        <member name="T:API.Controllers.PLZController">
             <summary>
-            This endpoint manages all operations for Suppliers.
+            This endpoint manages all operations for Postal codes.
             </summary>
         </member>
-        <member name="M:API.Controllers.SupplierController.GetAllSuppliers">
+        <member name="M:API.Controllers.PLZController.GetAllPLZs">
             <summary>
-            Returns all suppliers.
+            Returns all postal codes.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:API.Controllers.SupplierController.GetSupplier(System.Int32)">
+        <member name="M:API.Controllers.PLZController.GetPLZ(System.Int32)">
             <summary>
-            Returns the Supplier with a given id.
+            Returns the postalcode with a given id.
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:API.Controllers.SupplierController.AddSupplier(API.DataObject.Supplier)">
+        <member name="M:API.Controllers.PLZController.AddPLZ(API.DataObject.PLZ)">
             <summary>
-            Adds a supplier.
+            Adds a postal code.
             </summary>
         </member>
         <member name="T:API.Store.Context">

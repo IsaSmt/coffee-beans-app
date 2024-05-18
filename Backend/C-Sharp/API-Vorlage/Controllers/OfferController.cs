@@ -55,7 +55,7 @@ namespace API.Controllers
         public async Task<ActionResult<Offer>> AddOffer([FromBody] Offer offer) {
             if (ModelState.IsValid) {
 
-                if (context.Suppliers.Where(s => s.Id == offer.Lieferant).Any() is false){
+                if (context.PLZs.Where(p => p.Id == offer.Lieferant).Any() is false){
                     return NotFound("Lieferant nicht gefunden.");
                 }
 
@@ -87,7 +87,7 @@ namespace API.Controllers
                     return NotFound("Bestellanforderung nicht gefunden.");
                 }
 
-                if(lieferant != null && context.Suppliers.Where(s => s.Id == lieferant).Any() is false){
+                if(lieferant != null && context.PLZs.Where(p => p.Id == lieferant).Any() is false){
                     return NotFound("Lieferant nicht gefunden.");
                 }
 

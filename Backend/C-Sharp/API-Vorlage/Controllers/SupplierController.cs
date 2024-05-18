@@ -10,60 +10,60 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     /// <summary>
-    /// This endpoint manages all operations for Suppliers.
+    /// This endpoint manages all operations for Postal codes.
     /// </summary>
-    [Route("api/suppliers")]
+    [Route("api/plzs")]
     [ApiController]
-    public class SupplierController : ControllerBase
+    public class PLZController : ControllerBase
     {
         private Context context;
-        public SupplierController(Context context) {
+        public PLZController(Context context) {
             this.context = context;
         }
 
     /// <summary>
-    /// Returns all suppliers.
+    /// Returns all postal codes.
     /// </summary>
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public ActionResult<Supplier[]> GetAllSuppliers() {
-        return Ok(context.Suppliers.ToArray());
+    public ActionResult<PLZ[]> GetAllPLZs() {
+        return Ok(context.PLZs.ToArray());
     }
 
     /// <summary>
-    /// Returns the Supplier with a given id.
+    /// Returns the postalcode with a given id.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<Supplier> GetSupplier(int id) {
-        var supplier = context.Suppliers.Where(s => s.Id == id).FirstOrDefault();
-        if (supplier == null) return NotFound();
-        return Ok(supplier);
+    public ActionResult<PLZ> GetPLZ(int id) {
+        var plz = context.PLZs.Where(p => p.Id == id).FirstOrDefault();
+        if (plz == null) return NotFound();
+        return Ok(plz);
     }
 
     /// <summary>
-    /// Adds a supplier.
+    /// Adds a postal code.
     /// </summary>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<Supplier>> AddSupplier([FromBody] Supplier supplier) {
+    public async Task<ActionResult<PLZ>> AddPLZ([FromBody] PLZ plz) {
         if (ModelState.IsValid) {
 
             //test if supplier already exists
-            if (context.Suppliers.Where(s => s.Id == supplier.Id).FirstOrDefault() != null)
-                return Conflict(); //supplier with id already exists, we return a conflict
+            if (context.PLZs.Where(p => p.Id == plz.Id).FirstOrDefault() != null)
+                return Conflict(); //plz with id already exists, we return a conflict
         
-            context.Suppliers.Add(supplier);
+            context.PLZs.Add(plz);
             await context.SaveChangesAsync();
 
-            return Ok(supplier); //we return the supplier
+            return Ok(plz); //we return the plz
         }
-        return BadRequest(ModelState); //Model is not valid -> Validation Annotation of Supplier
+        return BadRequest(ModelState); //Model is not valid -> Validation Annotation of plz
     }
 
 

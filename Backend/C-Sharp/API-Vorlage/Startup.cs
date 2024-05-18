@@ -69,12 +69,12 @@ namespace API {
                 context.SaveChanges();
             
 
-            var listOfSuppliers = new Supplier[]{
-                new(){ Anrede = "Herr", Name = "Maxi Mustermann", Suchbegriff=101},
-                new(){ Anrede = "Frau", Name = "Miriam Musterfrau", Suchbegriff=102},
-                new(){ Anrede = "Firma", Name = "Musterlieferservice", Suchbegriff=103},
+            var listOfPLZs = new PLZ[]{
+                new(){ Postcode = "85221", Ort = "Dachau"},
+                new(){ Postcode = "81379", Ort = "München"},
+                new(){ Postcode = "100109", Ort = "New York City"},
             };
-            context.Suppliers.AddRange(listOfSuppliers);
+            context.PLZs.AddRange(listOfPLZs);
             context.SaveChanges();
 
             var listOfMaterials = new Material[]{
