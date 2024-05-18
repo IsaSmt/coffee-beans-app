@@ -66,7 +66,5 @@ namespace API.Controllers
             return BadRequest(ModelState); //Model is not valid -> Validation Annotation of keyword
         }
 
-
-
     }
 }

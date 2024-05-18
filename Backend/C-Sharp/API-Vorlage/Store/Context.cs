@@ -32,7 +32,7 @@ namespace API.Store {
         // change the attributes, so that each
         // dataobject gets its own database
         public DbSet<PLZ> PLZs { get; set; }
-        public DbSet<Offer> Offers { get; set; }
+        public DbSet<Roastery> Roasteries { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Material> Materials { get; set; }
 

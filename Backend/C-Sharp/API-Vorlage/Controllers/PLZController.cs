@@ -54,7 +54,7 @@ namespace API.Controllers
     public async Task<ActionResult<PLZ>> AddPLZ([FromBody] PLZ plz) {
         if (ModelState.IsValid) {
 
-            //test if supplier already exists
+            //test if postalcode already exists
             if (context.PLZs.Where(p => p.Id == plz.Id).FirstOrDefault() != null)
                 return Conflict(); //plz with id already exists, we return a conflict
         
@@ -65,8 +65,6 @@ namespace API.Controllers
         }
         return BadRequest(ModelState); //Model is not valid -> Validation Annotation of plz
     }
-
-
 
     }
 }

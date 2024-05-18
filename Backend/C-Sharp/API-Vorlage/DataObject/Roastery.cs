@@ -6,7 +6,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace API.DataObject {
-    public class Offer  {
+    public class Roastery  {
 
         [Key]
         public int Id { get; set; }
@@ -14,34 +14,23 @@ namespace API.DataObject {
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
-        public string Anfrageart { get; set; }
+        public string name { get; set; }
 
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
-        public string Anfragedatum { get; set; }
-        
-        [Required]
-        [MinLength(1)]
-        [MaxLength(100)]
-        public string Werk { get; set; }
-        
-        [Required]
-        public int Bestellanforderung { get; set; }
-        
-        [Required]
-        public int Lieferant { get; set; }
+        public string beschreibung { get; set; }
 
         [MinLength(1)]
         [MaxLength(100)]
-        public string Lagerort { get; set; }
+        public string email { get; set; }
         
         [MinLength(1)]
         [MaxLength(100)]
-        public string Submission { get; set; }
+        public string phone { get; set; }
         
         [MinLength(1)]
         [MaxLength(100)]
-        public string Angebotsfrist { get; set; }
+        public string street { get; set; }
     }
 }

@@ -34,12 +34,10 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
 
 ### (3) Rösterei anlegen
 
-    In der Bestellanforderung sind beim Anlegen des Eintrages vier
+    In der Rösterei sind beim Anlegen des Eintrages folgende
     Felder erforderlich:
-        - Material (ID als int)
-        - Bewertungspreis
-        - Waehrung
-        - Werk
+        - Name
+        - Beschreibung
     
     Bevor der Eintrag angelegt wird, muss eine Überprüfungen durchlaufen werden:
         Ist die ID des Materials in der Materialdatenbank eingetragen
