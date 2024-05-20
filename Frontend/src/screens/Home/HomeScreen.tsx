@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, FlatList, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../types'; // Adjust the import according to your project structure
 
@@ -16,11 +16,10 @@ interface Coffee {
   imageUrl: string;
 }
 
-interface HomePageProps {
-  roasteries: Roastery[];
-  originCountries: string[];
-  coffeeBeans: string[];
-  coffees: Coffee[];
+interface CoffeeBean {
+  id: string;
+  name: string;
+  imageUrl: string | number;
 }
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
@@ -31,18 +30,25 @@ type Props = {
 
 const HomePage: React.FC<Props> = ({ navigation }) => {
 
-  const dummyRoasteries: Roastery[] = [
-    { id: '1', name: 'Roastery One', address: '123 Coffee St', logoUrl: 'https://via.placeholder.com/150' },
-    { id: '2', name: 'Roastery Two', address: '456 Java Ave', logoUrl: 'https://via.placeholder.com/150' },
+  const dummyRoasteries = [
+    { id: '1', name: 'The Barn', address: 'Alte Potsdamer Str. 5\n10785 Berlin', logoUrl: require('../../assets/blend_roastery_icon.png') },
+    { id: '2', name: 'Five Elephant', address: 'Schwedter Str. 11\n10119 Berlin', logoUrl: require('../../assets/five_elephant_icon.png') },
+    { id: '3', name: 'JB Kaffee', address: 'Mörtlstrasse 5A\n85254 München', logoUrl: require('../../assets/jb_coffee_icon.png') },
+    { id: '4', name: 'The Barn', address: 'Alte Potsdamer Str. 5\n10785 Berlin', logoUrl: require('../../assets/the_barn_icon.png') },
   ];
+  
 
   const dummyOriginCountries: string[] = [
     'Brazil', 'Colombia', 'Ethiopia'
   ];
 
-  const dummyCoffeeBeans: string[] = [
-    'https://via.placeholder.com/150', 'https://via.placeholder.com/150', 'https://via.placeholder.com/150'
+  const dummyCoffeeBeans: CoffeeBean[] = [
+    { id: '1', name: 'Arabica', imageUrl: require('../../assets/arabica_bean.png') },
+    { id: '2', name: 'Robusta', imageUrl: require('../../assets/robusta_bean.png') },
+    { id: '3', name: 'Liberica', imageUrl: require('../../assets/arabica_bean.png') },
+    { id: '4', name: 'Excelsa', imageUrl: require('../../assets/robusta_bean.png') },
   ];
+  
 
   const dummyCoffees: Coffee[] = [
     { id: '1', name: 'Espresso', imageUrl: 'https://via.placeholder.com/150' },
@@ -52,12 +58,15 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
   const renderRoastery = ({ item }: { item: Roastery }) => (
     <TouchableOpacity onPress={() => handleClickRoastery(item)}>
       <View style={styles.card}>
-        <Image source={{ uri: item.logoUrl }} style={styles.logo} />
-        <Text style={styles.roasteryName}>{item.name}</Text>
-        <Text style={styles.address}>{item.address}</Text>
+        <View style={styles.roasteryInfo}>
+          <Text style={styles.roasteryName}>{item.name}</Text>
+          <Text style={styles.address}>{item.address}</Text>
+        </View>
+        <Image source={item.logoUrl} style={styles.logo} />
       </View>
     </TouchableOpacity>
   );
+  
 
   const renderCountry = ({ item }: { item: string }) => (
     <TouchableOpacity onPress={() => handleClickCountryOfOrigin(item)}>
@@ -67,14 +76,24 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-  const renderCoffeeBean = ({ item }: { item: string }) => (
+  const renderCoffeeBean = ({ item }: { item: CoffeeBean }) => (
     <TouchableOpacity onPress={() => handleClickCoffeeBean(item)}>
       <View style={styles.beanCard}>
-        <Image source={{ uri: item }} style={styles.beanImage} />
-        <Text style={styles.beanName}>{item}</Text>
+        <ImageBackground source={item.imageUrl} style={[styles.beanImageBackground, { height: 200 }]} resizeMode="contain">
+          <View style={[styles.beanContent]}>
+            <Text style={styles.beanName}>{item.name}</Text>
+            <TouchableOpacity style={styles.likeButton}>
+              <Image source={require('../../assets/heart_icon.svg')} style={styles.likeIcon} />
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
       </View>
     </TouchableOpacity>
   );
+  
+  
+  
+    
 
   const renderCoffee = ({ item }: { item: Coffee }) => (
     <TouchableOpacity onPress={() => handleClickCoffee(item)}>
@@ -145,7 +164,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
             horizontal
             data={dummyCoffeeBeans}
             renderItem={renderCoffeeBean}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item) => item.id}
             showsHorizontalScrollIndicator={true}
           />
         </View>
@@ -171,9 +190,11 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 10,
     paddingTop: 40,
     backgroundColor: '#FFF',
-    paddingLeft: 20
+    paddingLeft:
+    20
   },
   header: {
     flexDirection: 'row',
@@ -188,7 +209,6 @@ const styles = StyleSheet.create({
   },
   filterButton: {
     padding: 5,
-    paddingRight: 10
   },
   filterIcon: {
     width: 24,
@@ -205,8 +225,10 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#FFF',
-    paddingHorizontal: 80,
-    paddingVertical: 25,
+    flexDirection: 'row', // Align children horizontally
+    alignItems: 'center', // Align children vertically
+    paddingHorizontal: 16,
+    paddingVertical: 40,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -214,70 +236,81 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 2,
     marginRight: 10,
-    alignItems: 'center',
-    marginBottom: 10,
-    marginTop: 5
+    marginBottom: 5,
   },
   logo: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginBottom: 5
+    marginRight: 16, // Add spacing between logo and text
+    marginLeft: 30
+  },
+  roasteryInfo: {
+    flex: 1, // Take up remaining space
   },
   roasteryName: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
-    color: '#333'
+    color: '#333',
   },
   address: {
-    fontSize: 12,
-    color: '#777'
+    fontSize: 14,
+    color: '#777',
   },
   tag: {
     backgroundColor: '#EFEFEF',
-    paddingVertical: 40,
-    paddingHorizontal: 40,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 20,
     marginRight: 10,
     marginBottom: 10,
-    marginTop: 5
+    marginTop: 5,
   },
   tagText: {
-    color: '#555'
+    color: '#555',
   },
   beanCard: {
     backgroundColor: '#FFF',
-    paddingHorizontal: 5,
-    paddingVertical: 80,
-    borderRadius: 10,
-    shadowColor: '#000',
+    flex: 1,
+    margin: 5,
+    paddingBottom: 30,
+    borderRadius: 10, // Hier den border-Radius hinzufügen
+    shadowColor: '#F2F2F2',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 2,
     alignItems: 'center',
-    marginRight: 10,
-    marginBottom: 10,
-    marginTop: 5
+    overflow: 'hidden', // Ensure the ImageBackground stays within bounds
   },
-  beanImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginBottom: 5
+  beanContent: {
+    backgroundColor: 'rgba(255, 255, 255, 0)', // Background for text and heart icon
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'flex-start', // Text nach links ausrichten
+    alignSelf: 'flex-end', // Text nach unten schieben
   },
   beanName: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
-    color: '#333'
+    color: '#F2F2F2',
+    marginTop: 10,
+    alignSelf: 'flex-start', // Text nach links ausrichten
+    marginBottom: 10 // Abstand unten hinzufügen
+  },
+  
+  beanImageBackground: {
+    width: '100%',
+    height: 150, // Set a fixed height
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   coffeeCard: {
     backgroundColor: '#FFF',
     padding: 20,
     paddingHorizontal: 30,
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingVertical: 0,
+    paddingTop: 30,
+    paddingBottom: 30,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -287,17 +320,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
     marginBottom: 10,
-    marginTop: 5
+    marginTop: 5,
   },
   coffeeImage: {
     width: 80,
     height: 80,
-    marginBottom: 5
+    marginBottom: 5,
   },
   coffeeName: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#333'
+    color: '#333',
+  },
+  likeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  likeIcon: {
+    width: 20,
+    height: 20,
   },
 });
 
