@@ -1,0 +1,120 @@
+.container {
+    flex: 1;
+    padding: 10px;
+    background-color: #FFF;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  .filter-button {
+    padding: 5px;
+  }
+  .filter-icon {
+    width: 24px;
+    height: 24px;
+  }
+  .scrollable {
+    flex: 1;
+    overflow-y: scroll;
+  }
+  .section {
+    margin: 10px 0;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  .card {
+    background-color: #FFF;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    margin-right: 10px;
+    align-items: center;
+  }
+  .logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    margin-bottom: 5px;
+  }
+  .roasteryName {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+  .address {
+    font-size: 12px;
+    color: #777;
+  }
+  .tag {
+    background-color: #EFEFEF;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin-right: 10px;
+  }
+  .tagText {
+    color: #555;
+  }
+  .beanCard {
+    background-color: #FFF;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    margin-right: 10px;
+  }
+  .beanImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    margin-bottom: 5px;
+  }
+  .beanName {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+  .coffeeCard {
+    background-color: #FFF;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    margin-right: 10px;
+  }
+  .coffeeImage {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 5px;
+  }
+  .coffeeName {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+  .bottom-navigation {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+  }
+  .nav-item {
+    align-items: center;
+  }
+  .nav-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
