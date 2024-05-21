@@ -21,6 +21,13 @@ namespace API.DataObject {
         [MaxLength(250)]
         public string Reason { get; set; }
 
-       
+        [Required]
+        public int Roastery { get; set; }
+
+        [Required]
+        public int Coffee { get; set; }
+
+        [Required]
+        public int Customer { get; set; }
     }
 }

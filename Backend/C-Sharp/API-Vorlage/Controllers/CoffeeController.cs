@@ -55,7 +55,7 @@ namespace API.Controllers
             if (ModelState.IsValid) {
                 
                 // checks if the given Roastery ID exists inside the database
-                if (context.Roasteries.Where(r => r.Id == coffee.Roastery).Any() is false){
+                if (context.Roasteries.Where(ro => ro.Id == coffee.Roastery).Any() is false){
                     return NotFound("Rösterei nicht gefunden.");
                 }
 
@@ -71,13 +71,14 @@ namespace API.Controllers
             return BadRequest(ModelState); //Model is not valid -> Validation Annotation of Material
         }
 
+        // find every coffee from one certain roastery
         [HttpGet("RoasteryQuery")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Coffee[]> Coffees([FromQuery] int? roasteryID = null){
             if (roasteryID == null) return BadRequest("Rösterei muss angegeben werden.");
 
-                if (roasteryID != null && context.Roasteries.Where(r => r.Id == roasteryID).Any() is false){
+                if (roasteryID != null && context.Roasteries.Where(ro => ro.Id == roasteryID).Any() is false){
                     return NotFound("Rösterei nicht gefunden.");
                 }
 

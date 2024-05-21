@@ -36,5 +36,9 @@ namespace API.DataObject {
         [MaxLength(100)]
         // streetname and number in here
         public string Street { get; set; }
+
+        // connection between roastery and postal code
+        [Required]
+        public int PLZ { get; set; }
     }
 }
