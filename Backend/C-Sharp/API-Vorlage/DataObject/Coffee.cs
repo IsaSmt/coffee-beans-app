@@ -44,5 +44,7 @@ namespace API.DataObject {
         // Honey, Washed, Natural ....
         public string Processing { get; set; }
 
+        [Required]
+        public int Roastery { get; set; }
     }
 }

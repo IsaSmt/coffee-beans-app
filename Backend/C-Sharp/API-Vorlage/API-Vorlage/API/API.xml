@@ -4,6 +4,29 @@
         <name>API</name>
     </assembly>
     <members>
+        <member name="T:API.Controllers.CoffeeController">
+            <summary>
+            This endpoint manages all operations for Coffees.
+            </summary>
+        </member>
+        <member name="M:API.Controllers.CoffeeController.GetAllMaterials">
+            <summary>
+            Returns all coffees.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.CoffeeController.GetMaterial(System.Int32)">
+            <summary>
+            Returns the coffee with a given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.CoffeeController.AddCoffee(API.DataObject.Coffee)">
+            <summary>
+            Adds a coffee.
+            </summary>
+        </member>
         <member name="T:API.Controllers.CustomerController">
             <summary>
             This endpoint manages all operations for Customers .
@@ -48,29 +71,6 @@
         <member name="M:API.Controllers.KeywordController.AddKeyword(API.DataObject.Keyword)">
             <summary>
             Adds a keyword.
-            </summary>
-        </member>
-        <member name="T:API.Controllers.MaterialController">
-            <summary>
-            This endpoint manages all operations for Materials.
-            </summary>
-        </member>
-        <member name="M:API.Controllers.MaterialController.GetAllMaterials">
-            <summary>
-            Returns all Materials.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:API.Controllers.MaterialController.GetMaterial(System.Int32)">
-            <summary>
-            Returns the material with a given id.
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:API.Controllers.MaterialController.AddMaterial(API.DataObject.Material)">
-            <summary>
-            Adds a Material.
             </summary>
         </member>
         <member name="T:API.Controllers.PLZController">

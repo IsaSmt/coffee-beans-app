@@ -20,7 +20,6 @@ namespace API.Store {
         protected override void OnModelCreating(ModelBuilder builder) {
             //additional settings for certain entity options
 
-
         }
 
         /// <summary>
