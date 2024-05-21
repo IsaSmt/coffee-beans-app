@@ -82,7 +82,7 @@ namespace API.Controllers
         }
     
         // find every review from one certain roastery
-        [HttpGet("RoasteryQuery")]
+        /*[HttpGet("RoasteryQuery")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Review[]> Reviews([FromQuery] int? roasteryID = null){
@@ -133,6 +133,62 @@ namespace API.Controllers
             ).ToArray();
 
             return Ok(r);
+        }*/
+
+        // find every review from one certain customer
+        [HttpGet("RoasteryCoffeeCustomerQuery")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Review[]> Reviews([FromQuery] int? roasteryID = null, int? coffeeID = null, int? customerID = null){
+            if (roasteryID == null && coffeeID == null && customerID == null) 
+            {
+                // no id given
+                return BadRequest("Rösterei, Kaffee oder Kunde müssen angegeben werden.");
+            }
+            else if (roasteryID != null && coffeeID == null && customerID == null)
+            {
+                // only roasteryID given
+                if (roasteryID != null && context.Roasteries.Where(ro => ro.Id == roasteryID).Any() is false){
+                    return NotFound("Rösterei nicht gefunden.");
+                }
+
+                var r = context.Reviews.Where(rw =>
+                    (roasteryID == null || rw.Roastery == roasteryID) 
+                ).ToArray();
+
+                return Ok(r);
+            }
+            else if (roasteryID == null && coffeeID != null && customerID == null)
+            {
+                // only coffeeID given
+                if (coffeeID != null && context.Coffees.Where(cf => cf.Id == coffeeID).Any() is false){
+                    return NotFound("Kaffee nicht gefunden.");
+                }
+
+                var r = context.Reviews.Where(rw =>
+                    (coffeeID == null || rw.Roastery == coffeeID) 
+                ).ToArray();
+
+                return Ok(r);
+            }
+            else if (roasteryID == null && coffeeID == null && customerID != null)
+            {     
+                // only customerID given
+                if (customerID != null && context.Customers.Where(cu => cu.Id == customerID).Any() is false){
+                    return NotFound("Kunde nicht gefunden.");
+                }
+
+                var r = context.Reviews.Where(rw =>
+                (customerID == null || rw.Roastery == customerID) 
+                ).ToArray();
+
+                return Ok(r);
+            }
+            else
+            {
+                return BadRequest("Bitte nur EINE ID maximal eingeben");
+            }
+
         }
     }
 }
