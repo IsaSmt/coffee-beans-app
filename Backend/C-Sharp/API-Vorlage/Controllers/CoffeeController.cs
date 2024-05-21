@@ -81,8 +81,8 @@ namespace API.Controllers
                     return NotFound("Rösterei nicht gefunden.");
                 }
 
-            var r = context.Coffees.Where(c =>
-                (roasteryID == null || c.Roastery == roasteryID) 
+            var r = context.Coffees.Where(cf =>
+                (roasteryID == null || cf.Roastery == roasteryID) 
             ).ToArray();
 
             return Ok(r);
