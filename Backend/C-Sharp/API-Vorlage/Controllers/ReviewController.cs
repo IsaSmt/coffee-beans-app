@@ -135,7 +135,7 @@ namespace API.Controllers
             return Ok(r);
         }*/
 
-        // find every review from one certain customer
+        // find every review from one certain customer, coffee or roastery
         [HttpGet("RoasteryCoffeeCustomerQuery")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
