@@ -1,33 +1,400 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native'; // Button importiert
+import React, { useState, useCallback } from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, ScrollView, Platform, Modal, FlatList } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-interface Coffee {
-  id: string;
-  name: string;
-  address: string;
-  logoUrl: string;
-}
+const dummyCountriesOfOrigin = [
+  { id: '1', name: 'Brazil' },
+  { id: '2', name: 'Colombia' },
+  { id: '3', name: 'Ethiopia' },
+  { id: '4', name: 'Vietnam' },
+];
 
-const AddCoffeeScreen: React.FC<{ coffee: Coffee[] }> = ({ coffee }) => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
+const dummyCoffeeBeans = [
+  { id: '1', name: 'Arabica', imageUrl: 'https://via.placeholder.com/150' },
+  { id: '2', name: 'Robusta', imageUrl: 'https://via.placeholder.com/150' },
+  { id: '3', name: 'Liberica', imageUrl: 'https://via.placeholder.com/150' },
+  { id: '4', name: 'Excelsa', imageUrl: 'https://via.placeholder.com/150' },
+];
+
+const dummyRoastDegrees = [
+  { id: '1', name: 'Light' },
+  { id: '2', name: 'Medium' },
+  { id: '3', name: 'Dark' },
+];
+
+const AddCoffeeScreen = () => {
+  const [name, setName] = useState('');
+  const [beanType, setBeanType] = useState('');
+  const [manufacturingPlace, setManufacturingPlace] = useState('');
+  const [description, setDescription] = useState('');
+  const [roastDegree, setRoastDegree] = useState('');
+  const [roastDate, setRoastDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [price, setPrice] = useState('');
+  const [weight, setWeight] = useState('');
+  const [image, setImage] = useState(null);
+  const [beanTypeModalVisible, setBeanTypeModalVisible] = useState(false);
+  const [countryModalVisible, setCountryModalVisible] = useState(false);
+  const [roastDegreeModalVisible, setRoastDegreeModalVisible] = useState(false);
+  const navigation = useNavigation();
+
+  useFocusEffect(
+    useCallback(() => {
+      // Reset state when the screen comes into focus
+      setName('');
+      setBeanType('');
+      setManufacturingPlace('');
+      setDescription('');
+      setRoastDegree('');
+      setRoastDate(new Date());
+      setPrice('');
+      setWeight('');
+      setImage(null);
+    }, [])
+  );
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.uri);
+    }
+  };
+
+  const handleBack = () => {
+    navigation.navigate('Coffee');
+  };
+
+  const handleSave = () => {
+    console.log({
+      name,
+      beanType,
+      manufacturingPlace,
+      description,
+      roastDegree,
+      roastDate,
+      price,
+      weight,
+      image
+    });
+  };
+
+  const showDatepicker = () => {
+    setShowDatePicker(true);
+  };
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || roastDate;
+    setShowDatePicker(Platform.OS === 'ios');
+    setRoastDate(currentDate);
+  };
+
+  const renderModalItem = (item, setValue, closeModal) => (
+    <TouchableOpacity
+      style={styles.modalItem}
+      onPress={() => {
+        setValue(item);
+        closeModal(false);
+      }}
+    >
+      <Text style={styles.modalItemText}>{item}</Text>
+    </TouchableOpacity>
+  );
 
   return (
-    <View style={styles.container}>
-      {/* Button hinzugefügt */}
-      <Button
-        title="AddCoffeeScreen"
-        onPress={() => console.log('Button geklickt')} 
-      />
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.backIconContainer} onPress={handleBack}>
+            <Image source={require('../../assets/back_icon.png')} style={styles.backIcon} />
+          </TouchableOpacity>
+          <Text style={styles.title}>Kaffee</Text>
+        </View>
+        
+        <ScrollView contentContainerStyle={styles.contentContainer}>
+          <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
+            {image ? (
+              <Image source={{ uri: image }} style={styles.image} />
+            ) : (
+              <Ionicons name="camera" size={50} color="gray" />
+            )}
+          </TouchableOpacity>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Name</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Name"
+              value={name}
+              onChangeText={setName}
+            />
+          </View>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Bohnenart</Text>
+            <TouchableOpacity style={styles.input} onPress={() => setBeanTypeModalVisible(true)}>
+              <Text style={beanType ? styles.selectedText : styles.placeholderText}>{beanType || 'Bitte auswählen'}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Herstellungsort</Text>
+            <TouchableOpacity style={styles.input} onPress={() => setCountryModalVisible(true)}>
+              <Text style={manufacturingPlace ? styles.selectedText : styles.placeholderText}>{manufacturingPlace || 'Bitte auswählen'}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Beschreibung</Text>
+            <TextInput
+              style={[styles.input, { height: 80 }]}
+              placeholder="Beschreibung"
+              value={description}
+              onChangeText={setDescription}
+              multiline
+            />
+          </View>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Röstgrad</Text>
+            <TouchableOpacity style={styles.input} onPress={() => setRoastDegreeModalVisible(true)}>
+              <Text style={roastDegree ? styles.selectedText : styles.placeholderText}>{roastDegree || 'Bitte auswählen'}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Röstdatum</Text>
+            <TouchableOpacity onPress={showDatepicker} style={styles.dateInput}>
+              <Text>{roastDate.toDateString()}</Text>
+              <Ionicons name="calendar" size={20} color="black" />
+            </TouchableOpacity>
+            {showDatePicker && (
+              <DateTimePicker
+                value={roastDate}
+                mode="date"
+                display="default"
+                onChange={onChange}
+              />
+            )}
+          </View>
+          <View style={styles.row}>
+            <View style={[styles.inputGroup, styles.halfInput]}>
+              <Text style={styles.label}>Preis</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Preis"
+                value={price}
+                onChangeText={setPrice}
+                keyboardType="numeric"
+              />
+            </View>
+            <View style={[styles.inputGroup, styles.halfInput]}>
+              <Text style={styles.label}>Gewicht (Gramm)</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Gewicht (Gramm)"
+                value={weight}
+                onChangeText={setWeight}
+                keyboardType="numeric"
+              />
+            </View>
+          </View>
+          <TouchableOpacity style={styles.button} onPress={handleSave}>
+            <Text style={styles.buttonText}>SPEICHERN</Text>
+          </TouchableOpacity>
+        </ScrollView>
+
+        <Modal
+          visible={beanTypeModalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={() => setBeanTypeModalVisible(false)}
+        >
+          <TouchableWithoutFeedback onPress={() => setBeanTypeModalVisible(false)}>
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                <FlatList
+                  data={['Arabica', 'Robusta', 'Liberica', 'Excelsa']}
+                  renderItem={({ item }) => renderModalItem(item, setBeanType, setBeanTypeModalVisible)}
+                  keyExtractor={(item) => item}
+                />
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+        <Modal
+          visible={countryModalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={() => setCountryModalVisible(false)}
+        >
+          <TouchableWithoutFeedback onPress={() => setCountryModalVisible(false)}>
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                <FlatList
+                  data={['Brazil', 'Colombia', 'Ethiopia', 'Vietnam']}
+                  renderItem={({ item }) => renderModalItem(item, setManufacturingPlace, setCountryModalVisible)}
+                  keyExtractor={(item) => item}
+                />
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+        <Modal
+          visible={roastDegreeModalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={() => setRoastDegreeModalVisible(false)}
+        >
+          <TouchableWithoutFeedback onPress={() => setRoastDegreeModalVisible(false)}>
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                <FlatList
+                  data={['Light', 'Medium', 'Dark']}
+                  renderItem={({ item }) => renderModalItem(item, setRoastDegree, setRoastDegreeModalVisible)}
+                  keyExtractor={(item) => item}
+                />
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16,
+    backgroundColor: 'white',
+    paddingTop: 50,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 15,
+    position: 'relative',
+  },
+  backIconContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    padding: 16,
+  },
+  backIcon: {
+    width: 24, // Adjusted size to match original design
+    height: 24,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    flex: 1,
+  },
+  contentContainer: {
+    padding: 16,
+  },
+  inputGroup: {
+    marginBottom: 16,
+  },
+  label: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 8,
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+  },
+  dateInput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+  },
+  button: {
+    backgroundColor: '#DAA520',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFF'
+  },
+  modalContent: {
+    width: '80%',
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 16,
+    alignItems: 'center',
+  },
+  modalItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    width: '100%',
+    alignItems: 'center',
+  },
+  modalItemText: {
+    fontSize: 16,
+  },
+  imageContainer: {
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+    marginBottom: 16,
+    borderRadius: 8,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 8,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  halfInput: {
+    width: '48%',
+  },
+  pickerContainer: {
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    overflow: 'hidden',
+    height: 40,
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  placeholderText: {
+    color: '#9EA0A4',
+  },
+  selectedText: {
+    color: 'black',
   },
 });
 
