@@ -80,60 +80,6 @@ namespace API.Controllers
             }
             return BadRequest(ModelState); //Model is not valid -> Validation Annotation of review
         }
-    
-        // find every review from one certain roastery
-        /*[HttpGet("RoasteryQuery")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Review[]> Reviews([FromQuery] int? roasteryID = null){
-            if (roasteryID == null) return BadRequest("Rösterei muss angegeben werden.");
-
-                if (roasteryID != null && context.Roasteries.Where(ro => ro.Id == roasteryID).Any() is false){
-                    return NotFound("Rösterei nicht gefunden.");
-                }
-
-            var r = context.Reviews.Where(rw =>
-                (roasteryID == null || rw.Roastery == roasteryID) 
-            ).ToArray();
-
-            return Ok(r);
-        }
-
-        // find every review from one certain coffee
-        [HttpGet("CoffeeQuery")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Review[]> Reviews([FromQuery] int? coffeeID = null){
-            if (coffeeID == null) return BadRequest("Kaffee muss angegeben werden.");
-
-                if (coffeeID != null && context.Coffees.Where(cf => cf.Id == coffeeID).Any() is false){
-                    return NotFound("Kaffee nicht gefunden.");
-                }
-
-            var r = context.Reviews.Where(rw =>
-                (coffeeID == null || rw.Roastery == coffeeID) 
-            ).ToArray();
-
-            return Ok(r);
-        }
-
-        // find every review from one certain customer
-        [HttpGet("CustomerQuery")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Review[]> Reviews([FromQuery] int? customerID = null){
-            if (customerID == null) return BadRequest("Kunde muss angegeben werden.");
-
-                if (customerID != null && context.Customers.Where(cu => cu.Id == customerID).Any() is false){
-                    return NotFound("Kunde nicht gefunden.");
-                }
-
-            var r = context.Reviews.Where(rw =>
-                (customerID == null || rw.Roastery == customerID) 
-            ).ToArray();
-
-            return Ok(r);
-        }*/
 
         // find every review from one certain customer, coffee or roastery
         [HttpGet("RoasteryCoffeeCustomerQuery")]
