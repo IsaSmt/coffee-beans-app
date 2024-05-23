@@ -36,6 +36,7 @@ namespace API.Store {
         public DbSet<Coffee> Coffees { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<RecipeCoffeePivot> RecipeCoffeePivots { get; set; }
 
     }
 
