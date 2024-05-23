@@ -20,6 +20,7 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
 (5) Kaffee anlegen
 (6) Kunde anlegen
 (7) Bewertung anlegen
+(8) Koppeltabellen
 
 ### (1) Keyword anlegen
 
@@ -114,3 +115,9 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
     eine Begründung angegeben werden.
     
     Die ID wird automatisch vergeben.
+
+### (8) Koppeltabellen
+
+#### (8.1) Rezept - Kaffee - Pivot
+#### (8.2) Schlagwort - Kaffee - Pivot
+#### (8.3) Kunde - Kaffee - Pivot

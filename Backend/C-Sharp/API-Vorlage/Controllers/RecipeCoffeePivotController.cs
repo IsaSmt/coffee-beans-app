@@ -76,5 +76,48 @@ namespace API.Controllers
         return BadRequest(ModelState); //Model is not valid -> Validation Annotation of plz
     }
 
+    // find every combination between coffee and recipe for one or the other certain ID
+    [HttpGet("RecipeCoffeeCustomerQuery")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult<RecipeCoffeePivot[]> RecipeCoffeePivots([FromQuery] int? recipeID = null, int? coffeeID = null){
+        if (recipeID == null && coffeeID == null) 
+        {
+            // no id given
+            return BadRequest("Rezept oder Kaffee müssen angegeben werden.");
+        }
+        else if (recipeID != null && coffeeID == null)
+        {
+            // only recipeID given
+            if (recipeID != null && context.Recipes.Where(re => re.Id == recipeID).Any() is false){
+                return NotFound("Rezept nicht gefunden.");
+            }
+
+            var r = context.RecipeCoffeePivots.Where(rcp =>
+                (recipeID == null || rcp.Recipe == recipeID) 
+            ).ToArray();
+
+            return Ok(r);
+        }
+        else if (recipeID == null && coffeeID != null)
+        {
+            // only coffeeID given
+            if (coffeeID != null && context.Coffees.Where(cf => cf.Id == coffeeID).Any() is false){
+                return NotFound("Kaffee nicht gefunden.");
+            }
+
+            var r = context.Reviews.Where(rw =>
+                (coffeeID == null || rw.Coffee == coffeeID) 
+            ).ToArray();
+
+            return Ok(r);
+        }
+        else
+        {
+            return BadRequest("Bitte nur EINE ID maximal eingeben");
+        }
+
+        }
+
     }
 }

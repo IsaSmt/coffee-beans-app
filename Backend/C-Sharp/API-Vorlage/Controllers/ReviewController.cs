@@ -166,7 +166,7 @@ namespace API.Controllers
                 }
 
                 var r = context.Reviews.Where(rw =>
-                    (coffeeID == null || rw.Roastery == coffeeID) 
+                    (coffeeID == null || rw.Coffee == coffeeID) 
                 ).ToArray();
 
                 return Ok(r);
@@ -179,7 +179,7 @@ namespace API.Controllers
                 }
 
                 var r = context.Reviews.Where(rw =>
-                (customerID == null || rw.Roastery == customerID) 
+                (customerID == null || rw.Customer == customerID) 
                 ).ToArray();
 
                 return Ok(r);
