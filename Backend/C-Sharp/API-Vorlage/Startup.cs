@@ -55,7 +55,7 @@ namespace API {
 
             app.UseSwagger();
             app.UseSwaggerUI(options => {
-                options.SwaggerEndpoint("/swagger/v0/swagger.json", "My API V0");
+                options.SwaggerEndpoint("/swagger/v0/swagger.json", "CoffeeDatabase V1");
             });
 
             //Initialize Data
