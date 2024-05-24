@@ -24,12 +24,16 @@ const CountryOfOriginScreen: React.FC = () => {
     navigation.goBack();
   };
 
+  const handleSelectCountry = (countryName: string) => {
+    navigation.navigate('AddCoffee', { selectedCountry: countryName });
+  };
+
   const filteredCountries = dummyCountriesOfOrigin.filter(country =>
     country.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const renderCountry = ({ item }: { item: CountryOfOrigin }) => (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={() => handleSelectCountry(item.name)}>
       <Text style={styles.name}>{item.name}</Text>
       <Text style={styles.address}>{item.address}</Text>
     </TouchableOpacity>
