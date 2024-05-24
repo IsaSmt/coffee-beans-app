@@ -41,11 +41,12 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
     Felder erforderlich:
         - Name
         - Beschreibung
+        - Postleitzahl
     
 
     Check für plz verbindung !!!!
     Bevor der Eintrag angelegt wird, muss eine Überprüfungen durchlaufen werden:
-        Ist die ID des Materials in der Materialdatenbank eingetragen
+        Ist die ID der Postleitzahl in der jew. Datenbank eingetragen
 
     Wenn kein "404" ausgegeben wird, wird ein neuer Eintrag hinterlegt.
 
@@ -54,13 +55,13 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
 
         Bevor die Suche abläuft, überprüft man, ob die eingetragene ID in der Datenbank hinterlegt ist.
 
-        Existiert die ID, wird eine Suche durch die Datenbank "Order" durchgeführt.
+        Existiert die ID, wird eine Suche durch die Datenbank "PLZ" durchgeführt.
 
-        Gibt man einen Wert ein, werden alle Orders ausgegeben, wo der jeweilige Wert enthalten ist.
+        Gibt man einen Wert ein, werden alle Röstereien ausgegeben, wo der jeweilige Wert enthalten ist.
         Bsp.
-            Man gibt nur die ID des Materials ein, der in fünf Orders 
+            Man gibt nur die ID der Postleitzahl ein, der in fünf Röstereien 
             enthalten ist.
-            -> Ausgabe: alle fünf Orders
+            -> Ausgabe: alle fünf Röstereien
 
 ### (4) Rezept anlegen
 
@@ -72,36 +73,34 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
         - Espressoanzahl
         - Tassengewicht
 
-    
-    CHECK für Kaffee Verbindung !!!!
-    Bevor der Eintrag angelegt wird, müssen drei Überprüfungen durchlaufen werden:
-        1. Ist die ID des Lieferanten in der Lieferantendatenbank eingetragen
-        2. Ist die ID der Bestellanforderung in der Bestellanforderungsdatenbank eingetragen
-        3. Ist bereits eine Angebotsanfrage eingetragen, wo die gleichen IDs genutzt werden.
-            -> Doppelte Einträge verhindern.
+### (5) Kaffee
 
-    Wenn kein "Conflict" oder "404" ausgegeben wird, wird ein neuer Eintrag hinterlegt.
+    Beim Kaffee sind beim Anlegen des Eintrages folgende
+    Felder erforderlich:
+        - Name
+        - Beschreibung
+        - Bohnenart
+        - Herkunftsland
+        - Rösterei
+ 
+    Bevor der Eintrag angelegt wird, muss eine Überprüfungen durchlaufen werden:
+        Ist die ID der Rösterei in der jew. Datenbank eingetragen
+
+    Wenn kein "404" ausgegeben wird, wird ein neuer Eintrag hinterlegt.
 
     Der Endpunkt "Relation Query" wird dazu genutzt, um Beziehungen für übergebene IDs zu überprüfen.
-    ! Es muss mindestens eines der beiden Felder ausgefüllt sein !
+    ! Es müssen die in Swagger angegebenen Parameter ausgefüllt werden !
 
-        Bevor die Suche abläuft, überprüft man, ob die eingetragene/n ID/s in der Datenbank eingetragen sind.
+        Bevor die Suche abläuft, überprüft man, ob die eingetragene ID in der Datenbank hinterlegt ist.
 
-        Existieren die IDs, wird eine Suche durch die Datenbank "Offer" durchgeführt.
+        Existiert die ID, wird eine Suche durch die Datenbank "Roasteries" durchgeführt.
 
-        Je nach Eintragung wird die Suche anders durchgeführt:
+        Gibt man einen Wert ein, werden alle Kaffees ausgegeben, wo der jeweilige Wert enthalten ist.
+        Bsp.
+            Man gibt nur die ID der Rösterei ein, der in fünf Kaffees 
+            enthalten ist.
+            -> Ausgabe: alle fünf Kaffees
 
-            -Gibt man nur einen Wert ein, werden alle Offers ausgegeben, wo der jeweilige Wert enthalten ist.
-            Bsp.
-                Man gibt nur die ID des Lieferanten ein, der fünf Bestellanforderungen besitzt.
-                -> Ausgabe: alle fünf Offers
-            
-            - Gibt man einen Lieferanten sowie eine Bestellanforderung ein, kommen alle Offers raus, wo genau diese IDs in den entsprechenden Zellen eingetragen wurden.
-            Bsp.
-                Man gibt einen Lieferanten und eine Bestellanforderung ein
-                -> Ausgabe: Wenn sie eine Offer haben, wird sie ausgegeben, sonst kommt eine leere Menge.
-
-### (5) Kaffee
 ### (6) Kunde
 
     Hier muss neben der Benutzernamen 
@@ -113,8 +112,32 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
 
     Hier kann neben der Bewertung 
     eine Begründung angegeben werden.
-    
-    Die ID wird automatisch vergeben.
+
+    Was benötigt wird sind:
+        - Sternebewertung
+        - Rösterei
+        - Kaffee
+        - Kunde
+
+    Bevor der Eintrag angelegt wird, muss eine Überprüfungen durchlaufen werden:
+        Ist die ID der Rösterei in der jew. Datenbank eingetragen
+
+    Wenn kein "404" ausgegeben wird, wird ein neuer Eintrag hinterlegt.
+
+    Der Endpunkt "Relation Query" wird dazu genutzt, um Beziehungen für übergebene IDs zu überprüfen.
+    ! Es müssen die in Swagger angegebenen Parameter ausgefüllt werden !
+
+        Bevor die Suche abläuft, überprüft man, ob die eingetragene ID in der Datenbank hinterlegt ist.
+
+        Wenn mehr als eine ID eingetragen wird, kommt die Meldung, bitte nur eine ID einzugeben. 
+
+        Die jeweilige ID wird gepfrüft, ob sie in der jew. Datenbank existiert (Kunde, Rösterei, Kaffee).
+
+        Gibt man einen Wert ein, werden alle Kaffees ausgegeben, wo der jeweilige Wert enthalten ist.
+        Bsp.
+            Man gibt nur die ID der Rösterei ein, die in fünf Bewertungen verbunden ist 
+            enthalten ist.
+            -> Ausgabe: alle fünf Bewertungen
 
 ### (8) Koppeltabellen
 

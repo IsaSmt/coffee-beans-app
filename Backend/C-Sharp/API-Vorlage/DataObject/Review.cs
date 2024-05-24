@@ -16,11 +16,6 @@ namespace API.DataObject {
         [MaxLength(100)]
         public float StarRating { get; set; }
 
-
-        [MinLength(1)]
-        [MaxLength(250)]
-        public string Reason { get; set; }
-
         [Required]
         public int Roastery { get; set; }
 
@@ -29,5 +24,10 @@ namespace API.DataObject {
 
         [Required]
         public int Customer { get; set; }
+
+        [MinLength(1)]
+        [MaxLength(250)]
+        public string Reason { get; set; }
+
     }
 }

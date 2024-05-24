@@ -22,6 +22,10 @@ namespace API.DataObject {
         // short description of the roastery
         public string RoasteryDescription { get; set; }
 
+        // connection between roastery and postal code
+        [Required]
+        public int PLZ { get; set; }
+
         [MinLength(1)]
         [MaxLength(100)]
         // way of contacting the orastery
@@ -37,8 +41,5 @@ namespace API.DataObject {
         // streetname and number in here
         public string Street { get; set; }
 
-        // connection between roastery and postal code
-        [Required]
-        public int PLZ { get; set; }
     }
 }

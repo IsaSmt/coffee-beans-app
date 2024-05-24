@@ -34,6 +34,10 @@ namespace API.DataObject {
         // Wo kommen die Bohnen her ?
         public string Origin { get; set; }
 
+        // connection between coffee and roastery
+        [Required]
+        public int Roastery { get; set; }
+
         [MinLength(1)]
         [MaxLength(100)]
         // when got the coffee roasted
@@ -43,9 +47,5 @@ namespace API.DataObject {
         [MaxLength(100)]
         // Honey, Washed, Natural ....
         public string Processing { get; set; }
-
-        // connection between coffee and roastery
-        [Required]
-        public int Roastery { get; set; }
     }
 }
