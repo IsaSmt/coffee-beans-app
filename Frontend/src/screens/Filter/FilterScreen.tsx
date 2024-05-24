@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Modal, FlatList, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Modal, FlatList, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
-const SearchScreen = () => {
+const FilterScreen = () => {
   const [beanType, setBeanType] = useState('');
   const [countryOfOrigin, setCountryOfOrigin] = useState('');
   const [roastDegree, setRoastDegree] = useState('');
@@ -28,12 +28,6 @@ const SearchScreen = () => {
     }, [])
   );
 
-  const handleDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || roastDate;
-    setShowDatePicker(false);
-    setRoastDate(currentDate);
-  };
-
   const handleSearch = () => {
     console.log({
       beanType,
@@ -46,7 +40,7 @@ const SearchScreen = () => {
   };
 
   const handleBack = () => {
-    navigation.goBack();
+    navigation.navigate('Home');
   };
 
   const renderModalItem = (item, setValue, closeModal) => (
@@ -71,70 +65,76 @@ const SearchScreen = () => {
           <Text style={styles.headerTitle}>Filterkriterien</Text>
         </View>
         <View style={styles.content}>
+        <ScrollView style={styles.scrollableContent}>
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Bohnenart</Text>
             <TouchableOpacity style={styles.input} onPress={() => setBeanTypeModalVisible(true)}>
               <Text style={beanType ? styles.selectedText : styles.placeholderText}>{beanType || 'Bitte auswählen'}</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Herkunftsland</Text>
-            <TouchableOpacity style={styles.input} onPress={() => setCountryModalVisible(true)}>
-              <Text style={countryOfOrigin ? styles.selectedText : styles.placeholderText}>{countryOfOrigin || 'Bitte auswählen'}</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Röstgrad</Text>
-            <TouchableOpacity style={styles.input} onPress={() => setRoastDegreeModalVisible(true)}>
-              <Text style={roastDegree ? styles.selectedText : styles.placeholderText}>{roastDegree || 'Bitte auswählen'}</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.inputGroupRow}>
-            <View style={styles.inputGroupHalf}>
-              <Text style={styles.label}>Preis von</Text>
-              <View style={styles.priceInputContainer}>
-                <TextInput
-                  style={styles.priceInput}
-                  placeholder="Min Preis"
-                  value={minPrice}
-                  onChangeText={setMinPrice}
-                  keyboardType="numeric"
-                />
-                <Text style={styles.euroSymbol}>€</Text>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Herkunftsland</Text>
+              <TouchableOpacity style={styles.input} onPress={() => setCountryModalVisible(true)}>
+                <Text style={countryOfOrigin ? styles.selectedText : styles.placeholderText}>{countryOfOrigin || 'Bitte auswählen'}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Röstgrad</Text>
+              <TouchableOpacity style={styles.input} onPress={() => setRoastDegreeModalVisible(true)}>
+                <Text style={roastDegree ? styles.selectedText : styles.placeholderText}>{roastDegree || 'Bitte auswählen'}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.inputGroupRow}>
+              <View style={styles.inputGroupHalf}>
+                <Text style={styles.label}>Preis von</Text>
+                <View style={styles.priceInputContainer}>
+                  <TextInput
+                    style={styles.priceInput}
+                    placeholder="   ..."
+                    value={minPrice}
+                    onChangeText={setMinPrice}
+                    keyboardType="numeric"
+                  />
+                  <Text style={styles.euroSymbol}>€</Text>
+                </View>
+              </View>
+              <View style={styles.inputGroupHalf}>
+                <Text style={styles.label}>Preis bis</Text>
+                <View style={styles.priceInputContainer}>
+                  <TextInput
+                    style={styles.priceInput}
+                    placeholder="   ..."
+                    value={maxPrice}
+                    onChangeText={setMaxPrice}
+                    keyboardType="numeric"
+                  />
+                  <Text style={styles.euroSymbol}>€</Text>
+                </View>
               </View>
             </View>
-            <View style={styles.inputGroupHalf}>
-              <Text style={styles.label}>Preis bis</Text>
-              <View style={styles.priceInputContainer}>
-                <TextInput
-                  style={styles.priceInput}
-                  placeholder="Max Preis"
-                  value={maxPrice}
-                  onChangeText={setMaxPrice}
-                  keyboardType="numeric"
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Röstdatum</Text>
+              <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.dateInput}>
+                <Text>{roastDate.toDateString()}</Text>
+                <Ionicons name="calendar" size={20} color="black" />
+              </TouchableOpacity>
+              {showDatePicker && (
+                <DateTimePicker
+                  value={roastDate}
+                  mode="date"
+                  display="default"
+                  onChange={(event, selectedDate) => {
+                    const currentDate = selectedDate || roastDate;
+                    setShowDatePicker(false);
+                    setRoastDate(currentDate);
+                  }}
                 />
-                <Text style={styles.euroSymbol}>€</Text>
-              </View>
+              )}
             </View>
-          </View>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Röstdatum</Text>
-            <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.dateInput}>
-              <Text>{roastDate.toDateString()}</Text>
-              <Ionicons name="calendar" size={20} color="black" />
+            <TouchableOpacity style={[styles.button, { backgroundColor: '#D2B48C', borderRadius: 30 }]} onPress={handleSearch}>
+              <Text style={styles.buttonText}>Suchen</Text>
             </TouchableOpacity>
-            {showDatePicker && (
-              <DateTimePicker
-                value={roastDate}
-                mode="date"
-                display="default"
-                onChange={handleDateChange}
-              />
-            )}
-          </View>
-          <TouchableOpacity style={styles.button} onPress={handleSearch}>
-            <Text style={styles.buttonText}>Suchen</Text>
-          </TouchableOpacity>
+          </ScrollView>
         </View>
         <Modal
           visible={beanTypeModalVisible}
@@ -199,20 +199,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingTop: 50,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: 15,
     paddingVertical: 15,
     position: 'relative',
+    paddingTop: 70
   },
   backIconContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    padding: 16,
+    position: 'relative',
+    left: 10,
   },
   backIcon: {
     width: 24,
@@ -225,15 +223,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
+    flex: 1,
     padding: 16,
   },
+  scrollableContent: {
+    flex: 1,
+    marginTop: 16,
+  },
   inputGroup: {
-    marginBottom: 24, // Increased marginBottom to provide more space between input groups
+    marginBottom: 24,
   },
   inputGroupRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 24, // Added marginBottom for row inputs as well
+    marginBottom: 24,
   },
   inputGroupHalf: {
     flex: 1,
@@ -244,21 +247,12 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 8,
   },
-  picker: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    backgroundColor: 'white',
-  },
   input: {
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 20,
     paddingHorizontal: 8,
-    backgroundColor: 'white',
     justifyContent: 'center',
   },
   priceInputContainer: {
@@ -266,7 +260,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#ccc',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 20,
     paddingHorizontal: 8,
     backgroundColor: 'white',
   },
@@ -285,15 +279,13 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 20,
     paddingHorizontal: 8,
     justifyContent: 'space-between',
     backgroundColor: 'white',
   },
   button: {
-    backgroundColor: '#DAA520',
     padding: 16,
-    borderRadius: 8,
     alignItems: 'center',
     marginTop: 16,
   },
@@ -333,4 +325,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchScreen;
+export default FilterScreen;

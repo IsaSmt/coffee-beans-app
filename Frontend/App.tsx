@@ -4,13 +4,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { RootStackParamList } from './types'; // Importiere die Typdefinitionen
-import LoginScreen from './src/screens/Authentication/LoginScreen';
+import LoginScreen from './src/screens/Welcome/WelcomeScreen';
 import HomePage from './src/screens/Home/HomeScreen';
 import RoasteryScreen from './src/screens/Roasteries/RoasteryScreen'; // Importiere RoasteriesScreen
 import CoffeeBeansScreen from './src/screens/CoffeeBeans/CoffeeBeansScreen';
 import CoffeeScreen from './src/screens/Coffee/CoffeeScreen';
 import CountryOfOriginScreen from './src/screens/CountryOfOrigin/CountryOfOriginScreen';
-import SearchScreen from './src/screens/Search/SearchScreen';
+import FilterScreen from './src/screens/Filter/FilterScreen';
 import { useNavigation } from '@react-navigation/native'; // Importiere den Hook
 import AddCoffeeScreen from './src/screens/AddCoffee/AddCoffeeScreen';
 
@@ -21,7 +21,7 @@ const BottomNavigation = () => {
   const navigation = useNavigation(); // Hole das Navigationsobjekt mit dem Hook
 
   const handleNavigationToSearch = () => {
-    navigation.navigate('Search'); // Navigiere zum "Search" Bildschirm
+    navigation.navigate('Filter'); // Navigiere zum "Filter" Bildschirm
   };
 
   const handleNavigationToHome = () => {
@@ -69,7 +69,7 @@ const MainTabNavigator = () => {
       <Tab.Screen name="CoffeeBean" component={CoffeeBeansScreen} options={{ headerShown: false }} />
       <Tab.Screen name="Coffee" component={CoffeeScreen} options={{ headerShown: false }} />
       <Tab.Screen name="CountryOfOrigin" component={CountryOfOriginScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Filter" component={FilterScreen} options={{ headerShown: false }} />
       <Tab.Screen name="AddCoffee" component={AddCoffeeScreen} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
