@@ -51,7 +51,7 @@ namespace API.Controllers
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<RecipeCoffeePivot>> AddPRecipeCoffeePivot([FromBody] RecipeCoffeePivot recipeCoffeePivot) {
+    public async Task<ActionResult<RecipeCoffeePivot>> AddRecipeCoffeePivot([FromBody] RecipeCoffeePivot recipeCoffeePivot) {
         if (ModelState.IsValid) {
 
             // checks if the given Coffee ID exists inside the database
@@ -59,7 +59,7 @@ namespace API.Controllers
             return NotFound("Kaffee nicht gefunden.");
             }
 
-            // checks if the given postalcode ID exists inside the database
+            // checks if the given recipe ID exists inside the database
             if (context.Recipes.Where(r => r.Id == recipeCoffeePivot.Recipe).Any() is false){
             return NotFound("Rezept nicht gefunden.");
             }
@@ -71,7 +71,7 @@ namespace API.Controllers
             context.RecipeCoffeePivots.Add(recipeCoffeePivot);
             await context.SaveChangesAsync();
 
-            return Ok(recipeCoffeePivot); //we return the plz
+            return Ok(recipeCoffeePivot); //we return the combination
         }
         return BadRequest(ModelState); //Model is not valid -> Validation Annotation of plz
     }
@@ -106,8 +106,8 @@ namespace API.Controllers
                 return NotFound("Kaffee nicht gefunden.");
             }
 
-            var r = context.Reviews.Where(rw =>
-                (coffeeID == null || rw.Coffee == coffeeID) 
+            var r = context.RecipeCoffeePivots.Where(rcp =>
+                (coffeeID == null || rcp.Coffee == coffeeID) 
             ).ToArray();
 
             return Ok(r);

@@ -45,26 +45,26 @@ namespace API.Controllers
             return Ok(recipe);
         }
 
-    /// <summary>
-    /// Adds a recipe .
-    /// </summary>
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<Recipe>> AddRecipe([FromBody] Recipe recipe) {
-        if (ModelState.IsValid) {
+        /// <summary>
+        /// Adds a recipe .
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<ActionResult<Recipe>> AddRecipe([FromBody] Recipe recipe) {
+            if (ModelState.IsValid) {
 
-            //test if recipe already exists
-            if (context.Recipes.Where(r => r.Id == recipe.Id).FirstOrDefault() != null)
-                return Conflict(); //recipe with id already exists, we return a conflict
-        
-            context.Recipes.Add(recipe);
-            await context.SaveChangesAsync();
+                //test if recipe already exists
+                if (context.Recipes.Where(r => r.Id == recipe.Id).FirstOrDefault() != null)
+                    return Conflict(); //recipe with id already exists, we return a conflict
+            
+                context.Recipes.Add(recipe);
+                await context.SaveChangesAsync();
 
-            return Ok(recipe); //we return the recipe
+                return Ok(recipe); //we return the recipe
+            }
+            return BadRequest(ModelState); //Model is not valid -> Validation Annotation of recipe
         }
-        return BadRequest(ModelState); //Model is not valid -> Validation Annotation of recipe
-    }
 
 
     }
