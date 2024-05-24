@@ -142,5 +142,79 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
 ### (8) Koppeltabellen
 
 #### (8.1) Rezept - Kaffee - Pivot
+
+    Wie die Zusammensetzung darauf hinweisen lässt,
+    benötigt man hier genau zwei IDs:
+    - RezeptID
+    - KaffeeID
+
+    Bevor der Eintrag angelegt wird, muss eine Überprüfungen durchlaufen werden:
+        Ist die ID in der jew. Datenbank eingetragen
+
+    Wenn kein "404" ausgegeben wird, wird ein neuer Eintrag hinterlegt.
+
+    Der Endpunkt "Relation Query" wird dazu genutzt, um Beziehungen für übergebene IDs zu überprüfen.
+    ! Es müssen die in Swagger angegebenen Parameter ausgefüllt werden !
+
+        Bevor die Suche abläuft, überprüft man, ob die eingetragene ID in der Datenbank hinterlegt ist.
+
+        Wenn mehr als eine ID eingetragen wird, kommt die Meldung, bitte nur eine ID einzugeben. 
+
+        Die jeweilige ID wird gepfrüft, ob sie in der jew. Datenbank existiert (Kunde, Rösterei, Kaffee).
+
+        Gibt man einen Wert ein, werden alle Kombinationen ausgegeben, wo der jeweilige Wert enthalten ist.
+        Bsp.
+            Man gibt nur die ID des Kaffees ein, der auf fünf Rezeptarten zubereitet werden kann. 
+            -> Ausgabe: alle fünf Rzepte
+
 #### (8.2) Schlagwort - Kaffee - Pivot
+
+    Wie die Zusammensetzung darauf hinweisen lässt,
+    benötigt man hier genau zwei IDs:
+    - SchlagwortID
+    - KaffeeID
+
+    Bevor der Eintrag angelegt wird, muss eine Überprüfungen durchlaufen werden:
+        Ist die ID in der jew. Datenbank eingetragen
+
+    Wenn kein "404" ausgegeben wird, wird ein neuer Eintrag hinterlegt.
+
+    Der Endpunkt "Relation Query" wird dazu genutzt, um Beziehungen für übergebene IDs zu überprüfen.
+    ! Es müssen die in Swagger angegebenen Parameter ausgefüllt werden !
+
+        Bevor die Suche abläuft, überprüft man, ob die eingetragene ID in der Datenbank hinterlegt ist.
+
+        Wenn mehr als eine ID eingetragen wird, kommt die Meldung, bitte nur eine ID einzugeben. 
+
+        Die jeweilige ID wird gepfrüft, ob sie in der jew. Datenbank existiert (Kunde, Rösterei, Kaffee).
+
+        Gibt man einen Wert ein, werden alle Kombinationen ausgegeben, wo der jeweilige Wert enthalten ist.
+        Bsp.
+            Man gibt nur die ID des Schlagwortes ein, was auf fünf Kaffees zuzuordnen ist. 
+            -> Ausgabe: alle fünf Kaffees
+
 #### (8.3) Kunde - Kaffee - Pivot
+
+    Wie die Zusammensetzung darauf hinweisen lässt,
+    benötigt man hier genau zwei IDs:
+    - KundenID
+    - KaffeeID
+
+    Bevor der Eintrag angelegt wird, muss eine Überprüfungen durchlaufen werden:
+        Ist die ID in der jew. Datenbank eingetragen
+
+    Wenn kein "404" ausgegeben wird, wird ein neuer Eintrag hinterlegt.
+
+    Der Endpunkt "Relation Query" wird dazu genutzt, um Beziehungen für übergebene IDs zu überprüfen.
+    ! Es müssen die in Swagger angegebenen Parameter ausgefüllt werden !
+
+        Bevor die Suche abläuft, überprüft man, ob die eingetragene ID in der Datenbank hinterlegt ist.
+
+        Wenn mehr als eine ID eingetragen wird, kommt die Meldung, bitte nur eine ID einzugeben. 
+
+        Die jeweilige ID wird gepfrüft, ob sie in der jew. Datenbank existiert (Kunde, Rösterei, Kaffee).
+
+        Gibt man einen Wert ein, werden alle Kombinationen ausgegeben, wo der jeweilige Wert enthalten ist.
+        Bsp.
+            Man gibt nur die ID des Kunden ein, um dessen fünf Kaffeewünsche auf der Merkliste zu sehen
+            -> Ausgabe: alle fünf Kaffees

@@ -27,6 +27,29 @@
             Adds a coffee.
             </summary>
         </member>
+        <member name="T:API.Controllers.CustomerCoffeePivotController">
+            <summary>
+            This endpoint manages all operations for the customer coffee pivot.
+            </summary>
+        </member>
+        <member name="M:API.Controllers.CustomerCoffeePivotController.GetAllCustomerCoffeePivots">
+            <summary>
+            Returns all customer coffee combinations
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.CustomerCoffeePivotController.GetCustomerCoffeePivot(System.Int32)">
+            <summary>
+            Returns the customer Coffe combination with a given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.CustomerCoffeePivotController.AddCustomerCoffeePivot(API.DataObject.CustomerCoffeePivot)">
+            <summary>
+            Adds a new combination
+            </summary>
+        </member>
         <member name="T:API.Controllers.CustomerController">
             <summary>
             This endpoint manages all operations for Customers .
@@ -48,6 +71,29 @@
         <member name="M:API.Controllers.CustomerController.AddCustomer(API.DataObject.Customer)">
             <summary>
             Adds a Customer.
+            </summary>
+        </member>
+        <member name="T:API.Controllers.KeywordCoffeePivotController">
+            <summary>
+            This endpoint manages all operations for the keyword coffee pivot.
+            </summary>
+        </member>
+        <member name="M:API.Controllers.KeywordCoffeePivotController.GetAllKeywordCoffeePivots">
+            <summary>
+            Returns all keyword coffee combinations
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.KeywordCoffeePivotController.GetKeywordCoffeePivot(System.Int32)">
+            <summary>
+            Returns the keyword Coffe combination with a given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.KeywordCoffeePivotController.AddKeywordCoffeePivot(API.DataObject.KeywordCoffeePivot)">
+            <summary>
+            Adds a new combination
             </summary>
         </member>
         <member name="T:API.Controllers.KeywordController">
@@ -94,6 +140,29 @@
         <member name="M:API.Controllers.PLZController.AddPLZ(API.DataObject.PLZ)">
             <summary>
             Adds a postal code.
+            </summary>
+        </member>
+        <member name="T:API.Controllers.RecipeCoffeePivotController">
+            <summary>
+            This endpoint manages all operations for the recipe coffee pivot.
+            </summary>
+        </member>
+        <member name="M:API.Controllers.RecipeCoffeePivotController.GetAllRecipeCoffeePivots">
+            <summary>
+            Returns all recipe coffee combinations
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.RecipeCoffeePivotController.GetRecipeCoffeePivot(System.Int32)">
+            <summary>
+            Returns the recipe Coffe combination with a given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.RecipeCoffeePivotController.AddRecipeCoffeePivot(API.DataObject.RecipeCoffeePivot)">
+            <summary>
+            Adds a new combination
             </summary>
         </member>
         <member name="T:API.Controllers.RecipeController">
