@@ -124,6 +124,17 @@ namespace API {
             };
             context.KeywordCoffeePivots.AddRange(listOfKeywordCoffeePivots);
             context.SaveChanges();
+
+            // Example Coffee Customer Combinations
+            var listOfCustomerCoffeePivots = new CustomerCoffeePivot[]{
+                new(){ Coffee = 1, Customer = 2},
+                new(){ Coffee = 2, Customer = 2},
+                new(){ Coffee = 3, Customer = 3},
+                new(){ Coffee = 4, Customer = 3},
+                new(){ Coffee = 5, Customer = 3},
+            };
+            context.CustomerCoffeePivots.AddRange(listOfCustomerCoffeePivots);
+            context.SaveChanges();
             }
 
             app.UseAuthorization();
