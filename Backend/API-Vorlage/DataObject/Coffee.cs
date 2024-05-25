@@ -18,15 +18,9 @@ namespace API.DataObject {
 
         [Required]
         [MinLength(1)]
-        [MaxLength(100)]
+        [MaxLength(500)]
         // small description about the coffee
         public string CoffeeDescription { get; set; }
-        
-        [Required]
-        [MinLength(1)]
-        [MaxLength(100)]
-        // Arabica, Robusta, ...
-        public string BeanType { get; set; }
 
         [Required]
         [MinLength(1)]
@@ -37,6 +31,11 @@ namespace API.DataObject {
         // connection between coffee and roastery
         [Required]
         public int Roastery { get; set; }
+
+        [MinLength(1)]
+        [MaxLength(100)]
+        // Arabica, Robusta, ...
+        public string BeanType { get; set; }
 
         [MinLength(1)]
         [MaxLength(100)]

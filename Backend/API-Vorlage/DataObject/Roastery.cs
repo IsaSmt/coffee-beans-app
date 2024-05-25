@@ -18,7 +18,7 @@ namespace API.DataObject {
 
         [Required]
         [MinLength(1)]
-        [MaxLength(100)]
+        [MaxLength(250)]
         // short description of the roastery
         public string RoasteryDescription { get; set; }
 
