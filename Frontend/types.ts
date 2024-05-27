@@ -8,4 +8,5 @@ export type RootStackParamList = {
   Filter: undefined;
   Main: undefined;
   AddCoffee: undefined;
+  CoffeeProfile: undefined;
 };

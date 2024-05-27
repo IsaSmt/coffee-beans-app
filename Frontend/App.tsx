@@ -13,6 +13,7 @@ import CountryOfOriginScreen from './src/screens/CountryOfOrigin/CountryOfOrigin
 import FilterScreen from './src/screens/Filter/FilterScreen';
 import { useNavigation } from '@react-navigation/native'; // Importiere den Hook
 import AddCoffeeScreen from './src/screens/AddCoffee/AddCoffeeScreen';
+import CoffeeProfileScreen from './src/screens/CoffeeProfile/CoffeeProfileScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -71,6 +72,7 @@ const MainTabNavigator = () => {
       <Tab.Screen name="CountryOfOrigin" component={CountryOfOriginScreen} options={{ headerShown: false }} />
       <Tab.Screen name="Filter" component={FilterScreen} options={{ headerShown: false }} />
       <Tab.Screen name="AddCoffee" component={AddCoffeeScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="CoffeeProfileScreen" component={CoffeeProfileScreen} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 };
