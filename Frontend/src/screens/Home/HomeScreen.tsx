@@ -13,7 +13,7 @@ interface Roastery {
 interface Coffee {
   id: string;
   name: string;
-  imageUrl: string;
+  imageUrl: string | number;
 }
 
 interface CoffeeBean {
@@ -36,7 +36,6 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
     { id: '3', name: 'JB Kaffee', address: 'Mörtlstrasse 5A\n85254 München', logoUrl: require('../../assets/jb_coffee_icon.png') },
     { id: '4', name: 'The Barn', address: 'Alte Potsdamer Str. 5\n10785 Berlin', logoUrl: require('../../assets/the_barn_icon.png') },
   ];
-  
 
   const dummyOriginCountries: string[] = [
     'Brazil', 'Colombia', 'Ethiopia'
@@ -48,11 +47,10 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
     { id: '3', name: 'Liberica', imageUrl: require('../../assets/arabica_bean.png') },
     { id: '4', name: 'Excelsa', imageUrl: require('../../assets/robusta_bean.png') },
   ];
-  
 
   const dummyCoffees: Coffee[] = [
-    { id: '1', name: 'Espresso', imageUrl: 'https://via.placeholder.com/150' },
-    { id: '2', name: 'Latte', imageUrl: 'https://via.placeholder.com/150' },
+    { id: '1', name: 'Espresso', imageUrl: require('../../assets/hochland_coffee.png') },
+    { id: '2', name: 'Latte', imageUrl: require('../../assets/jacobs_coffee.png') },
   ];
 
   const renderRoastery = ({ item }: { item: Roastery }) => (
@@ -66,7 +64,6 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
       </View>
     </TouchableOpacity>
   );
-  
 
   const renderCountry = ({ item }: { item: string }) => (
     <TouchableOpacity onPress={() => handleClickCountryOfOrigin(item)}>
@@ -79,26 +76,19 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
   const renderCoffeeBean = ({ item }: { item: CoffeeBean }) => (
     <TouchableOpacity onPress={() => handleClickCoffeeBean(item)}>
       <View style={styles.beanCard}>
-        <ImageBackground source={item.imageUrl} style={[styles.beanImageBackground, { height: 200 }]} resizeMode="contain">
-          <View style={[styles.beanContent]}>
+        <ImageBackground source={item.imageUrl} style={styles.beanImageBackground} imageStyle={{ borderRadius: 10 }}>
+          <View style={styles.beanContent}>
             <Text style={styles.beanName}>{item.name}</Text>
-            <TouchableOpacity style={styles.likeButton}>
-              <Image source={require('../../assets/heart_icon.svg')} style={styles.likeIcon} />
-            </TouchableOpacity>
           </View>
         </ImageBackground>
       </View>
     </TouchableOpacity>
   );
-  
-  
-  
-    
 
   const renderCoffee = ({ item }: { item: Coffee }) => (
     <TouchableOpacity onPress={() => handleClickCoffee(item)}>
       <View style={styles.coffeeCard}>
-        <Image source={{ uri: item.imageUrl }} style={styles.coffeeImage} />
+        <Image source={item.imageUrl} style={styles.coffeeImage} />
         <Text style={styles.coffeeName}>{item.name}</Text>
       </View>
     </TouchableOpacity>
@@ -126,7 +116,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
 
   const handleClickSearchIcon = () => {
     console.log("clicked");
-    navigation.navigate('Search');
+    navigation.navigate('Filter');
   };
 
   return (
@@ -193,8 +183,8 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 40,
     backgroundColor: '#FFF',
-    paddingLeft:
-    20
+    paddingLeft: 20,
+    marginTop: 20
   },
   header: {
     flexDirection: 'row',
@@ -209,6 +199,7 @@ const styles = StyleSheet.create({
   },
   filterButton: {
     padding: 5,
+    marginRight: 15
   },
   filterIcon: {
     width: 24,
@@ -231,116 +222,117 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
     borderRadius: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 2,
     marginRight: 10,
     marginBottom: 5,
-  },
-  logo: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 16, // Add spacing between logo and text
-    marginLeft: 30
-  },
-  roasteryInfo: {
-    flex: 1, // Take up remaining space
-  },
-  roasteryName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  address: {
-    fontSize: 14,
-    color: '#777',
-  },
-  tag: {
-    backgroundColor: '#EFEFEF',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    marginRight: 10,
-    marginBottom: 10,
-    marginTop: 5,
-  },
-  tagText: {
-    color: '#555',
-  },
-  beanCard: {
-    backgroundColor: '#FFF',
-    flex: 1,
-    margin: 5,
-    paddingBottom: 30,
-    borderRadius: 10, // Hier den border-Radius hinzufügen
-    shadowColor: '#F2F2F2',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
-    alignItems: 'center',
-    overflow: 'hidden', // Ensure the ImageBackground stays within bounds
-  },
-  beanContent: {
-    backgroundColor: 'rgba(255, 255, 255, 0)', // Background for text and heart icon
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'flex-start', // Text nach links ausrichten
-    alignSelf: 'flex-end', // Text nach unten schieben
-  },
-  beanName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#F2F2F2',
-    marginTop: 10,
-    alignSelf: 'flex-start', // Text nach links ausrichten
-    marginBottom: 10 // Abstand unten hinzufügen
-  },
+    },
+    logo: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      marginRight: 16, // Add spacing between logo and text
+      marginLeft: 30
+    },
+    roasteryInfo: {
+      flex: 1, // Take up remaining space
+    },
+    roasteryName: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: '#333',
+    },
+    address: {
+      fontSize: 14,
+      color: '#777',
+    },
+    tag: {
+      backgroundColor: '#EFEFEF',
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 20,
+      marginRight: 10,
+      marginBottom: 10,
+      marginTop: 5,
+    },
+    tagText: {
+      color: '#555',
+    },
+    beanCard: {
+      backgroundColor: '#FFF',
+      flex: 1,
+      margin: 5,
+      paddingBottom: 30,
+      borderRadius: 10, // Rounded corners
+      shadowColor: '#F2F2F2',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 3,
+      elevation: 2,
+      alignItems: 'center',
+      overflow: 'hidden', // Ensure the ImageBackground stays within bounds
+    },
+    beanContent: {
+      backgroundColor: 'rgba(255, 255, 255, 0)', // Transparent background for text and heart icon
+      padding: 20,
+      borderRadius: 10,
+      alignItems: 'flex-start', // Align text to the left
+      alignSelf: 'flex-end', // Push text to the bottom
+    },
+    beanName: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: '#F2F2F2',
+      marginTop: 10,
+      alignSelf: 'flex-start', // Align text to the left
+      marginBottom: 10 // Add space at the bottom
+    },
+    beanImageBackground: {
+      width: '100%',
+      height: 150, // Set a fixed height
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 10, // Rounded corners
+    },
+    coffeeCard: {
+      backgroundColor: '#FFF',
+      padding: 20,
+      paddingHorizontal: 30,
+      paddingTop: 30,
+      paddingBottom: 30,
+      borderRadius: 10,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 3,
+      elevation: 2,
+      alignItems: 'center',
+      marginRight: 10,
+      marginBottom: 10,
+      marginTop: 5,
+    },
+    coffeeImage: {
+      width: 80,
+      height: 80,
+      marginBottom: 5,
+    },
+    coffeeName: {
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: '#333',
+    },
+    likeButton: {
+      position: 'absolute',
+      top: 10,
+      right: 10,
+    },
+    likeIcon: {
+      width: 20,
+      height: 20,
+    },
+  });
   
-  beanImageBackground: {
-    width: '100%',
-    height: 150, // Set a fixed height
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  coffeeCard: {
-    backgroundColor: '#FFF',
-    padding: 20,
-    paddingHorizontal: 30,
-    paddingTop: 30,
-    paddingBottom: 30,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
-    alignItems: 'center',
-    marginRight: 10,
-    marginBottom: 10,
-    marginTop: 5,
-  },
-  coffeeImage: {
-    width: 80,
-    height: 80,
-    marginBottom: 5,
-  },
-  coffeeName: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  likeButton: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-  },
-  likeIcon: {
-    width: 20,
-    height: 20,
-  },
-});
-
-export default HomePage;
+  export default HomePage;
+  

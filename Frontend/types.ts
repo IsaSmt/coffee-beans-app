@@ -5,7 +5,8 @@ export type RootStackParamList = {
   Coffee: undefined;
   CoffeeBean: undefined;
   CountryOfOrigin: undefined;
-  Search: undefined;
+  Filter: undefined;
   Main: undefined;
   AddCoffee: undefined;
+  CoffeeProfile: undefined;
 };

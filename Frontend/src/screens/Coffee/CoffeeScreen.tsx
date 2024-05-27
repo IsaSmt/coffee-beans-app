@@ -28,12 +28,16 @@ const CoffeeScreen: React.FC = () => {
     navigation.navigate('AddCoffee');
   };
 
+  const handleClickOnCoffee = () => {
+    navigation.navigate('CoffeeProfileScreen');
+  };
+
   const filteredCoffees = dummyCoffees.filter(coffee =>
     coffee.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const renderCoffee = ({ item }: { item: Coffee }) => (
-    <TouchableOpacity style={styles.beanCard}>
+    <TouchableOpacity style={styles.beanCard} onPress={handleClickOnCoffee}>
       <Image source={{ uri: item.logoUrl }} style={styles.beanImage} />
       <Text style={styles.beanName}>{item.name}</Text>
       <Text style={styles.beanAddress}>{item.address}</Text>
@@ -163,8 +167,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   plusIcon: {
-    width: 24,
-    height: 24,
+    width: 30,
+    height: 30,
   },
 });
 
