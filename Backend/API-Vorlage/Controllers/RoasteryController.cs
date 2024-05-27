@@ -12,7 +12,7 @@ namespace API.Controllers
     /// <summary>
     /// This endpoint manages all operations for Roasteries
     /// </summary>
-    [Route("api/roastieres")]
+    [Route("api/roasteries")]
     [ApiController]
     public class RoasteryController : ControllerBase
     {

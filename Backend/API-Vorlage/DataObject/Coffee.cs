@@ -30,10 +30,9 @@ namespace API.DataObject {
         [Required]
         public int Roastery { get; set; }
 
-        [MinLength(1)]
-        [MaxLength(100)]
-        // Arabica, Robusta, ...
-        public string BeanType { get; set; }
+        // connection between coffee and beantype
+        [Required]
+        public int Beantype { get; set; }
 
         [MinLength(1)]
         [MaxLength(100)]
