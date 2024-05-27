@@ -97,14 +97,26 @@ namespace API {
             context.Roasteries.AddRange(listOfRoasteries);
             context.SaveChanges();
 
+            // Example origins
+            var listOfOrigins = new Origin[]{
+                new(){ OriginCountry = "Mexico"},
+                new(){ OriginCountry = "Rwanda"},
+                new(){ OriginCountry = "Honduras"},
+                new(){ OriginCountry = "Guatemala"},
+                new(){ OriginCountry = "Brazil"},
+                new(){ OriginCountry = "Indonesia"},
+            };
+            context.PLZs.AddRange(listOfPLZs);
+            context.SaveChanges();
+
             // Example Coffees
             var listOfCoffees = new Coffee[]{
-                new(){ CoffeeName = "Sweet Standard", CoffeeDescription = "Viel Körper und Süße, breiter Sweet Spot und wenig Säure trotz klarer Zitrusnoten.", Origin = "Mexico", Roastery = 1, Processing = "washed"},
-                new(){ CoffeeName = "Shyira", CoffeeDescription = "A crisp citrus-driven cup with heavy floral aromatics", Origin = "Rwanda", Roastery = 3, Processing = "washed"},
-                new(){ CoffeeName = "Erin Moreno", CoffeeDescription = "A floral and bright washed Paraneima", Origin = "Honduras", Roastery = 3, Processing = "washed"},
-                new(){ CoffeeName = "Guatemala Espresso", CoffeeDescription = "SSchokoladig mild und harmonisch, für Kenner!", Origin = "Guatemala", Roastery = 2, Processing = "washed"},
-                new(){ CoffeeName = "Function", CoffeeDescription = "FUNCTION will stand strong in its permanence -- allowing you to know exactly what you will be getting every time.", Origin = "Brazil", Roastery = 4, Processing = "mixed"},
-                new(){ CoffeeName = "Ciwidey", CoffeeDescription = "This multi-varietal lot of both Sigararutang and Lini S is one of the cleanest expression of Indonesian coffees we have come across.", Origin = "Indonesia", Roastery = 4, Processing = "washed"},
+                new(){ CoffeeName = "Sweet Standard", CoffeeDescription = "Viel Körper und Süße, breiter Sweet Spot und wenig Säure trotz klarer Zitrusnoten.", Origin = 1, Roastery = 1, Processing = "washed"},
+                new(){ CoffeeName = "Shyira", CoffeeDescription = "A crisp citrus-driven cup with heavy floral aromatics", Origin = 2, Roastery = 3, Processing = "washed"},
+                new(){ CoffeeName = "Erin Moreno", CoffeeDescription = "A floral and bright washed Paraneima", Origin = 3, Roastery = 3, Processing = "washed"},
+                new(){ CoffeeName = "Guatemala Espresso", CoffeeDescription = "SSchokoladig mild und harmonisch, für Kenner!", Origin = 4, Roastery = 2, Processing = "washed"},
+                new(){ CoffeeName = "Function", CoffeeDescription = "FUNCTION will stand strong in its permanence -- allowing you to know exactly what you will be getting every time.", Origin = 5, Roastery = 4, Processing = "mixed"},
+                new(){ CoffeeName = "Ciwidey", CoffeeDescription = "This multi-varietal lot of both Sigararutang and Lini S is one of the cleanest expression of Indonesian coffees we have come across.", Origin = 6, Roastery = 4, Processing = "washed"},
             };
             context.Coffees.AddRange(listOfCoffees);
             context.SaveChanges();
