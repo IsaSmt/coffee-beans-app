@@ -106,7 +106,7 @@ namespace API {
                 new(){ OriginCountry = "Brazil"},
                 new(){ OriginCountry = "Indonesia"},
             };
-            context.PLZs.AddRange(listOfPLZs);
+            context.Origins.AddRange(listOfOrigins);
             context.SaveChanges();
 
             // Example for beantypes
