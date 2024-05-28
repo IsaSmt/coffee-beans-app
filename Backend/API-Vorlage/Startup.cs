@@ -109,14 +109,24 @@ namespace API {
             context.PLZs.AddRange(listOfPLZs);
             context.SaveChanges();
 
+            // Example for beantypes
+            var listOfBeantypes = new Beantype[]{
+                new(){ TypeDefintion = "Hybrid", TypeExplaination = "An unnatural Beantype for certain purposes."},
+                new(){ TypeDefintion = "Arabica", TypeExplaination = "One of the main species. A picky plant compared to Robusta. Subspecies can be Bourbon, Parainema."},
+                new(){ TypeDefintion = "Robusta", TypeExplaination = "Like Arabica one of the main species. Not so picky when cultivating."},
+                new(){ TypeDefintion = "Blend", TypeExplaination = "A combination of several beantypes to create a new flavour."},
+            };
+            context.Beantypes.AddRange(listOfBeantypes);
+            context.SaveChanges();
+
             // Example Coffees
             var listOfCoffees = new Coffee[]{
-                new(){ CoffeeName = "Sweet Standard", CoffeeDescription = "Viel Körper und Süße, breiter Sweet Spot und wenig Säure trotz klarer Zitrusnoten.", Origin = 1, Roastery = 1, Processing = "washed"},
-                new(){ CoffeeName = "Shyira", CoffeeDescription = "A crisp citrus-driven cup with heavy floral aromatics", Origin = 2, Roastery = 3, Processing = "washed"},
-                new(){ CoffeeName = "Erin Moreno", CoffeeDescription = "A floral and bright washed Paraneima", Origin = 3, Roastery = 3, Processing = "washed"},
-                new(){ CoffeeName = "Guatemala Espresso", CoffeeDescription = "SSchokoladig mild und harmonisch, für Kenner!", Origin = 4, Roastery = 2, Processing = "washed"},
-                new(){ CoffeeName = "Function", CoffeeDescription = "FUNCTION will stand strong in its permanence -- allowing you to know exactly what you will be getting every time.", Origin = 5, Roastery = 4, Processing = "mixed"},
-                new(){ CoffeeName = "Ciwidey", CoffeeDescription = "This multi-varietal lot of both Sigararutang and Lini S is one of the cleanest expression of Indonesian coffees we have come across.", Origin = 6, Roastery = 4, Processing = "washed"},
+                new(){ CoffeeName = "Sweet Standard", CoffeeDescription = "Viel Körper und Süße, breiter Sweet Spot und wenig Säure trotz klarer Zitrusnoten.", Origin = 1, Roastery = 1, Beantype = 1, Processing = "washed"},
+                new(){ CoffeeName = "Shyira", CoffeeDescription = "A crisp citrus-driven cup with heavy floral aromatics", Origin = 2, Roastery = 3, Beantype = 2, Processing = "washed"},
+                new(){ CoffeeName = "Erin Moreno", CoffeeDescription = "A floral and bright washed Paraneima", Origin = 3, Roastery = 3, Beantype = 2, Processing = "washed"},
+                new(){ CoffeeName = "Guatemala Espresso", CoffeeDescription = "SSchokoladig mild und harmonisch, für Kenner!", Origin = 4, Roastery = 2, Beantype = 3, Processing = "washed"},
+                new(){ CoffeeName = "Function", CoffeeDescription = "FUNCTION will stand strong in its permanence -- allowing you to know exactly what you will be getting every time.", Origin = 5, Roastery = 4, Beantype = 4, Processing = "mixed"},
+                new(){ CoffeeName = "Ciwidey", CoffeeDescription = "This multi-varietal lot of both Sigararutang and Lini S is one of the cleanest expression of Indonesian coffees we have come across.", Origin = 6, Roastery = 4, Beantype = 1, Processing = "washed"},
             };
             context.Coffees.AddRange(listOfCoffees);
             context.SaveChanges();
