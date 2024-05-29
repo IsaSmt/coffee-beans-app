@@ -23,19 +23,16 @@ namespace API.DataObject {
         public string CoffeeDescription { get; set; }
 
         [Required]
-        [MinLength(1)]
-        [MaxLength(100)]
-        // Wo kommen die Bohnen her ?
-        public string Origin { get; set; }
+        // connection between coffee and origin
+        public int Origin { get; set; }
 
         // connection between coffee and roastery
         [Required]
         public int Roastery { get; set; }
 
-        [MinLength(1)]
-        [MaxLength(100)]
-        // Arabica, Robusta, ...
-        public string BeanType { get; set; }
+        // connection between coffee and beantype
+        [Required]
+        public int Beantype { get; set; }
 
         [MinLength(1)]
         [MaxLength(100)]

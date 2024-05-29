@@ -4,6 +4,29 @@
         <name>API</name>
     </assembly>
     <members>
+        <member name="T:API.Controllers.BeantypeController">
+            <summary>
+            This endpoint manages all operations for Beantype
+            </summary>
+        </member>
+        <member name="M:API.Controllers.BeantypeController.GetAllBeantypes">
+            <summary>
+            Returns all Beantypes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.BeantypeController.GetBeantype(System.Int32)">
+            <summary>
+            Returns the Beantype with a given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.BeantypeController.AddBeantype(API.DataObject.Beantype)">
+            <summary>
+            Adds a beantype
+            </summary>
+        </member>
         <member name="T:API.Controllers.CoffeeController">
             <summary>
             This endpoint manages all operations for Coffees.
@@ -117,6 +140,29 @@
         <member name="M:API.Controllers.KeywordController.AddKeyword(API.DataObject.Keyword)">
             <summary>
             Adds a keyword.
+            </summary>
+        </member>
+        <member name="T:API.Controllers.OriginController">
+            <summary>
+            This endpoint manages all operations for Origin
+            </summary>
+        </member>
+        <member name="M:API.Controllers.OriginController.GetAllOriginss">
+            <summary>
+            Returns all Origins
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.OriginController.GetOrigin(System.Int32)">
+            <summary>
+            Returns the Origin with a given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:API.Controllers.OriginController.AddOrigin(API.DataObject.Origin)">
+            <summary>
+            Adds an origin
             </summary>
         </member>
         <member name="T:API.Controllers.PLZController">
