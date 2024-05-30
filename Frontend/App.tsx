@@ -14,6 +14,11 @@ import FilterScreen from './src/screens/Filter/FilterScreen';
 import { useNavigation } from '@react-navigation/native'; // Importiere den Hook
 import AddCoffeeScreen from './src/screens/AddCoffee/AddCoffeeScreen';
 import CoffeeProfileScreen from './src/screens/CoffeeProfile/CoffeeProfileScreen';
+import AddCoffeeBeanScreen from './src/screens/AddCoffeeBean/AddCoffeeBeanScreen';
+import UploadSuccessScreen from './src/screens/UploadSuccess/UploadSuccessScreen';
+import AddCountryScreen from './src/screens/AddCountry/AddCountryScreen';
+import AddRoasteryScreen from './src/screens/AddRoastery/AddRoasteryScreen';
+import LoadingScreen from './src/screens/Loading/LoadingScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -28,6 +33,26 @@ const BottomNavigation = () => {
   const handleNavigationToHome = () => {
     navigation.navigate('Home'); // Navigiere zum "Home" Bildschirm
   };
+  
+  const handleSave = () => {
+    console.log({
+      name,
+      origin,
+      flavorProfile,
+      aroma,
+      acidity,
+      caffeineContent,
+      altitude,
+      roastLevel,
+      beanSize,
+      processingMethod,
+      price,
+      description,
+      image
+    });
+    navigation.navigate('UploadSuccess'); // Navigiere zur Erfolgsseite
+  };
+  
 
   return (
     <View style={styles.bottomNavigation}>
@@ -57,6 +82,9 @@ function App() {
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Main" component={MainTabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="UploadSuccess" component={UploadSuccessScreen} />
+        
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -72,7 +100,13 @@ const MainTabNavigator = () => {
       <Tab.Screen name="CountryOfOrigin" component={CountryOfOriginScreen} options={{ headerShown: false }} />
       <Tab.Screen name="Filter" component={FilterScreen} options={{ headerShown: false }} />
       <Tab.Screen name="AddCoffee" component={AddCoffeeScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="AddCoffeeBean" component={AddCoffeeBeanScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="AddCountry" component={AddCountryScreen} options={{ headerShown: false }} />
       <Tab.Screen name="CoffeeProfileScreen" component={CoffeeProfileScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="AddRoastery" component={AddRoasteryScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="UploadSuccess" component={UploadSuccessScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="LoadingScreen" component={LoadingScreen} options={{ headerShown: false }} />
+        
     </Tab.Navigator>
   );
 };

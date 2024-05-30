@@ -23,6 +23,10 @@ const CoffeeBeansScreen: React.FC = () => {
     navigation.goBack();
   };
 
+  const handleAddCoffeeBean = () => {
+    navigation.navigate('AddCoffeeBean'); // Ensure this name matches the registered screen name
+  };
+
   const filteredCoffeeBeans = dummyCoffeeBeans.filter(bean =>
     bean.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -57,6 +61,9 @@ const CoffeeBeansScreen: React.FC = () => {
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.coffeeBeansContainer}
       />
+      <TouchableOpacity style={styles.addButton} onPress={handleAddCoffeeBean}>
+        <Image source={require('../../assets/plus_icon.png')} style={styles.plusIcon} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -140,6 +147,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
+  },
+  addButton: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+  },
+  plusIcon: {
+    width: 30,
+    height: 30,
   },
 });
 
