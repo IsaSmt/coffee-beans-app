@@ -1,13 +1,17 @@
-import React from 'react';
+
 import { View, Text, StyleSheet, ScrollView, FlatList, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../types'; // Adjust the import according to your project structure
+import { RootStackParamList } from '../../../types';
+import React, { useState, useEffect } from 'react';
 
 interface Roastery {
   id: string;
-  name: string;
-  address: string;
-  logoUrl: string;
+  roasteryName: string;
+  roasteryDescription: string;
+  plz: number;
+  email: string;
+  phone: string;
+  street: string;
 }
 
 interface Coffee {
@@ -29,13 +33,31 @@ type Props = {
 };
 
 const HomePage: React.FC<Props> = ({ navigation }) => {
+  const [roasteries, setRoasteries] = useState<Roastery[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const dummyRoasteries = [
-    { id: '1', name: 'The Barn', address: 'Alte Potsdamer Str. 5\n10785 Berlin', logoUrl: require('../../assets/blend_roastery_icon.png') },
-    { id: '2', name: 'Five Elephant', address: 'Schwedter Str. 11\n10119 Berlin', logoUrl: require('../../assets/five_elephant_icon.png') },
-    { id: '3', name: 'JB Kaffee', address: 'Mörtlstrasse 5A\n85254 München', logoUrl: require('../../assets/jb_coffee_icon.png') },
-    { id: '4', name: 'The Barn', address: 'Alte Potsdamer Str. 5\n10785 Berlin', logoUrl: require('../../assets/the_barn_icon.png') },
-  ];
+  useEffect(() => {
+    const fetchRoasteries = async () => {
+      try {
+        const response = await fetch('http://10.137.31.117:8080/api/roastieres', {
+          method: 'GET'
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log(data);
+        setRoasteries(data);
+      } catch (error) {
+        console.error('Fetch error:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchRoasteries();
+  }, []);
+  
 
   const dummyOriginCountries: string[] = [
     'Brazil', 'Colombia', 'Ethiopia'
@@ -57,8 +79,8 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
     <TouchableOpacity onPress={() => handleClickRoastery(item)}>
       <View style={styles.card}>
         <View style={styles.roasteryInfo}>
-          <Text style={styles.roasteryName}>{item.name}</Text>
-          <Text style={styles.address}>{item.address}</Text>
+          <Text style={styles.roasteryName}>{item.roasteryName}</Text>
+            <Text style={styles.address}>{item.street}</Text>
         </View>
         <Image source={item.logoUrl} style={styles.logo} />
       </View>
@@ -131,7 +153,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
         {/* Hier beginnt der scrollbare Bereich */}
         <FlatList
           horizontal
-          data={dummyRoasteries}
+          data={roasteries}
           renderItem={renderRoastery}
           keyExtractor={(item) => item.id}
           showsHorizontalScrollIndicator={true}
