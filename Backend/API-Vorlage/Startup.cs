@@ -49,7 +49,8 @@ namespace API {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //Deactivated HTTPS Redirection because there is not port configured.
+           //app.UseHttpsRedirection();
 
             app.UseRouting();
 
