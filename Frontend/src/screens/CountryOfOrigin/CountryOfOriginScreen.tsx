@@ -38,6 +38,9 @@ const CountryOfOriginScreen: React.FC = () => {
       <Text style={styles.address}>{item.address}</Text>
     </TouchableOpacity>
   );
+  const handleAddCountry = () => {
+    navigation.navigate('AddCountry'); // Ensure this name matches the registered screen name
+  };
 
   return (
     <View style={styles.container}>
@@ -62,6 +65,9 @@ const CountryOfOriginScreen: React.FC = () => {
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.countriesContainer}
       />
+      <TouchableOpacity style={styles.addButton} onPress={handleAddCountry}>
+        <Image source={require('../../assets/plus_icon.png')} style={styles.plusIcon} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -152,6 +158,18 @@ const styles = StyleSheet.create({
   address: {
     fontSize: 12,
     color: '#777',
+  },
+  addButton: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+  },
+  plusIcon: {
+    width: 30,
+    height: 30,
   },
 });
 

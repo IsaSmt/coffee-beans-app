@@ -15,6 +15,9 @@ const RoasteriesScreen = () => {
   const handleBack = () => {
     navigation.goBack();
   };
+  const handleAddRoastery = () => {
+    navigation.navigate('AddRoastery'); // Ensure this name matches the registered screen name
+  };
 
   return (
     <View style={styles.container}>
@@ -39,6 +42,9 @@ const RoasteriesScreen = () => {
           </View>
         ))}
       </ScrollView>
+      <TouchableOpacity style={styles.addButton} onPress={handleAddRoastery}>
+        <Image source={require('../../assets/plus_icon.png')} style={styles.plusIcon} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -127,6 +133,18 @@ const styles = StyleSheet.create({
   roasteryAddress: {
     fontSize: 14,
     color: '#777',
+  },
+  addButton: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+  },
+  plusIcon: {
+    width: 30,
+    height: 30,
   },
 });
 

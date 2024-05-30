@@ -37,10 +37,18 @@ const FilterScreen = () => {
       maxPrice,
       roastDate,
     });
+    navigation.navigate('LoadingScreen'); // Navigate to the loading screen
   };
 
   const handleBack = () => {
     navigation.navigate('Home');
+  };
+
+  const formatDate = (date) => {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
   };
 
   const renderModalItem = (item, setValue, closeModal) => (
@@ -65,13 +73,13 @@ const FilterScreen = () => {
           <Text style={styles.headerTitle}>Filterkriterien</Text>
         </View>
         <View style={styles.content}>
-        <ScrollView style={styles.scrollableContent}>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Bohnenart</Text>
-            <TouchableOpacity style={styles.input} onPress={() => setBeanTypeModalVisible(true)}>
-              <Text style={beanType ? styles.selectedText : styles.placeholderText}>{beanType || 'Bitte auswählen'}</Text>
-            </TouchableOpacity>
-          </View>
+          <ScrollView style={styles.scrollableContent}>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Bohnenart</Text>
+              <TouchableOpacity style={styles.input} onPress={() => setBeanTypeModalVisible(true)}>
+                <Text style={beanType ? styles.selectedText : styles.placeholderText}>{beanType || 'Bitte auswählen'}</Text>
+              </TouchableOpacity>
+            </View>
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Herkunftsland</Text>
               <TouchableOpacity style={styles.input} onPress={() => setCountryModalVisible(true)}>
@@ -90,12 +98,12 @@ const FilterScreen = () => {
                 <View style={styles.priceInputContainer}>
                   <TextInput
                     style={styles.priceInput}
-                    placeholder="   ..."
+                    placeholder="..."
                     value={minPrice}
                     onChangeText={setMinPrice}
                     keyboardType="numeric"
                   />
-                  <Text style={styles.euroSymbol}>€</Text>
+                  <Text style={styles.symbol}>€</Text>
                 </View>
               </View>
               <View style={styles.inputGroupHalf}>
@@ -103,19 +111,19 @@ const FilterScreen = () => {
                 <View style={styles.priceInputContainer}>
                   <TextInput
                     style={styles.priceInput}
-                    placeholder="   ..."
+                    placeholder="..."
                     value={maxPrice}
                     onChangeText={setMaxPrice}
                     keyboardType="numeric"
                   />
-                  <Text style={styles.euroSymbol}>€</Text>
+                  <Text style={styles.symbol}>€</Text>
                 </View>
               </View>
             </View>
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Röstdatum</Text>
               <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.dateInput}>
-                <Text>{roastDate.toDateString()}</Text>
+                <Text>{formatDate(roastDate)}</Text>
                 <Ionicons name="calendar" size={20} color="black" />
               </TouchableOpacity>
               {showDatePicker && (
@@ -131,10 +139,10 @@ const FilterScreen = () => {
                 />
               )}
             </View>
-            <TouchableOpacity style={[styles.button, { backgroundColor: '#D2B48C', borderRadius: 30 }]} onPress={handleSearch}>
-              <Text style={styles.buttonText}>Suchen</Text>
-            </TouchableOpacity>
           </ScrollView>
+          <TouchableOpacity style={[styles.button, { backgroundColor: '#D2B48C', borderRadius: 30 }]} onPress={handleSearch}>
+            <Text style={styles.buttonText}>Suchen</Text>
+          </TouchableOpacity>
         </View>
         <Modal
           visible={beanTypeModalVisible}
@@ -213,14 +221,15 @@ const styles = StyleSheet.create({
     left: 10,
   },
   backIcon: {
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     flex: 1,
+    marginRight: 30, // Adjust this value to shift the title slightly to the left
   },
   content: {
     flex: 1,
@@ -269,7 +278,7 @@ const styles = StyleSheet.create({
     height: 41,
     color: '#333',
   },
-  euroSymbol: {
+  symbol: {
     color: '#9EA0A4',
     marginLeft: 4,
   },
