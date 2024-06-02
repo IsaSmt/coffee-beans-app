@@ -1,40 +1,57 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-interface CoffeeBean { 
+interface CoffeeBean {
   id: string;
-  name: string;
-  imageUrl: string;
+  typeDefintion: string;
+  typeExplaination: string;
+  imageUrl: string | number;
 }
-
-const dummyCoffeeBeans: CoffeeBean[] = [
-  { id: '1', name: 'Arabica', imageUrl: 'https://via.placeholder.com/150' },
-  { id: '2', name: 'Robusta', imageUrl: 'https://via.placeholder.com/150' },
-  { id: '3', name: 'Liberica', imageUrl: 'https://via.placeholder.com/150' },
-  { id: '4', name: 'Excelsa', imageUrl: 'https://via.placeholder.com/150' },
-];
 
 const CoffeeBeansScreen: React.FC = () => {
   const navigation = useNavigation();
+  const [coffeeBeans, setCoffeeBeans] = useState<CoffeeBean[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+
+  useEffect(() => {
+    const fetchCoffeeBeans = async () => {
+      try {
+        const response = await fetch('http://10.137.31.117:8080/api/beantypes', {
+          method: 'GET'
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data: CoffeeBean[] = await response.json();
+        setCoffeeBeans(data);
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    };
+
+    fetchCoffeeBeans();
+  }, []);
 
   const handleBack = () => {
     navigation.goBack();
   };
 
   const handleAddCoffeeBean = () => {
-    navigation.navigate('AddCoffeeBean'); // Ensure this name matches the registered screen name
+    navigation.navigate('AddCoffeeBean');
   };
 
-  const filteredCoffeeBeans = dummyCoffeeBeans.filter(bean =>
-    bean.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredCoffeeBeans = coffeeBeans.filter(bean =>
+    bean.typeDefintion.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const renderCoffeeBean = ({ item }: { item: CoffeeBean }) => (
     <TouchableOpacity style={styles.beanCard}>
-      <Image source={{ uri: item.imageUrl }} style={styles.beanImage} />
-      <Text style={styles.beanName}>{item.name}</Text>
+      <ImageBackground source={require('../../assets/arabica_bean.png')} style={styles.beanImageBackground}>
+        <View style={styles.beanContent}>
+          <Text style={styles.beanName}>{item.typeDefintion}</Text>
+        </View>
+      </ImageBackground>
     </TouchableOpacity>
   );
 
@@ -104,7 +121,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     paddingLeft: 20,
-    paddingRight: 40, // Padding for the search icon
+    paddingRight: 40,
     backgroundColor: '#F2F2F2',
     borderColor: '#F2F2F2',
     color: '#663300',
@@ -118,6 +135,7 @@ const styles = StyleSheet.create({
   },
   coffeeBeansContainer: {
     flexGrow: 1,
+    flexDirection: 'column',
   },
   row: {
     justifyContent: 'space-between',
@@ -126,27 +144,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     flex: 1,
     margin: 5,
-    padding: 20,
-    paddingBottom: 60,
-    paddingTop: 60,
+    paddingBottom: 10,
     borderRadius: 10,
-    shadowColor: '#000',
+    shadowColor: '#F2F2F2',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 2,
     alignItems: 'center',
+    overflow: 'hidden',
   },
-  beanImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginBottom: 10,
+  beanContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   beanName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#F2F2F2',
+  },
+  beanImageBackground: {
+    width: 150,
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 18,
+    overflow: 'hidden',
   },
   addButton: {
     position: 'absolute',

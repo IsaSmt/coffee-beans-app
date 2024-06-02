@@ -56,10 +56,10 @@ const CoffeeProfileScreen = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
         <TouchableOpacity style={styles.backButton}>
-          <Icon name="arrow-back" size={24} color="black" />
+         <Image source={require('../../assets/back_icon.png')} style={styles.icon}></Image>
         </TouchableOpacity>
         <TouchableOpacity style={styles.shareButton}>
-          <Icon name="share-social" size={24} color="black" />
+          <Image source={require('../../assets/share_icon.png')} style={styles.icon}></Image>
         </TouchableOpacity>
         <ScrollView horizontal pagingEnabled style={styles.imageContainer}>
           <Image
@@ -147,6 +147,10 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: 200,
     resizeMode: 'contain',
+  },
+  icon: {
+    width: 24,
+    height: 24,
   },
   card: {
     backgroundColor: '#fff',

@@ -1,43 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 interface CountryOfOrigin {
   id: string;
-  name: string;
-  address: string;
-  logoUrl: string;
+  originCountry: string;
 }
 
-const dummyCountriesOfOrigin: CountryOfOrigin[] = [
-  { id: '1', name: 'Brazil', address: 'Sao Paulo', logoUrl: 'https://via.placeholder.com/150' },
-  { id: '2', name: 'Colombia', address: 'Bogota', logoUrl: 'https://via.placeholder.com/150' },
-  { id: '3', name: 'Ethiopia', address: 'Addis Ababa', logoUrl: 'https://via.placeholder.com/150' },
-  { id: '4', name: 'Vietnam', address: 'Hanoi', logoUrl: 'https://via.placeholder.com/150' },
-];
-
 const CountryOfOriginScreen: React.FC = () => {
+  const [countries, setCountries] = useState<CountryOfOrigin[]>([]);
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState<string>('');
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch('http://10.137.31.117:8080/api/origins', {
+          method: 'GET'
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data: CountryOfOrigin[] = await response.json();
+        console.log(data);
+        setCountries(data);
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
 
   const handleBack = () => {
     navigation.goBack();
   };
 
   const handleSelectCountry = (countryName: string) => {
-    navigation.navigate('AddCoffee', { selectedCountry: countryName });
+   
   };
 
-  const filteredCountries = dummyCountriesOfOrigin.filter(country =>
-    country.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredCountries = countries.filter(country =>
+    country.originCountry.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const renderCountry = ({ item }: { item: CountryOfOrigin }) => (
-    <TouchableOpacity style={styles.card} onPress={() => handleSelectCountry(item.name)}>
-      <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.address}>{item.address}</Text>
+    <TouchableOpacity style={styles.card} onPress={() => handleSelectCountry(item.originCountry)}>
+      <Text style={styles.name}>{item.originCountry}</Text>
     </TouchableOpacity>
   );
+
   const handleAddCountry = () => {
     navigation.navigate('AddCountry'); // Ensure this name matches the registered screen name
   };

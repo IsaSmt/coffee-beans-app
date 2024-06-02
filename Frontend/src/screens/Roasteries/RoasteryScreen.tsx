@@ -1,16 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const roasteries = [
-  { id: '1', name: 'The Barn', address: 'Alte Potsdamer Str. 5\n10785 Berlin', logo: require('../../assets/blend_roastery_icon.png') },
-  { id: '2', name: 'Five Elephant', address: 'Schwedter Str. 11\n10119 Berlin', logo: require('../../assets/five_elephant_icon.png') },
-  { id: '3', name: 'JB Kaffee', address: 'Mörtlstrasse 5A\n85254 München', logo: require('../../assets/jb_coffee_icon.png') },
-  { id: '4', name: 'The Barn', address: 'Alte Potsdamer Str. 5\n10785 Berlin', logo: require('../../assets/the_barn_icon.png') },
-];
+interface Roastery {
+  id: string;
+  roasteryName: string;
+  roasteryDescription: string;
+  plz: number;
+  email: string;
+  phone: string;
+  street: string;
+  logoUrl: string;
+}
 
 const RoasteriesScreen = () => {
+  const [roasteries, setRoasteries] = useState<Roastery[]>([]);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const fetchRoasteries = async () => {
+      try {
+        const response = await fetch('http://10.137.31.117:8080/api/roasteries', {
+          method: 'GET'
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data: Roastery[] = await response.json();
+        console.log(data);
+        setRoasteries(data);
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    };
+
+    fetchRoasteries();
+  }, []);
 
   const handleBack = () => {
     navigation.goBack();
@@ -35,10 +60,10 @@ const RoasteriesScreen = () => {
         {roasteries.map((roastery) => (
           <View key={roastery.id} style={styles.roasteryBox}>
             <View style={styles.roasteryInfo}>
-              <Text style={styles.roasteryName}>{roastery.name}</Text>
-              <Text style={styles.roasteryAddress}>{roastery.address}</Text>
+              <Text style={styles.roasteryName}>{roastery.roasteryName}</Text>
+              <Text style={styles.roasteryAddress}>{roastery.street}</Text>
             </View>
-            <Image source={roastery.logo} style={styles.logo} />
+            <Image source={require('../../assets/blend_roastery_icon.png')} style={styles.logo} />
           </View>
         ))}
       </ScrollView>
