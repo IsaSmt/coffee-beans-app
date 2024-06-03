@@ -1,5 +1,14 @@
 # API - Nutzung
 
+- open new terminal
+
+- cd Backend
+
+- cd API-Vorlage
+
+- dotnet run
+
+
 ## Aufruf
 
 Im Stammordner muss als erstes über das Terminal der

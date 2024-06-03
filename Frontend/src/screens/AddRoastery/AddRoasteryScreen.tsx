@@ -63,7 +63,7 @@ const AddRoasteryScreen = () => {
           plz: parseInt(plz),
           email: email,
           phone: contactNumber,
-          street: address,
+          street: street,
         }),
       });
       if (!response.ok) {

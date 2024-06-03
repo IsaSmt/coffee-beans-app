@@ -19,19 +19,32 @@ git clone https://github.com/yourusername/CoffeeCup.git
 cd CoffeeCup
 ```
 
-4. Install the dependencies:
+4. Check your laptop port in your power shell or terminal:
+
+Windows:
+- ipconfig 
+
+Macbook:
+- ifconfig
+
+- search for an active IP-Adress
+
+- replace the IP constant in the config.ts file in the root directory of the frontend with the IP adress you found (export const IP = '10.181.230.86';)
+
+
+5. Install the dependencies:
 
 ```bash
 npm install
 ```
 
-5. Start the app:
+6. Start the app:
 
 ```bash
 npx expo start
 ```
 
-6. Download and open the "Expo" app on your phone and scan the QR code displayed on your terminal.
+7. Download and open the "Expo" app on your phone and scan the QR code displayed on your terminal.
 
 ### Have fun exploring the CoffeeCup App! :-)
 

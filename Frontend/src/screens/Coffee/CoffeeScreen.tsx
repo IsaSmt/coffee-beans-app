@@ -55,6 +55,21 @@ const CoffeeScreen: React.FC = () => {
     navigation.navigate('Filter');
   };
 
+  const handleReloadCoffees = async () => {
+    try {
+      const response = await fetch(`http://${IP}:8080/api/coffees`, {
+        method: 'GET'
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data: Coffee[] = await response.json();
+      setCoffees(data);
+    } catch (error) {
+      console.error('Reload error:', error);
+    }
+  };
+
   const filteredCoffees = coffees.filter(coffee =>
     coffee.coffeeName.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -90,9 +105,12 @@ const CoffeeScreen: React.FC = () => {
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.coffeeBeansContainer}
       />
-     <TouchableOpacity style={[styles.addButton, { right: 70 }]} onPress={handleClickSearchIcon}>
-  <Image source={require('../../assets/filter_icon.png')} style={styles.filterIcon} />
-</TouchableOpacity>
+      <TouchableOpacity style={[styles.reloadButton, { right: 110 }]} onPress={handleReloadCoffees}>
+        <Image source={require('../../assets/reload_icon.png')} style={styles.reloadIcon} />
+      </TouchableOpacity>
+      <TouchableOpacity style={[styles.addButton, { right: 70 }]} onPress={handleClickSearchIcon}>
+        <Image source={require('../../assets/filter_icon.png')} style={styles.filterIcon} />
+      </TouchableOpacity>
       <TouchableOpacity style={styles.addButton} onPress={handleAddCoffee}>
         <Image source={require('../../assets/plus_icon.png')} style={styles.plusIcon} />
       </TouchableOpacity>
@@ -198,6 +216,18 @@ const styles = StyleSheet.create({
   plusIcon: {
     width: 30,
     height: 30,
+  },
+  reloadButton: {
+    position: 'absolute',
+    top: 42,
+    right: 150,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+  },
+  reloadIcon: {
+    width: 25,
+    height: 25,
   },
 });
 
