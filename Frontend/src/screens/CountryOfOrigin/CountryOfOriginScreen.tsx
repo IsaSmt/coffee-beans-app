@@ -55,6 +55,22 @@ const CountryOfOriginScreen: React.FC = () => {
     navigation.navigate('AddCountry'); // Ensure this name matches the registered screen name
   };
 
+  const handleReloadCountries = async () => {
+    try {
+      const response = await fetch(`http://${IP}:8080/api/origins`, {
+        method: 'GET'
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data: CountryOfOrigin[] = await response.json();
+      console.log(data);
+      setCountries(data);
+    } catch (error) {
+      console.error('Reload error:', error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.backIconContainer} onPress={handleBack}>
@@ -78,6 +94,9 @@ const CountryOfOriginScreen: React.FC = () => {
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.countriesContainer}
       />
+      <TouchableOpacity style={styles.reloadButton} onPress={handleReloadCountries}>
+        <Image source={require('../../assets/reload_icon.png')} style={styles.reloadIcon} />
+      </TouchableOpacity>
       <TouchableOpacity style={styles.addButton} onPress={handleAddCountry}>
         <Image source={require('../../assets/plus_icon.png')} style={styles.plusIcon} />
       </TouchableOpacity>
@@ -183,6 +202,18 @@ const styles = StyleSheet.create({
   plusIcon: {
     width: 30,
     height: 30,
+  },
+  reloadButton: {
+    position: 'absolute',
+    top: 42,
+    right: 60,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+  },
+  reloadIcon: {
+    width: 25,
+    height: 25,
   },
 });
 

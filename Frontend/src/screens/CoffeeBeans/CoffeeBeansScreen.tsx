@@ -42,6 +42,22 @@ const CoffeeBeansScreen: React.FC = () => {
     navigation.navigate('AddCoffeeBean');
   };
 
+  const handleReloadCoffeeBeans = async () => {
+    try {
+      const response = await fetch(`http://${IP}:8080/api/beantypes`, {
+        method: 'GET'
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data: CoffeeBean[] = await response.json();
+      console.log(data);
+      setCoffeeBeans(data);
+    } catch (error) {
+      console.error('Reload error:', error);
+    }
+  };
+
   const filteredCoffeeBeans = coffeeBeans.filter(bean =>
     bean.typeDefintion.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -79,6 +95,9 @@ const CoffeeBeansScreen: React.FC = () => {
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.coffeeBeansContainer}
       />
+       <TouchableOpacity style={styles.reloadButton} onPress={handleReloadCoffeeBeans}>
+        <Image source={require('../../assets/reload_icon.png')} style={styles.reloadIcon} />
+      </TouchableOpacity>
       <TouchableOpacity style={styles.addButton} onPress={handleAddCoffeeBean}>
         <Image source={require('../../assets/plus_icon.png')} style={styles.plusIcon} />
       </TouchableOpacity>
@@ -184,6 +203,18 @@ const styles = StyleSheet.create({
   plusIcon: {
     width: 30,
     height: 30,
+  },
+  reloadButton: {
+    position: 'absolute',
+    top: 42,
+    right: 60,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+  },
+  reloadIcon: {
+    width: 25,
+    height: 25,
   },
 });
 

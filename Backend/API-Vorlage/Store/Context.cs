@@ -30,7 +30,6 @@ namespace API.Store {
         // Here you have to copy the line above and 
         // change the attributes, so that each
         // dataobject gets its own database
-        public DbSet<PLZ> PLZs { get; set; }
         public DbSet<Roastery> Roasteries { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Coffee> Coffees { get; set; }
