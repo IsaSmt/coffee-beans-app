@@ -102,10 +102,10 @@ namespace API {
 
             // Example for beantypes
             var listOfBeantypes = new Beantype[]{
-                new(){ TypeDefintion = "Hybrid", TypeExplaination = "An unnatural Beantype for certain purposes."},
-                new(){ TypeDefintion = "Arabica", TypeExplaination = "One of the main species. A picky plant compared to Robusta. Subspecies can be Bourbon, Parainema."},
-                new(){ TypeDefintion = "Robusta", TypeExplaination = "Like Arabica one of the main species. Not so picky when cultivating."},
-                new(){ TypeDefintion = "Blend", TypeExplaination = "A combination of several beantypes to create a new flavour."},
+                new(){ TypeDefinition = "Hybrid", TypeExplanation = "An unnatural Beantype for certain purposes.", caffeineAmount = "no clear Amount; Hybrids can be different depending on Use-Case", beanFormSize ="no clear Form; Hybrids can be different depending On useCase"},
+                new(){ TypeDefinition = "Arabica", TypeExplanation = "One of the main species. A picky plant compared to Robusta. Subspecies can be Bourbon, Parainema.", caffeineAmount = "medium", beanFormSize="Larger, oval, with a curved line"},
+                new(){ TypeDefinition = "Robusta", TypeExplanation = "Like Arabica one of the main species. Not so picky when cultivating.", caffeineAmount = "high", beanFormSize="Smaller, round, with a straight line"},
+                new(){ TypeDefinition = "Blend", TypeExplanation = "A combination of several beantypes to create a new flavour.", caffeineAmount = "no clear Amount; depends on used beans", beanFormSize= "no clear Size; depends on used beans"},
             };
             context.Beantypes.AddRange(listOfBeantypes);
             context.SaveChanges();

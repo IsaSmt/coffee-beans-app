@@ -25,13 +25,13 @@ namespace API.DataObject {
 
         [Required]
         [MinLength(1)]
-        [MaxLength(500)]
+        [MaxLength(250)]
         // Koffeingehalt
         public string caffeineAmount { get; set; }
 
         [Required]
         [MinLength(1)]
-        [MaxLength(500)]
+        [MaxLength(250)]
         // Bohnenform und Größe
         public string beanFormSize { get; set; }
 
