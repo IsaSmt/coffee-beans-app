@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { IP } from '../../../config';
 
 interface Coffee {
   id: number;
@@ -21,7 +22,7 @@ const CoffeeScreen: React.FC = () => {
   useEffect(() => {
     const fetchCoffees = async () => {
       try {
-        const response = await fetch('http://10.137.31.117:8080/api/coffees', {
+        const response = await fetch(`http://${IP}:8080/api/coffees`, {
           method: 'GET'
         });
         if (!response.ok) {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { IP } from '../../../config';
 
 interface CountryOfOrigin {
   id: string;
@@ -15,7 +16,7 @@ const CountryOfOriginScreen: React.FC = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await fetch('http://10.137.31.117:8080/api/origins', {
+        const response = await fetch(`http://${IP}:8080/api/origins`, {
           method: 'GET'
         });
         if (!response.ok) {

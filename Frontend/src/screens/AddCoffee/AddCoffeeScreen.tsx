@@ -23,7 +23,6 @@ const AddCoffeeScreen = () => {
 
   useFocusEffect(
     useCallback(() => {
-      // Reset state when the screen comes into focus
       setName('');
       setBeanType('');
       setManufacturingPlace('');

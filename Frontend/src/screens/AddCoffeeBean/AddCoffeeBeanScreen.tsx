@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, TouchableWi
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { IP } from '../../../config';
 
 const AddCoffeeBeanScreen = () => {
   const [name, setName] = useState('');
@@ -31,7 +32,6 @@ const AddCoffeeBeanScreen = () => {
 
   useFocusEffect(
     useCallback(() => {
-      // Reset state when the screen comes into focus
       setName('');
       setOrigin('');
       setFlavorProfile('');
@@ -61,23 +61,28 @@ const AddCoffeeBeanScreen = () => {
     }
   };
 
-  const handleSave = () => {
-    console.log({
-      name,
-      origin,
-      flavorProfile,
-      aroma,
-      acidity,
-      caffeineContent,
-      altitude,
-      roastLevel,
-      beanSize,
-      processingMethod,
-      price,
-      description,
-      image
-    });
-    navigation.goBack();
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`http://${IP}:8080/api/beantypes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          typeDefintion: name,
+          typeExplaination: description
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log(data);
+      navigation.goBack();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      Alert.alert('Error', 'Failed to add beantype. Please try again later.');
+    }
   };
 
   const renderModalItem = (item, setValue, closeModal) => (
@@ -113,10 +118,10 @@ const AddCoffeeBeanScreen = () => {
             )}
           </TouchableOpacity>
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Name</Text>
+            <Text style={styles.label}>Bohnenname</Text>
             <TextInput
               style={styles.input}
-              placeholder="Name"
+              placeholder="e.g. 'Arabica'"
               value={name}
               onChangeText={setName}
             />
@@ -155,7 +160,7 @@ const AddCoffeeBeanScreen = () => {
             <Text style={styles.label}>Anbauhöhe (Meter)</Text>
             <TextInput
               style={styles.input}
-              placeholder="Anbauhöhe"
+              placeholder="..."
               value={altitude}
               onChangeText={setAltitude}
               keyboardType="numeric"
@@ -183,10 +188,10 @@ const AddCoffeeBeanScreen = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Durchschnittlicher Preis pro kg</Text>
+            <Text style={styles.label}>Durchschnittspreis</Text>
             <TextInput
               style={styles.input}
-              placeholder="Preis"
+              placeholder="..."
               value={price}
               onChangeText={setPrice}
               keyboardType="numeric"
@@ -196,7 +201,7 @@ const AddCoffeeBeanScreen = () => {
             <Text style={styles.label}>Beschreibung</Text>
             <TextInput
               style={[styles.input, { height: 80 }]}
-              placeholder="Beschreibung"
+              placeholder="Diese Bohne..."
               value={description}
               onChangeText={setDescription}
               multiline

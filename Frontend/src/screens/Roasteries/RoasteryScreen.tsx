@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { IP } from '../../../config';
 
 interface Roastery {
   id: string;
@@ -20,7 +21,7 @@ const RoasteriesScreen = () => {
   useEffect(() => {
     const fetchRoasteries = async () => {
       try {
-        const response = await fetch('http://10.137.31.117:8080/api/roasteries', {
+        const response = await fetch(`http://${IP}:8080/api/roasteries`, {
           method: 'GET'
         });
         if (!response.ok) {

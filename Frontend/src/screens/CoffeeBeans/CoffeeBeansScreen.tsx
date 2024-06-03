@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { IP } from '../../../config';
 
 interface CoffeeBean {
   id: string;
@@ -17,7 +18,7 @@ const CoffeeBeansScreen: React.FC = () => {
   useEffect(() => {
     const fetchCoffeeBeans = async () => {
       try {
-        const response = await fetch('http://10.137.31.117:8080/api/beantypes', {
+        const response = await fetch(`http://${IP}:8080/api/beantypes`, {
           method: 'GET'
         });
         if (!response.ok) {

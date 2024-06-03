@@ -63,7 +63,7 @@ const CoffeeProfileScreen = () => {
         </TouchableOpacity>
         <ScrollView horizontal pagingEnabled style={styles.imageContainer}>
           <Image
-            source={require('../../assets/hochland_coffee.png')} // Replace with your image URLs
+            source={require('../../assets/hochland_coffee.png')}
             style={styles.image}
           />
           <Image

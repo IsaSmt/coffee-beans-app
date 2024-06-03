@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, TouchableWi
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { IP } from '../../../config';
 
 const AddCountryScreen = () => {
   const [name, setName] = useState('');
@@ -32,14 +33,29 @@ const AddCountryScreen = () => {
     }
   };
 
-  const handleSave = () => {
-    console.log({
-      name,
-      city,
-      image
-    });
-    navigation.goBack();
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`http://${IP}:8080/api/origins`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          originCountry: name
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log(data);
+      navigation.goBack();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      Alert.alert('Error', 'Failed to add country. Please try again later.');
+    }
   };
+
   const renderModalItem = (item, setValue, closeModal) => (
     <TouchableOpacity
       style={styles.modalItem}

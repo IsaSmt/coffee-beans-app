@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, ScrollView, FlatList, Image, TouchableOpacity, 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../types';
 import React, { useState, useEffect } from 'react';
+import { IP } from '../../../config';
 
 interface Roastery {
   id: string;
@@ -52,7 +53,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
   useEffect(() => {
     const fetchRoasteries = async () => {
       try {
-        const response = await fetch('http://10.137.31.117:8080/api/roasteries', {
+        const response = await fetch(`http://${IP}:8080/api/roasteries`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -70,7 +71,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
 
     const fetchCoffeeBeans = async () => {
       try {
-        const response = await fetch('http://10.137.31.117:8080/api/beantypes', {
+        const response = await fetch(`http://${IP}:8080/api/beantypes`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -79,7 +80,6 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
         const data = await response.json();
         console.log(data);
 
-        // Kombinieren Sie die Backend-Daten mit den Dummy-Bildern
         const combinedData = data.map((bean: CoffeeBean, index: number) => {
           const dummyImages = [
             require('../../assets/arabica_bean.png'),
@@ -88,7 +88,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
 
           return {
             ...bean,
-            imageUrl: dummyImages[index % dummyImages.length] // Zyklisch durch die Dummy-Bilder gehen
+            imageUrl: dummyImages[index % dummyImages.length]
           };
         });
 
@@ -100,7 +100,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
 
     const fetchOrigins = async () => {
       try {
-        const response = await fetch('http://10.137.31.117:8080/api/origins', {
+        const response = await fetch(`http://${IP}:8080/api/origins`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -116,7 +116,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
 
     const fetchCoffees = async () => {
       try {
-        const response = await fetch('http://10.137.31.117:8080/api/coffees', {
+        const response = await fetch(`http://${IP}:8080/api/coffees`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -260,8 +260,6 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
     </View>
   );
 };
-
-// STYLES
 
 const styles = StyleSheet.create({
   container: {
