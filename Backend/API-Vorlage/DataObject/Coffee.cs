@@ -34,6 +34,18 @@ namespace API.DataObject {
         [Required]
         public int Beantype { get; set; }
 
+        [Required]
+        [MinLength(1)]
+        [MaxLength(100)]
+        // Preis
+        public float CoffeePrice { get; set; }
+
+        [Required]
+        [MinLength(1)]
+        [MaxLength(100)]
+        // gewicht des kaffees
+        public float CoffeeWeight { get; set; }
+
         [MinLength(1)]
         [MaxLength(100)]
         // when got the coffee roasted

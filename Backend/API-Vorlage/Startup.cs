@@ -68,16 +68,6 @@ namespace API {
                 context.Keywords.Add(new DataObject.Keyword() { DescriptionKey = "Zitrus" });
                 context.Keywords.Add(new DataObject.Keyword() { DescriptionKey = "Beere" });
                 context.SaveChanges();
-            
-            // Example postal Codes
-            var listOfPLZs = new PLZ[]{
-                new(){ Postcode = "85256", Ort = "Jedenhofen"},
-                new(){ Postcode = "80331", Ort = "München"},
-                new(){ Postcode = "10003", Ort = "New York"},
-                new(){ Postcode = "28206", Ort = "Charlotte"},
-            };
-            context.PLZs.AddRange(listOfPLZs);
-            context.SaveChanges();
 
             // Example Customers
             var listOfCustomers = new Customer[]{
@@ -90,10 +80,10 @@ namespace API {
             
             // Example Roasteries
             var listOfRoasteries = new Roastery[]{
-                new(){ RoasteryName = "Sweet Spot Kaffee", RoasteryDescription = "Speciality Coffee prepared in munich", PLZ = 1, Street = "Heiliggeiststr. 1"},
-                new(){ RoasteryName = "Finca Don Leo", RoasteryDescription = "A family bringing you a new flavour from home", PLZ = 2, Street = "Eichenstr. 6"},
-                new(){ RoasteryName = "La Cabra", RoasteryDescription = "No matter where you are, the coffee still tastes the same", PLZ = 3, Street = "152 2nd Ave"},
-                new(){ RoasteryName = "HEX", RoasteryDescription = "Good Coffee and Wine, we will deliver it with pleasure", PLZ = 4, Street = "201 Camp Rd."},
+                new(){ RoasteryName = "Sweet Spot Kaffee", RoasteryDescription = "Speciality Coffee prepared in munich", Email = "hallo@sweetspotkaffee.de",Phone = "+49 89 45202106",Street = "Heiliggeiststr. 1", Postcode = "80331",Ort = "München"},
+                new(){ RoasteryName = "Finca Don Leo", RoasteryDescription = "A family bringing you a new flavour from home", Email = "info@fincadonleo.de",Phone = "+49 178 451 82 22",Street = "Eichenstr. 6", Postcode = "85256",Ort = "Jedenhofen"},
+                new(){ RoasteryName = "La Cabra", RoasteryDescription = "No matter where you are, the coffee still tastes the same", Email = "bakery@lacabrany.com",Street = "152 2nd Ave", Postcode = "10003",Ort ="New York"},
+                new(){ RoasteryName = "HEX", RoasteryDescription = "Good Coffee and Wine, we will deliver it with pleasure", Email = "info@hex.coffee",Phone = "+1 7048991694",Street = "201 Camp Rd.", Postcode = "28206",Ort ="Charlotte"},
             };
             context.Roasteries.AddRange(listOfRoasteries);
             context.SaveChanges();
