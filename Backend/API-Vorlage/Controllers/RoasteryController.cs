@@ -66,5 +66,27 @@ namespace API.Controllers
             return BadRequest(ModelState); //Model is not valid -> Validation Annotation of roastery
         }
 
+
+        /// <summary>
+        /// Deletes the roastery with a given id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteRoastery(int id)
+        {
+            var roastery = context.Roasteries.Where(r => r.Id == id).FirstOrDefault();
+            if (roastery == null)
+            {
+                return NotFound();
+            }
+
+            context.Roasteries.Remove(roastery);
+            await context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }
