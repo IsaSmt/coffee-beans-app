@@ -27,7 +27,7 @@ const BottomNavigation = () => {
   const navigation = useNavigation(); // Hole das Navigationsobjekt mit dem Hook
 
   const handleNavigationToSearch = () => {
-    navigation.navigate('Filter'); // Navigiere zum "Filter" Bildschirm
+  
   };
 
   const handleNavigationToHome = () => {
@@ -60,17 +60,17 @@ const BottomNavigation = () => {
         <Image source={require('./src/assets/home_icon.png')} style={styles.navIcon} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.navItem} onPress={handleNavigationToSearch}>
-        <Image source={require('./src/assets/filter_icon.svg')} style={styles.navIcon} />
+        <Image source={require('./src/assets/recipe_icon.png')} style={styles.navIcon} />
       </TouchableOpacity>
       {/* Neues Icon hinzugefügt */}
       <TouchableOpacity style={styles.navItem}>
         <Image source={require('./src/assets/cart_icon.png')} style={styles.navIcon} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.navItem}>
-        <Image source={require('./src/assets/heart_icon.svg')} style={styles.navIcon} />
+        <Image source={require('./src/assets/message_icon.png')} style={styles.navIcon} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.navItem}>
-        <Image source={require('./src/assets/profile_icon.svg')} style={styles.navIcon} />
+        <Image source={require('./src/assets/news_icon.png')} style={styles.navIcon} />
       </TouchableOpacity>
     </View>
   );

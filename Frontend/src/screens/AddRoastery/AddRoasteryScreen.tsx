@@ -1,12 +1,14 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, ScrollView, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { IP } from '../../../config';
 
 const AddRoasteryScreen = () => {
   const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
+  const [street, setStreet] = useState('');
+  const [housenumber, setHousenumber] = useState('');
   const [plz, setPlz] = useState('');
   const [stadt, setStadt] = useState('');
   const [land, setLand] = useState('');
@@ -14,16 +16,15 @@ const AddRoasteryScreen = () => {
   const [contactNumber, setContactNumber] = useState('');
   const [contactPersonFirstName, setContactPersonFirstName] = useState('');
   const [contactPersonLastName, setContactPersonLastName] = useState('');
-  const [rating, setRating] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const navigation = useNavigation();
 
   useFocusEffect(
     useCallback(() => {
-      // Reset state when the screen comes into focus
       setName('');
-      setAddress('');
+      setStreet('');
+      setHousenumber('');
       setPlz('');
       setStadt('');
       setLand('');
@@ -31,7 +32,6 @@ const AddRoasteryScreen = () => {
       setContactNumber('');
       setContactPersonFirstName('');
       setContactPersonLastName('');
-      setRating('');
       setDescription('');
       setImage(null);
     }, [])
@@ -45,27 +45,37 @@ const AddRoasteryScreen = () => {
       quality: 1,
     });
 
-    if (!result.canceled) {
+    if (!result.cancelled) {
       setImage(result.uri);
     }
   };
 
-  const handleSave = () => {
-    console.log({
-      name,
-      address,
-      plz,
-      stadt,
-      land,
-      email,
-      contactNumber,
-      contactPersonFirstName,
-      contactPersonLastName,
-      rating,
-      description,
-      image
-    });
-    navigation.goBack();
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`http://${IP}:8080/api/roasteries`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          roasteryName: name,
+          roasteryDescription: description,
+          plz: parseInt(plz),
+          email: email,
+          phone: contactNumber,
+          street: address,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log(data); // You can do something with the response data if needed
+      navigation.goBack();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      Alert.alert('Error', 'Failed to add roastery. Please try again later.');
+    }
   };
 
   return (
@@ -93,19 +103,29 @@ const AddRoasteryScreen = () => {
             <Text style={styles.label}>Name</Text>
             <TextInput
               style={styles.input}
-              placeholder="Name"
+              placeholder="Musterrösterei"
               value={name}
               onChangeText={setName}
             />
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Adresse</Text>
+            <Text style={styles.label}>Straße</Text>
             <TextInput
               style={styles.input}
-              placeholder="Adresse"
-              value={address}
-              onChangeText={setAddress}
+              placeholder="Musterstraße"
+              value={street}
+              onChangeText={setStreet}
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Hausnummer</Text>
+            <TextInput
+              style={styles.input}
+              placeholder=".."
+              value={housenumber}
+              onChangeText={setHousenumber}
             />
           </View>
 
@@ -113,7 +133,7 @@ const AddRoasteryScreen = () => {
             <Text style={styles.label}>PLZ</Text>
             <TextInput
               style={styles.input}
-              placeholder="PLZ"
+              placeholder="0000"
               value={plz}
               onChangeText={setPlz}
             />
@@ -123,7 +143,7 @@ const AddRoasteryScreen = () => {
             <Text style={styles.label}>Stadt</Text>
             <TextInput
               style={styles.input}
-              placeholder="Stadt"
+              placeholder="Musterstadt"
               value={stadt}
               onChangeText={setStadt}
             />
@@ -133,70 +153,57 @@ const AddRoasteryScreen = () => {
             <Text style={styles.label}>Land</Text>
             <TextInput
               style={styles.input}
-              placeholder="Land"
+              placeholder="Musterland"
               value={land}
               onChangeText={setLand}
             />
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Email Adresse</Text>
+            <Text style={styles.label}>E-Mail</Text>
             <TextInput
               style={styles.input}
-              placeholder="Email Adresse"
+              placeholder="E-Mail"
               value={email}
               onChangeText={setEmail}
             />
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Kontakt Nummer</Text>
+            <Text style={styles.label}>Telefonnummer</Text>
             <TextInput
               style={styles.input}
-              placeholder="Kontakt Nummer"
+              placeholder="e.g. '+49...'"
               value={contactNumber}
               onChangeText={setContactNumber}
             />
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Kontaktperson Vorname</Text>
+            <Text style={styles.label}>Kontaktperson (Vorname)</Text>
             <TextInput
               style={styles.input}
-              placeholder="Kontaktperson Vorname"
+              placeholder="Max"
               value={contactPersonFirstName}
               onChangeText={setContactPersonFirstName}
             />
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Kontaktperson Nachname</Text>
+            <Text style={styles.label}>Kontaktperson (Nachname)</Text>
             <TextInput
               style={styles.input}
-              placeholder="Kontaktperson Nachname"
+              placeholder="Mustermann"
               value={contactPersonLastName}
               onChangeText={setContactPersonLastName}
             />
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Bewertung</Text>
-            <View style={styles.ratingInput}>
-              <TextInput
-                style={styles.ratingTextInput}
-                placeholder="   . "
-                value={rating}
-                onChangeText={setRating}
-              />
-              <Ionicons name="star" size={24} color="gold" style={styles.starIcon} />
-            </View>
-          </View>
-
-          <View style={styles.inputGroup}>
             <Text style={styles.label}>Beschreibung</Text>
             <TextInput
               style={[styles.input, styles.descriptionInput]}
-              placeholder="Beschreibung"
+              placeholder="Die Rösterei.."
               value={description}
               onChangeText={setDescription}
               multiline
@@ -239,37 +246,37 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  title: {
+    },
+    title: {
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-  },
-  contentContainer: {
+    },
+    contentContainer: {
     padding: 16,
-  },
-  imageContainer: {
+    },
+    imageContainer: {
     height: 150,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
     marginBottom: 16,
     borderRadius: 20,
-  },
-  image: {
+    },
+    image: {
     width: '100%',
     height: '100%',
     borderRadius: 20,
-  },
-  inputGroup: {
+    },
+    inputGroup: {
     marginBottom: 16,
-  },
-  label: {
+    },
+    label: {
     fontSize: 16,
     color: '#333',
     marginBottom: 8,
-  },
-  input: {
+    },
+    input: {
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
@@ -277,43 +284,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     backgroundColor: 'white',
     justifyContent: 'center',
-  },
-  descriptionInput: {
+    },
+    descriptionInput: {
     height: 100,
     textAlignVertical: 'top',
-  },
-  ratingInput: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 20,
-    paddingHorizontal: 8,
-    backgroundColor: 'white',
-  },
-  starIcon: {
-    marginLeft: 'auto',
-  },
-  ratingTextInput: {
-    flex: 1,
-    height: 40,
-    borderColor: 'transparent',
-    borderWidth: 0,
-    backgroundColor: 'transparent',
-  },
-  button: {
+    },
+    button: {
     backgroundColor: '#D2B48C',
     padding: 16,
     borderRadius: 30,
     alignItems: 'center',
     marginTop: 16,
-  },
-  buttonText: {
+    },
+    buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
-  },
-});
-
-export default AddRoasteryScreen;
+    },
+    });
+    
+    export default AddRoasteryScreen;
+    

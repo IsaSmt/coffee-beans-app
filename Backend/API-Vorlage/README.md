@@ -8,7 +8,7 @@ Sollte ein "trusted certificate" fehlen, bitte auf die
 Ausgaben achten.
 
 Am simpelsten ist der Aufruf über Swagger:
-    https://localhost:5001/swagger
+    http://localhost:8080/swagger
 
 ## Aufbau
 
