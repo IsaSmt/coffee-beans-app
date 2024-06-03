@@ -54,11 +54,6 @@ namespace API.Controllers
         public async Task<ActionResult<Roastery>> AddRoastery([FromBody] Roastery roastery) {
             if (ModelState.IsValid) {
 
-                // checks if the given postalcode ID exists inside the database
-                if (context.PLZs.Where(p => p.Id == roastery.PLZ).Any() is false){
-                return NotFound("PLZ nicht gefunden.");
-                }
-
                 //test if Roastery already exists
                 if (context.Roasteries.Where(ro => ro.Id == roastery.Id).FirstOrDefault() != null)
                     return Conflict(); //roastery with id already exists, we return a conflict
@@ -69,24 +64,6 @@ namespace API.Controllers
                 return Ok(roastery); //we return the roastery
             }
             return BadRequest(ModelState); //Model is not valid -> Validation Annotation of roastery
-        }
-    
-        // find every roastery with the same postal code
-        [HttpGet("PLZQuery")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Roastery[]> Roasteries([FromQuery] int? PLZID = null){
-            if (PLZID == null) return BadRequest("Postleitzahl muss angegeben werden.");
-
-                if (PLZID != null && context.PLZs.Where(p => p.Id == PLZID).Any() is false){
-                    return NotFound("Postleitzahl nicht gefunden.");
-                }
-
-            var r = context.Roasteries.Where(ro =>
-                (PLZID == null || ro.PLZ == PLZID) 
-            ).ToArray();
-
-            return Ok(r);
         }
 
     }
