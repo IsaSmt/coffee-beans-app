@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/isabelsimmet/VisualStudio_Projects/digital_entrepreneurship/Backend/API-Vorlage/API.csproj": {}
+    "C:\\Users\\test\\Desktop\\Sommersemester2024\\Dünnebeil\\digital_entrepreneurship\\Backend\\API-Vorlage\\API.csproj": {}
   },
   "projects": {
-    "/Users/isabelsimmet/VisualStudio_Projects/digital_entrepreneurship/Backend/API-Vorlage/API.csproj": {
+    "C:\\Users\\test\\Desktop\\Sommersemester2024\\Dünnebeil\\digital_entrepreneurship\\Backend\\API-Vorlage\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/isabelsimmet/VisualStudio_Projects/digital_entrepreneurship/Backend/API-Vorlage/API.csproj",
+        "projectUniqueName": "C:\\Users\\test\\Desktop\\Sommersemester2024\\Dünnebeil\\digital_entrepreneurship\\Backend\\API-Vorlage\\API.csproj",
         "projectName": "API",
-        "projectPath": "/Users/isabelsimmet/VisualStudio_Projects/digital_entrepreneurship/Backend/API-Vorlage/API.csproj",
-        "packagesPath": "/Users/isabelsimmet/.nuget/packages/",
-        "outputPath": "/Users/isabelsimmet/VisualStudio_Projects/digital_entrepreneurship/Backend/API-Vorlage/obj/",
+        "projectPath": "C:\\Users\\test\\Desktop\\Sommersemester2024\\Dünnebeil\\digital_entrepreneurship\\Backend\\API-Vorlage\\API.csproj",
+        "packagesPath": "C:\\Users\\test\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\test\\Desktop\\Sommersemester2024\\Dünnebeil\\digital_entrepreneurship\\Backend\\API-Vorlage\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/isabelsimmet/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\test\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -32,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -88,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }
