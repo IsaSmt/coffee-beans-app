@@ -23,6 +23,32 @@ namespace API.DataObject {
         // general data
         public string TypeExplaination { get; set; }
 
+        [Required]
+        [MinLength(1)]
+        [MaxLength(500)]
+        // Koffeingehalt
+        public string cafeineAmount { get; set; }
+
+        [Required]
+        [MinLength(1)]
+        [MaxLength(500)]
+        // Bohnenform und Größe
+        public string beanFormSize { get; set; }
+
+        [MinLength(1)]
+        [MaxLength(500)]
+        // taste aka. geschmaksprofil
+        public string tasteType { get; set; }
        
+        [MinLength(1)]
+        [MaxLength(500)]
+        // aroma aka. aroma
+        public string aromaType { get; set; }
+
+        [MinLength(1)]
+        [MaxLength(500)]
+        // durchschnittspreis
+        public float avgPrice { get; set; }
+
     }
 }
