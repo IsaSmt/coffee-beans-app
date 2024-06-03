@@ -81,6 +81,29 @@ namespace API.Controllers
             return BadRequest(ModelState); //Model is not valid -> Validation Annotation of Material
         }
 
+        /// <summary>
+        /// Deletes the coffee with a given id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteCoffee(int id)
+        {
+            var coffee = context.Coffees.Where(cf => cf.Id == id).FirstOrDefault();
+            if (coffee == null)
+            {
+                return NotFound();
+            }
+
+            context.Coffees.Remove(coffee);
+            await context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
         // find every coffee from one certain Roastery, Origin or Bean
         [HttpGet("RoasteryOriginBeanQuery")]
         [ProducesResponseType(StatusCodes.Status200OK)]

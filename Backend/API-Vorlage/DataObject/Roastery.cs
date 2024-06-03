@@ -28,7 +28,6 @@ namespace API.DataObject {
         // way of contacting the orastery
         public string Email { get; set; }
         
-        [Required]
         [MinLength(1)]
         [MaxLength(100)]
         // way of contacting the roastery
@@ -42,7 +41,7 @@ namespace API.DataObject {
 
         [Required]
         [MinLength(1)]
-        [MaxLength(100)]
+        [MaxLength(50)]
         // postcode for a certain village/city
         // to include leading 0 as well as alphanummeric characters, postcode will stay as string
         public string Postcode { get; set; }

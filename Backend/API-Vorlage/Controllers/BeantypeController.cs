@@ -21,50 +21,72 @@ namespace API.Controllers
             this.context = context;
         }
 
-    /// <summary>
-    /// Returns all Beantypes
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public ActionResult<Beantype[]> GetAllBeantypes() {
-        return Ok(context.Beantypes.ToArray());
-    }
+        /// <summary>
+        /// Returns all Beantypes
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<Beantype[]> GetAllBeantypes() {
+            return Ok(context.Beantypes.ToArray());
+        }
 
-    /// <summary>
-    /// Returns the Beantype with a given id.
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<Beantype> GetBeantype(int id) {
-        var beantype = context.Beantypes.Where(bt => bt.Id == id).FirstOrDefault();
-        if (beantype == null) return NotFound();
-        return Ok(beantype);
-    }
+        /// <summary>
+        /// Returns the Beantype with a given id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Beantype> GetBeantype(int id) {
+            var beantype = context.Beantypes.Where(bt => bt.Id == id).FirstOrDefault();
+            if (beantype == null) return NotFound();
+            return Ok(beantype);
+        }
 
-    /// <summary>
-    /// Adds a beantype
-    /// </summary>
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<Beantype>> AddBeantype([FromBody] Beantype beantype) {
-        if (ModelState.IsValid) {
+        /// <summary>
+        /// Adds a beantype
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<ActionResult<Beantype>> AddBeantype([FromBody] Beantype beantype) {
+            if (ModelState.IsValid) {
 
-            //test if beantype already exists
-            if (context.Beantypes.Where(bt => bt.Id == beantype.Id).FirstOrDefault() != null)
-                return Conflict(); //beantype with id already exists, we return a conflict
-        
-            context.Beantypes.Add(beantype);
+                //test if beantype already exists
+                if (context.Beantypes.Where(bt => bt.Id == beantype.Id).FirstOrDefault() != null)
+                    return Conflict(); //beantype with id already exists, we return a conflict
+            
+                context.Beantypes.Add(beantype);
+                await context.SaveChangesAsync();
+
+                return Ok(beantype); //we return the beantype
+            }
+            return BadRequest(ModelState); //Model is not valid -> Validation Annotation of beantype
+        }
+
+        /// <summary>
+        /// Deletes the Beantype with a given id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteBeantype(int id)
+        {
+            var beantype = context.Beantypes.Where(bt => bt.Id == id).FirstOrDefault();
+            if (beantype == null)
+            {
+                return NotFound();
+            }
+
+            context.Beantypes.Remove(beantype);
             await context.SaveChangesAsync();
 
-            return Ok(beantype); //we return the beantype
+            return NoContent();
         }
-        return BadRequest(ModelState); //Model is not valid -> Validation Annotation of beantype
-    }
 
     }
 }

@@ -15,23 +15,23 @@ namespace API.DataObject {
         [MinLength(1)]
         [MaxLength(100)]
         // Beantype (arabica, robusta)
-        public string TypeDefintion { get; set; }
+        public string TypeDefinition { get; set; }
 
         [Required]
         [MinLength(1)]
         [MaxLength(500)]
         // general data
-        public string TypeExplaination { get; set; }
+        public string TypeExplanation { get; set; }
 
         [Required]
         [MinLength(1)]
-        [MaxLength(500)]
+        [MaxLength(250)]
         // Koffeingehalt
-        public string cafeineAmount { get; set; }
+        public string caffeineAmount { get; set; }
 
         [Required]
         [MinLength(1)]
-        [MaxLength(500)]
+        [MaxLength(250)]
         // Bohnenform und Größe
         public string beanFormSize { get; set; }
 
