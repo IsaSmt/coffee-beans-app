@@ -42,7 +42,23 @@ const RoasteriesScreen = () => {
     navigation.goBack();
   };
   const handleAddRoastery = () => {
-    navigation.navigate('AddRoastery'); // Ensure this name matches the registered screen name
+    navigation.navigate('AddRoastery');
+  };
+
+  const handleReloadRoasteries = async () => {
+    try {
+      const response = await fetch(`http://${IP}:8080/api/roasteries`, {
+        method: 'GET'
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data: Roastery[] = await response.json();
+      console.log(data);
+      setRoasteries(data);
+    } catch (error) {
+      console.error('Reload error:', error);
+    }
   };
 
   return (
@@ -68,6 +84,9 @@ const RoasteriesScreen = () => {
           </View>
         ))}
       </ScrollView>
+      <TouchableOpacity style={styles.reloadButton} onPress={handleReloadRoasteries}>
+        <Image source={require('../../assets/reload_icon.png')} style={styles.reloadIcon} />
+      </TouchableOpacity>
       <TouchableOpacity style={styles.addButton} onPress={handleAddRoastery}>
         <Image source={require('../../assets/plus_icon.png')} style={styles.plusIcon} />
       </TouchableOpacity>
@@ -109,7 +128,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     paddingLeft: 20,
-    paddingRight: 40, // Padding for the search icon
+    paddingRight: 40,
     backgroundColor: '#F2F2F2',
     borderColor: '#F2F2F2',
     color: '#663300',
@@ -126,8 +145,8 @@ const styles = StyleSheet.create({
   },
   roasteryBox: {
     flexDirection: 'row',
-    paddingVertical: 16, // Adjust vertical padding here
-    paddingHorizontal: 16, // Adjust horizontal padding here
+    paddingVertical: 16,
+    paddingHorizontal: 16,
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
@@ -139,8 +158,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderRadius: 8,
     marginBottom: 12,
-    justifyContent: 'space-between', // Align items horizontally
-    // alignItems: 'center', // Remove this line
+    justifyContent: 'space-between',
   },
   logo: {
     width: 70,
@@ -148,9 +166,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   roasteryInfo: {
-    // marginLeft: 16, // Remove this line
-    flexDirection: 'column', // Add this line
-    flex: 1, // Ensure text takes up available space
+    flexDirection: 'column',
+    flex: 1,
   },
   roasteryName: {
     fontSize: 16,
@@ -171,6 +188,18 @@ const styles = StyleSheet.create({
   plusIcon: {
     width: 30,
     height: 30,
+  },
+  reloadButton: {
+    position: 'absolute',
+    top: 42,
+    right: 60,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+  },
+  reloadIcon: {
+    width: 25,
+    height: 25,
   },
 });
 

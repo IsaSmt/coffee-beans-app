@@ -9,6 +9,7 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = API
 build_property.RootNamespace = API
+<<<<<<< HEAD
 build_property.ProjectDir = C:\Users\test\Desktop\Sommersemester2024\Dünnebeil\digital_entrepreneurship\Backend\API-Vorlage\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
@@ -16,4 +17,11 @@ build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = C:\Users\test\Desktop\Sommersemester2024\Dünnebeil\digital_entrepreneurship\Backend\API-Vorlage
+=======
+build_property.ProjectDir = /Users/julistudy/Documents/Hochschule/Semester 6/Digital Entrepreneurship/Gitlab/Projekt/digital_entrepreneurship/Backend/API-Vorlage/
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = /Users/julistudy/Documents/Hochschule/Semester 6/Digital Entrepreneurship/Gitlab/Projekt/digital_entrepreneurship/Backend/API-Vorlage
+>>>>>>> 384e6d195b1e96a8bd954371484aeae0668aaa54
 build_property._RazorSourceGeneratorDebug = 
