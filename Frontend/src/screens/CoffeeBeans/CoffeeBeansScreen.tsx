@@ -5,8 +5,13 @@ import { IP } from '../../../config';
 
 interface CoffeeBean {
   id: string;
-  typeDefintion: string;
-  typeExplaination: string;
+  typeDefinition: string;
+  typeExplanation: string;
+  caffeineAmount: string;
+  beanFormSize: string;
+  tasteType: string | null;
+  aromaType: string | null;
+  avgPrice: number;
   imageUrl: string | number;
 }
 
@@ -59,14 +64,14 @@ const CoffeeBeansScreen: React.FC = () => {
   };
 
   const filteredCoffeeBeans = coffeeBeans.filter(bean =>
-    bean.typeDefintion.toLowerCase().includes(searchQuery.toLowerCase())
+    bean.typeDefinition.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const renderCoffeeBean = ({ item }: { item: CoffeeBean }) => (
     <TouchableOpacity style={styles.beanCard}>
       <ImageBackground source={require('../../assets/arabica_bean.png')} style={styles.beanImageBackground}>
         <View style={styles.beanContent}>
-          <Text style={styles.beanName}>{item.typeDefintion}</Text>
+          <Text style={styles.beanName}>{item.typeDefinition}</Text>
         </View>
       </ImageBackground>
     </TouchableOpacity>

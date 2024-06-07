@@ -102,22 +102,22 @@ namespace API {
 
             // Example for beantypes
             var listOfBeantypes = new Beantype[]{
-                new(){ TypeDefinition = "Hybrid", TypeExplanation = "An unnatural Beantype for certain purposes.", caffeineAmount = "no clear Amount; Hybrids can be different depending on Use-Case", beanFormSize ="no clear Form; Hybrids can be different depending On useCase"},
-                new(){ TypeDefinition = "Arabica", TypeExplanation = "One of the main species. A picky plant compared to Robusta. Subspecies can be Bourbon, Parainema.", caffeineAmount = "medium", beanFormSize="Larger, oval, with a curved line"},
-                new(){ TypeDefinition = "Robusta", TypeExplanation = "Like Arabica one of the main species. Not so picky when cultivating.", caffeineAmount = "high", beanFormSize="Smaller, round, with a straight line"},
-                new(){ TypeDefinition = "Blend", TypeExplanation = "A combination of several beantypes to create a new flavour.", caffeineAmount = "no clear Amount; depends on used beans", beanFormSize= "no clear Size; depends on used beans"},
+                new(){ TypeDefinition = "Hybrid", TypeExplanation = "An unnatural Beantype for certain purposes.", CaffeineAmount = "no clear Amount; Hybrids can be different depending on Use-Case", BeanFormSize ="no clear Form; Hybrids can be different depending On useCase"},
+                new(){ TypeDefinition = "Arabica", TypeExplanation = "One of the main species. A picky plant compared to Robusta. Subspecies can be Bourbon, Parainema.", CaffeineAmount = "medium", BeanFormSize="Larger, oval, with a curved line"},
+                new(){ TypeDefinition = "Robusta", TypeExplanation = "Like Arabica one of the main species. Not so picky when cultivating.", CaffeineAmount = "high", BeanFormSize="Smaller, round, with a straight line"},
+                new(){ TypeDefinition = "Blend", TypeExplanation = "A combination of several beantypes to create a new flavour.", CaffeineAmount = "no clear Amount; depends on used beans", BeanFormSize= "no clear Size; depends on used beans"},
             };
             context.Beantypes.AddRange(listOfBeantypes);
             context.SaveChanges();
 
             // Example Coffees
             var listOfCoffees = new Coffee[]{
-                new(){ CoffeeName = "Sweet Standard", CoffeeDescription = "Viel Körper und Süße, breiter Sweet Spot und wenig Säure trotz klarer Zitrusnoten.", Origin = 1, Roastery = 1, Beantype = 1, Processing = "washed"},
-                new(){ CoffeeName = "Shyira", CoffeeDescription = "A crisp citrus-driven cup with heavy floral aromatics", Origin = 2, Roastery = 3, Beantype = 2, Processing = "washed"},
-                new(){ CoffeeName = "Erin Moreno", CoffeeDescription = "A floral and bright washed Paraneima", Origin = 3, Roastery = 3, Beantype = 2, Processing = "washed"},
-                new(){ CoffeeName = "Guatemala Espresso", CoffeeDescription = "SSchokoladig mild und harmonisch, für Kenner!", Origin = 4, Roastery = 2, Beantype = 3, Processing = "washed"},
-                new(){ CoffeeName = "Function", CoffeeDescription = "FUNCTION will stand strong in its permanence -- allowing you to know exactly what you will be getting every time.", Origin = 5, Roastery = 4, Beantype = 4, Processing = "mixed"},
-                new(){ CoffeeName = "Ciwidey", CoffeeDescription = "This multi-varietal lot of both Sigararutang and Lini S is one of the cleanest expression of Indonesian coffees we have come across.", Origin = 6, Roastery = 4, Beantype = 1, Processing = "washed"},
+                new Coffee{ CoffeeName = "Sweet Standard", CoffeeDescription = "Viel Körper und Süße, breiter Sweet Spot und wenig Säure trotz klarer Zitrusnoten.", Origin = "Ethiopia", Roastery = "Blue Bottle", Beantype = "Arabica", Processing = "washed"},
+                new Coffee{ CoffeeName = "Shyira", CoffeeDescription = "A crisp citrus-driven cup with heavy floral aromatics", Origin = "Rwanda", Roastery = "Counter Culture", Beantype = "Arabica", Processing = "washed"},
+                new Coffee{ CoffeeName = "Erin Moreno", CoffeeDescription = "A floral and bright washed Paraneima", Origin = "Honduras", Roastery = "Counter Culture", Beantype = "Arabica", Processing = "washed"},
+                new Coffee{ CoffeeName = "Guatemala Espresso", CoffeeDescription = "Schokoladig mild und harmonisch, für Kenner!", Origin = "Guatemala", Roastery = "Stumptown", Beantype = "Robusta", Processing = "washed"},
+                new Coffee{ CoffeeName = "Function", CoffeeDescription = "FUNCTION will stand strong in its permanence -- allowing you to know exactly what you will be getting every time.", Origin = "Colombia", Roastery = "Intelligentsia", Beantype = "Robusta", Processing = "mixed"},
+                new Coffee{ CoffeeName = "Ciwidey", CoffeeDescription = "This multi-varietal lot of both Sigararutang and Lini S is one of the cleanest expression of Indonesian coffees we have come across.", Origin = "Indonesia", Roastery = "Intelligentsia", Beantype = "Arabica", Processing = "washed"},
             };
             context.Coffees.AddRange(listOfCoffees);
             context.SaveChanges();

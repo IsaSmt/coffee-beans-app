@@ -27,6 +27,13 @@
             Adds a beantype
             </summary>
         </member>
+        <member name="M:API.Controllers.BeantypeController.DeleteBeantype(System.Int32)">
+            <summary>
+            Deletes the Beantype with a given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:API.Controllers.CoffeeController">
             <summary>
             This endpoint manages all operations for Coffees.
@@ -49,6 +56,13 @@
             <summary>
             Adds a coffee.
             </summary>
+        </member>
+        <member name="M:API.Controllers.CoffeeController.DeleteCoffee(System.Int32)">
+            <summary>
+            Deletes the coffee with a given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
         </member>
         <member name="T:API.Controllers.CustomerCoffeePivotController">
             <summary>
@@ -165,28 +179,12 @@
             Adds an origin
             </summary>
         </member>
-        <member name="T:API.Controllers.PLZController">
+        <member name="M:API.Controllers.OriginController.DeleteOrigin(System.Int32)">
             <summary>
-            This endpoint manages all operations for Postal codes.
-            </summary>
-        </member>
-        <member name="M:API.Controllers.PLZController.GetAllPLZs">
-            <summary>
-            Returns all postal codes.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:API.Controllers.PLZController.GetPLZ(System.Int32)">
-            <summary>
-            Returns the postalcode with a given id.
+            Deletes the Origin with a given id.
             </summary>
             <param name="id"></param>
             <returns></returns>
-        </member>
-        <member name="M:API.Controllers.PLZController.AddPLZ(API.DataObject.PLZ)">
-            <summary>
-            Adds a postal code.
-            </summary>
         </member>
         <member name="T:API.Controllers.RecipeCoffeePivotController">
             <summary>
@@ -279,6 +277,13 @@
             <summary>
             Adds a Roastery
             </summary>
+        </member>
+        <member name="M:API.Controllers.RoasteryController.DeleteRoastery(System.Int32)">
+            <summary>
+            Deletes the roastery with a given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
         </member>
         <member name="T:API.Store.Context">
             <summary>
