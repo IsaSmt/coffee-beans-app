@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mail;
@@ -24,15 +25,15 @@ namespace API.DataObject {
 
         [Required]
         // connection between coffee and origin
-        public string Origin { get; set; }
+        public int Origin { get; set; }
 
         // connection between coffee and roastery
         [Required]
-        public string Roastery { get; set; }
+        public int Roastery { get; set; }
 
         // connection between coffee and beantype
         [Required]
-        public string Beantype { get; set; }
+        public int Beantype { get; set; }
 
         [Required]
         // da es sich hier um eine nummer handelt kann min max nicht
