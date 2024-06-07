@@ -45,8 +45,9 @@ namespace API.DataObject {
         // Aroma
         public string AromaType { get; set; }
 
-        [MinLength(1)]
-        [MaxLength(500)]
+        // da es sich hier um eine nummer handelt kann min max nicht
+        // genutzt werden. lieber mit dem intervall range arbeiten
+        [Range(0, 1000)]
         // Durchschnittspreis
         public float AvgPrice { get; set; }
 

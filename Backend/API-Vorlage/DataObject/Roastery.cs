@@ -51,7 +51,6 @@ namespace API.DataObject {
         [MaxLength(100)]
         // city, village, ...
         public string Ort { get; set; }
-
-
+        
     }
 }
