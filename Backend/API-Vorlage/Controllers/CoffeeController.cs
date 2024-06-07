@@ -116,7 +116,7 @@ namespace API.Controllers
         [HttpGet("RoasteryOriginBeanQuery")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Coffee[]> Coffees([FromQuery] int? roasteryID = null, int? originID = null, int? beantypeID = null)
+        public ActionResult<Coffee[]> Coffees([FromQuery] string roasteryID = null, string originID = null, string beantypeID = null)
         {
             if (roasteryID == null && originID == null && beantypeID == null)
             {
