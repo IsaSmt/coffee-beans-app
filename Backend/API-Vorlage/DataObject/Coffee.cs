@@ -25,15 +25,15 @@ namespace API.DataObject {
 
         [Required]
         // connection between coffee and origin
-        public int Origin { get; set; }
+        public string Origin { get; set; }
 
         // connection between coffee and roastery
         [Required]
-        public int Roastery { get; set; }
+        public string Roastery { get; set; }
 
         // connection between coffee and beantype
         [Required]
-        public int Beantype { get; set; }
+        public string Beantype { get; set; }
 
         [Required]
         // da es sich hier um eine nummer handelt kann min max nicht
