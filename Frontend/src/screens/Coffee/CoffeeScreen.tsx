@@ -1,24 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { IP } from '../../../config';
 
 interface Coffee {
-  id: string;
-  name: string;
-  address: string;
-  logoUrl: string;
+  id: number;
+  coffeeName: string;
+  coffeeDescription: string;
+  origin: number;
+  roastery: number;
+  beantype: number;
+  roastdate: string | null;
+  processing: string;
 }
-
-const dummyCoffees: Coffee[] = [
-  { id: '1', name: 'Espresso', address: 'Cafe 1', logoUrl: 'https://via.placeholder.com/150' },
-  { id: '2', name: 'Latte', address: 'Cafe 2', logoUrl: 'https://via.placeholder.com/150' },
-  { id: '3', name: 'Cappuccino', address: 'Cafe 3', logoUrl: 'https://via.placeholder.com/150' },
-  { id: '4', name: 'Americano', address: 'Cafe 4', logoUrl: 'https://via.placeholder.com/150' },
-];
 
 const CoffeeScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [coffees, setCoffees] = useState<Coffee[]>([]);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const fetchCoffees = async () => {
+      try {
+        const response = await fetch(`http://${IP}:8080/api/coffees`, {
+          method: 'GET'
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data: Coffee[] = await response.json();
+        setCoffees(data);
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    };
+
+    fetchCoffees();
+  }, []);
 
   const handleBack = () => {
     navigation.goBack();
@@ -28,15 +46,39 @@ const CoffeeScreen: React.FC = () => {
     navigation.navigate('AddCoffee');
   };
 
-  const filteredCoffees = dummyCoffees.filter(coffee =>
-    coffee.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const handleClickOnCoffee = () => {
+    navigation.navigate('CoffeeProfileScreen');
+  };
+
+  const handleClickSearchIcon = () => {
+    console.log("clicked");
+    navigation.navigate('Filter');
+  };
+
+  const handleReloadCoffees = async () => {
+    try {
+      const response = await fetch(`http://${IP}:8080/api/coffees`, {
+        method: 'GET'
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data: Coffee[] = await response.json();
+      setCoffees(data);
+    } catch (error) {
+      console.error('Reload error:', error);
+    }
+  };
+
+  const filteredCoffees = coffees.filter(coffee =>
+    coffee.coffeeName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const renderCoffee = ({ item }: { item: Coffee }) => (
-    <TouchableOpacity style={styles.beanCard}>
-      <Image source={{ uri: item.logoUrl }} style={styles.beanImage} />
-      <Text style={styles.beanName}>{item.name}</Text>
-      <Text style={styles.beanAddress}>{item.address}</Text>
+    <TouchableOpacity style={styles.beanCard} onPress={handleClickOnCoffee}>
+      {/* Hier können Sie das Image und die Details des Kaffees rendern */}
+      <Image source={require('../../assets/jacobs_coffee.png')} style={styles.beanImage} />
+      <Text style={styles.beanName}>{item.coffeeName}</Text>
     </TouchableOpacity>
   );
 
@@ -58,19 +100,23 @@ const CoffeeScreen: React.FC = () => {
       <FlatList
         data={filteredCoffees}
         renderItem={renderCoffee}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         numColumns={2}
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.coffeeBeansContainer}
       />
+      <TouchableOpacity style={[styles.reloadButton, { right: 110 }]} onPress={handleReloadCoffees}>
+        <Image source={require('../../assets/reload_icon.png')} style={styles.reloadIcon} />
+      </TouchableOpacity>
+      <TouchableOpacity style={[styles.addButton, { right: 70 }]} onPress={handleClickSearchIcon}>
+        <Image source={require('../../assets/filter_icon.png')} style={styles.filterIcon} />
+      </TouchableOpacity>
       <TouchableOpacity style={styles.addButton} onPress={handleAddCoffee}>
         <Image source={require('../../assets/plus_icon.png')} style={styles.plusIcon} />
       </TouchableOpacity>
     </View>
   );
 };
-
-// STYLES
 
 const styles = StyleSheet.create({
   container: {
@@ -110,6 +156,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2F2F2',
     borderColor: '#F2F2F2',
     color: '#663300',
+  },
+  filterIcon: {
+    top: 4,
+    width: 24,
+    height: 24,
   },
   searchIcon: {
     position: 'absolute',
@@ -163,8 +214,20 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   plusIcon: {
-    width: 24,
-    height: 24,
+    width: 30,
+    height: 30,
+  },
+  reloadButton: {
+    position: 'absolute',
+    top: 42,
+    right: 150,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+  },
+  reloadIcon: {
+    width: 25,
+    height: 25,
   },
 });
 

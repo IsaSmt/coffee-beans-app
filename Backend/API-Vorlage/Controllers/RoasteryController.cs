@@ -12,7 +12,7 @@ namespace API.Controllers
     /// <summary>
     /// This endpoint manages all operations for Roasteries
     /// </summary>
-    [Route("api/roastieres")]
+    [Route("api/roasteries")]
     [ApiController]
     public class RoasteryController : ControllerBase
     {
@@ -54,11 +54,6 @@ namespace API.Controllers
         public async Task<ActionResult<Roastery>> AddRoastery([FromBody] Roastery roastery) {
             if (ModelState.IsValid) {
 
-                // checks if the given postalcode ID exists inside the database
-                if (context.PLZs.Where(p => p.Id == roastery.PLZ).Any() is false){
-                return NotFound("PLZ nicht gefunden.");
-                }
-
                 //test if Roastery already exists
                 if (context.Roasteries.Where(ro => ro.Id == roastery.Id).FirstOrDefault() != null)
                     return Conflict(); //roastery with id already exists, we return a conflict
@@ -70,24 +65,28 @@ namespace API.Controllers
             }
             return BadRequest(ModelState); //Model is not valid -> Validation Annotation of roastery
         }
-    
-        // find every roastery with the same postal code
-        [HttpGet("PLZQuery")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+
+
+        /// <summary>
+        /// Deletes the roastery with a given id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Roastery[]> Roasteries([FromQuery] int? PLZID = null){
-            if (PLZID == null) return BadRequest("Postleitzahl muss angegeben werden.");
+        public async Task<IActionResult> DeleteRoastery(int id)
+        {
+            var roastery = context.Roasteries.Where(r => r.Id == id).FirstOrDefault();
+            if (roastery == null)
+            {
+                return NotFound();
+            }
 
-                if (PLZID != null && context.PLZs.Where(p => p.Id == PLZID).Any() is false){
-                    return NotFound("Postleitzahl nicht gefunden.");
-                }
+            context.Roasteries.Remove(roastery);
+            await context.SaveChangesAsync();
 
-            var r = context.Roasteries.Where(ro =>
-                (PLZID == null || ro.PLZ == PLZID) 
-            ).ToArray();
-
-            return Ok(r);
+            return NoContent();
         }
-
     }
 }

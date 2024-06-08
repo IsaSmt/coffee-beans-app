@@ -49,7 +49,8 @@ namespace API {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //Deactivated HTTPS Redirection because there is not port configured.
+           //app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -67,16 +68,6 @@ namespace API {
                 context.Keywords.Add(new DataObject.Keyword() { DescriptionKey = "Zitrus" });
                 context.Keywords.Add(new DataObject.Keyword() { DescriptionKey = "Beere" });
                 context.SaveChanges();
-            
-            // Example postal Codes
-            var listOfPLZs = new PLZ[]{
-                new(){ Postcode = "85256", Ort = "Jedenhofen"},
-                new(){ Postcode = "80331", Ort = "München"},
-                new(){ Postcode = "10003", Ort = "New York"},
-                new(){ Postcode = "28206", Ort = "Charlotte"},
-            };
-            context.PLZs.AddRange(listOfPLZs);
-            context.SaveChanges();
 
             // Example Customers
             var listOfCustomers = new Customer[]{
@@ -89,22 +80,44 @@ namespace API {
             
             // Example Roasteries
             var listOfRoasteries = new Roastery[]{
-                new(){ RoasteryName = "Sweet Spot Kaffee", RoasteryDescription = "Speciality Coffee prepared in munich", PLZ = 1, Street = "Heiliggeiststr. 1"},
-                new(){ RoasteryName = "Finca Don Leo", RoasteryDescription = "A family bringing you a new flavour from home", PLZ = 2, Street = "Eichenstr. 6"},
-                new(){ RoasteryName = "La Cabra", RoasteryDescription = "No matter where you are, the coffee still tastes the same", PLZ = 3, Street = "152 2nd Ave"},
-                new(){ RoasteryName = "HEX", RoasteryDescription = "Good Coffee and Wine, we will deliver it with pleasure", PLZ = 4, Street = "201 Camp Rd."},
+                new(){ RoasteryName = "Sweet Spot Kaffee", RoasteryDescription = "Speciality Coffee prepared in munich", Email = "hallo@sweetspotkaffee.de",Phone = "+49 89 45202106",Street = "Heiliggeiststr. 1", Postcode = "80331",Ort = "München"},
+                new(){ RoasteryName = "Finca Don Leo", RoasteryDescription = "A family bringing you a new flavour from home", Email = "info@fincadonleo.de",Phone = "+49 178 451 82 22",Street = "Eichenstr. 6", Postcode = "85256",Ort = "Jedenhofen"},
+                new(){ RoasteryName = "La Cabra", RoasteryDescription = "No matter where you are, the coffee still tastes the same", Email = "bakery@lacabrany.com",Street = "152 2nd Ave", Postcode = "10003",Ort ="New York"},
+                new(){ RoasteryName = "HEX", RoasteryDescription = "Good Coffee and Wine, we will deliver it with pleasure", Email = "info@hex.coffee",Phone = "+1 7048991694",Street = "201 Camp Rd.", Postcode = "28206",Ort ="Charlotte"},
             };
             context.Roasteries.AddRange(listOfRoasteries);
             context.SaveChanges();
 
+            // Example origins
+            var listOfOrigins = new Origin[]{
+                new(){ OriginCountry = "Mexico"},
+                new(){ OriginCountry = "Rwanda"},
+                new(){ OriginCountry = "Honduras"},
+                new(){ OriginCountry = "Guatemala"},
+                new(){ OriginCountry = "Brazil"},
+                new(){ OriginCountry = "Indonesia"},
+            };
+            context.Origins.AddRange(listOfOrigins);
+            context.SaveChanges();
+
+            // Example for beantypes
+            var listOfBeantypes = new Beantype[]{
+                new(){ TypeDefinition = "Hybrid", TypeExplanation = "An unnatural Beantype for certain purposes.", caffeineAmount = "no clear Amount; Hybrids can be different depending on Use-Case", beanFormSize ="no clear Form; Hybrids can be different depending On useCase"},
+                new(){ TypeDefinition = "Arabica", TypeExplanation = "One of the main species. A picky plant compared to Robusta. Subspecies can be Bourbon, Parainema.", caffeineAmount = "medium", beanFormSize="Larger, oval, with a curved line"},
+                new(){ TypeDefinition = "Robusta", TypeExplanation = "Like Arabica one of the main species. Not so picky when cultivating.", caffeineAmount = "high", beanFormSize="Smaller, round, with a straight line"},
+                new(){ TypeDefinition = "Blend", TypeExplanation = "A combination of several beantypes to create a new flavour.", caffeineAmount = "no clear Amount; depends on used beans", beanFormSize= "no clear Size; depends on used beans"},
+            };
+            context.Beantypes.AddRange(listOfBeantypes);
+            context.SaveChanges();
+
             // Example Coffees
             var listOfCoffees = new Coffee[]{
-                new(){ CoffeeName = "Sweet Standard", CoffeeDescription = "Viel Körper und Süße, breiter Sweet Spot und wenig Säure trotz klarer Zitrusnoten.", Origin = "Mexico", Roastery = 1, Processing = "washed"},
-                new(){ CoffeeName = "Shyira", CoffeeDescription = "A crisp citrus-driven cup with heavy floral aromatics", Origin = "Rwanda", Roastery = 3, Processing = "washed"},
-                new(){ CoffeeName = "Erin Moreno", CoffeeDescription = "A floral and bright washed Paraneima", Origin = "Honduras", Roastery = 3, Processing = "washed"},
-                new(){ CoffeeName = "Guatemala Espresso", CoffeeDescription = "SSchokoladig mild und harmonisch, für Kenner!", Origin = "Guatemala", Roastery = 2, Processing = "washed"},
-                new(){ CoffeeName = "Function", CoffeeDescription = "FUNCTION will stand strong in its permanence -- allowing you to know exactly what you will be getting every time.", Origin = "Brazil", Roastery = 4, Processing = "mixed"},
-                new(){ CoffeeName = "Ciwidey", CoffeeDescription = "This multi-varietal lot of both Sigararutang and Lini S is one of the cleanest expression of Indonesian coffees we have come across.", Origin = "Indonesia", Roastery = 4, Processing = "washed"},
+                new(){ CoffeeName = "Sweet Standard", CoffeeDescription = "Viel Körper und Süße, breiter Sweet Spot und wenig Säure trotz klarer Zitrusnoten.", Origin = 1, Roastery = 1, Beantype = 1, Processing = "washed"},
+                new(){ CoffeeName = "Shyira", CoffeeDescription = "A crisp citrus-driven cup with heavy floral aromatics", Origin = 2, Roastery = 3, Beantype = 2, Processing = "washed"},
+                new(){ CoffeeName = "Erin Moreno", CoffeeDescription = "A floral and bright washed Paraneima", Origin = 3, Roastery = 3, Beantype = 2, Processing = "washed"},
+                new(){ CoffeeName = "Guatemala Espresso", CoffeeDescription = "SSchokoladig mild und harmonisch, für Kenner!", Origin = 4, Roastery = 2, Beantype = 3, Processing = "washed"},
+                new(){ CoffeeName = "Function", CoffeeDescription = "FUNCTION will stand strong in its permanence -- allowing you to know exactly what you will be getting every time.", Origin = 5, Roastery = 4, Beantype = 4, Processing = "mixed"},
+                new(){ CoffeeName = "Ciwidey", CoffeeDescription = "This multi-varietal lot of both Sigararutang and Lini S is one of the cleanest expression of Indonesian coffees we have come across.", Origin = 6, Roastery = 4, Beantype = 1, Processing = "washed"},
             };
             context.Coffees.AddRange(listOfCoffees);
             context.SaveChanges();

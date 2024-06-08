@@ -1,5 +1,14 @@
 # API - Nutzung
 
+- open new terminal
+
+- cd Backend
+
+- cd API-Vorlage
+
+- dotnet run
+
+
 ## Aufruf
 
 Im Stammordner muss als erstes über das Terminal der
@@ -8,7 +17,7 @@ Sollte ein "trusted certificate" fehlen, bitte auf die
 Ausgaben achten.
 
 Am simpelsten ist der Aufruf über Swagger:
-    https://localhost:5001/swagger
+    http://localhost:8080/swagger
 
 ## Aufbau
 
@@ -21,6 +30,8 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
 (6) Kunde anlegen
 (7) Bewertung anlegen
 (8) Koppeltabellen
+(9) Herkunft anlegen
+(1) Bohnentyp anlegen
 
 ### (1) Keyword anlegen
 
@@ -218,3 +229,16 @@ Diese API umfasst die folgenden vier Teilprozesse aus den SAP Arbeitsaufträgen:
         Bsp.
             Man gibt nur die ID des Kunden ein, um dessen fünf Kaffeewünsche auf der Merkliste zu sehen
             -> Ausgabe: alle fünf Kaffees
+
+### (9) Herkunftsland anlegen
+
+    Das Herkunftsland erstellt automatisch eine eigene ID.
+    Was benötigt wird, ist das Land
+    (z.B. Brazil, Mexico, ...).
+
+### (10) Bohnentyp anlegen
+
+    Der Bohnentyp erstellt automatisch eine eigene ID.
+    Was benötigt wird, ist der Fachbegriff
+    (z.B. Araibika, Robusta, ...), sowie eine 
+    kurze Beschreibung

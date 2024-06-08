@@ -1,19 +1,64 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { IP } from '../../../config';
 
-const roasteries = [
-  { id: '1', name: 'The Barn', address: 'Alte Potsdamer Str. 5\n10785 Berlin', logo: require('../../assets/blend_roastery_icon.png') },
-  { id: '2', name: 'Five Elephant', address: 'Schwedter Str. 11\n10119 Berlin', logo: require('../../assets/five_elephant_icon.png') },
-  { id: '3', name: 'JB Kaffee', address: 'Mörtlstrasse 5A\n85254 München', logo: require('../../assets/jb_coffee_icon.png') },
-  { id: '4', name: 'The Barn', address: 'Alte Potsdamer Str. 5\n10785 Berlin', logo: require('../../assets/the_barn_icon.png') },
-];
+interface Roastery {
+  id: string;
+  roasteryName: string;
+  roasteryDescription: string;
+  plz: number;
+  email: string;
+  phone: string;
+  street: string;
+  logoUrl: string;
+}
 
 const RoasteriesScreen = () => {
+  const [roasteries, setRoasteries] = useState<Roastery[]>([]);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const fetchRoasteries = async () => {
+      try {
+        const response = await fetch(`http://${IP}:8080/api/roasteries`, {
+          method: 'GET'
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data: Roastery[] = await response.json();
+        console.log(data);
+        setRoasteries(data);
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    };
+
+    fetchRoasteries();
+  }, []);
 
   const handleBack = () => {
     navigation.goBack();
+  };
+  const handleAddRoastery = () => {
+    navigation.navigate('AddRoastery');
+  };
+
+  const handleReloadRoasteries = async () => {
+    try {
+      const response = await fetch(`http://${IP}:8080/api/roasteries`, {
+        method: 'GET'
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data: Roastery[] = await response.json();
+      console.log(data);
+      setRoasteries(data);
+    } catch (error) {
+      console.error('Reload error:', error);
+    }
   };
 
   return (
@@ -32,13 +77,19 @@ const RoasteriesScreen = () => {
         {roasteries.map((roastery) => (
           <View key={roastery.id} style={styles.roasteryBox}>
             <View style={styles.roasteryInfo}>
-              <Text style={styles.roasteryName}>{roastery.name}</Text>
-              <Text style={styles.roasteryAddress}>{roastery.address}</Text>
+              <Text style={styles.roasteryName}>{roastery.roasteryName}</Text>
+              <Text style={styles.roasteryAddress}>{roastery.street}</Text>
             </View>
-            <Image source={roastery.logo} style={styles.logo} />
+            <Image source={require('../../assets/blend_roastery_icon.png')} style={styles.logo} />
           </View>
         ))}
       </ScrollView>
+      <TouchableOpacity style={styles.reloadButton} onPress={handleReloadRoasteries}>
+        <Image source={require('../../assets/reload_icon.png')} style={styles.reloadIcon} />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.addButton} onPress={handleAddRoastery}>
+        <Image source={require('../../assets/plus_icon.png')} style={styles.plusIcon} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -77,7 +128,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     paddingLeft: 20,
-    paddingRight: 40, // Padding for the search icon
+    paddingRight: 40,
     backgroundColor: '#F2F2F2',
     borderColor: '#F2F2F2',
     color: '#663300',
@@ -94,8 +145,8 @@ const styles = StyleSheet.create({
   },
   roasteryBox: {
     flexDirection: 'row',
-    paddingVertical: 16, // Adjust vertical padding here
-    paddingHorizontal: 16, // Adjust horizontal padding here
+    paddingVertical: 16,
+    paddingHorizontal: 16,
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
@@ -107,8 +158,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderRadius: 8,
     marginBottom: 12,
-    justifyContent: 'space-between', // Align items horizontally
-    // alignItems: 'center', // Remove this line
+    justifyContent: 'space-between',
   },
   logo: {
     width: 70,
@@ -116,9 +166,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   roasteryInfo: {
-    // marginLeft: 16, // Remove this line
-    flexDirection: 'column', // Add this line
-    flex: 1, // Ensure text takes up available space
+    flexDirection: 'column',
+    flex: 1,
   },
   roasteryName: {
     fontSize: 16,
@@ -127,6 +176,30 @@ const styles = StyleSheet.create({
   roasteryAddress: {
     fontSize: 14,
     color: '#777',
+  },
+  addButton: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+  },
+  plusIcon: {
+    width: 30,
+    height: 30,
+  },
+  reloadButton: {
+    position: 'absolute',
+    top: 42,
+    right: 60,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+  },
+  reloadIcon: {
+    width: 25,
+    height: 25,
   },
 });
 

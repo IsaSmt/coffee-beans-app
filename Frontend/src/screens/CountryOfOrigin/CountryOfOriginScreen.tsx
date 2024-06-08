@@ -1,39 +1,75 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { IP } from '../../../config';
 
 interface CountryOfOrigin {
   id: string;
-  name: string;
-  address: string;
-  logoUrl: string;
+  originCountry: string;
 }
 
-const dummyCountriesOfOrigin: CountryOfOrigin[] = [
-  { id: '1', name: 'Brazil', address: 'Sao Paulo', logoUrl: 'https://via.placeholder.com/150' },
-  { id: '2', name: 'Colombia', address: 'Bogota', logoUrl: 'https://via.placeholder.com/150' },
-  { id: '3', name: 'Ethiopia', address: 'Addis Ababa', logoUrl: 'https://via.placeholder.com/150' },
-  { id: '4', name: 'Vietnam', address: 'Hanoi', logoUrl: 'https://via.placeholder.com/150' },
-];
-
 const CountryOfOriginScreen: React.FC = () => {
+  const [countries, setCountries] = useState<CountryOfOrigin[]>([]);
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState<string>('');
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch(`http://${IP}:8080/api/origins`, {
+          method: 'GET'
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data: CountryOfOrigin[] = await response.json();
+        console.log(data);
+        setCountries(data);
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
 
   const handleBack = () => {
     navigation.goBack();
   };
 
-  const filteredCountries = dummyCountriesOfOrigin.filter(country =>
-    country.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const handleSelectCountry = (countryName: string) => {
+   
+  };
+
+  const filteredCountries = countries.filter(country =>
+    country.originCountry.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const renderCountry = ({ item }: { item: CountryOfOrigin }) => (
-    <TouchableOpacity style={styles.card}>
-      <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.address}>{item.address}</Text>
+    <TouchableOpacity style={styles.card} onPress={() => handleSelectCountry(item.originCountry)}>
+      <Text style={styles.name}>{item.originCountry}</Text>
     </TouchableOpacity>
   );
+
+  const handleAddCountry = () => {
+    navigation.navigate('AddCountry'); // Ensure this name matches the registered screen name
+  };
+
+  const handleReloadCountries = async () => {
+    try {
+      const response = await fetch(`http://${IP}:8080/api/origins`, {
+        method: 'GET'
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data: CountryOfOrigin[] = await response.json();
+      console.log(data);
+      setCountries(data);
+    } catch (error) {
+      console.error('Reload error:', error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -58,6 +94,12 @@ const CountryOfOriginScreen: React.FC = () => {
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.countriesContainer}
       />
+      <TouchableOpacity style={styles.reloadButton} onPress={handleReloadCountries}>
+        <Image source={require('../../assets/reload_icon.png')} style={styles.reloadIcon} />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.addButton} onPress={handleAddCountry}>
+        <Image source={require('../../assets/plus_icon.png')} style={styles.plusIcon} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -148,6 +190,30 @@ const styles = StyleSheet.create({
   address: {
     fontSize: 12,
     color: '#777',
+  },
+  addButton: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+  },
+  plusIcon: {
+    width: 30,
+    height: 30,
+  },
+  reloadButton: {
+    position: 'absolute',
+    top: 42,
+    right: 60,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+  },
+  reloadIcon: {
+    width: 25,
+    height: 25,
   },
 });
 
