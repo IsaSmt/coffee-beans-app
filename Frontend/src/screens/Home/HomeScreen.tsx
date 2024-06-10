@@ -8,10 +8,11 @@ interface Roastery {
   id: string;
   roasteryName: string;
   roasteryDescription: string;
-  plz: string;
   email: string;
   phone: string;
   street: string;
+  postcode: string;
+  ort: string;
 }
 
 interface Coffee {
@@ -21,6 +22,8 @@ interface Coffee {
   origin: number;
   roastery: number;
   beantype: number;
+  coffeePrice: number;
+  coffeeWeight: number;
   roastdate: string | null;
   processing: string;
 }
