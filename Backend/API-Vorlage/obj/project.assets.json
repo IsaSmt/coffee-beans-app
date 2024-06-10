@@ -9625,16 +9625,11 @@
     ]
   },
   "packageFolders": {
-<<<<<<< HEAD
     "C:\\Users\\test\\.nuget\\packages\\": {}
-=======
-    "/Users/julistudy/.nuget/packages/": {}
->>>>>>> 384e6d195b1e96a8bd954371484aeae0668aaa54
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\test\\Desktop\\Sommersemester2024\\Dünnebeil\\digital_entrepreneurship\\Backend\\API-Vorlage\\API.csproj",
       "projectName": "API",
       "projectPath": "C:\\Users\\test\\Desktop\\Sommersemester2024\\Dünnebeil\\digital_entrepreneurship\\Backend\\API-Vorlage\\API.csproj",
@@ -9644,26 +9639,12 @@
       "configFilePaths": [
         "C:\\Users\\test\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-=======
-      "projectUniqueName": "/Users/julistudy/Documents/Hochschule/Semester 6/Digital Entrepreneurship/Gitlab/Projekt/digital_entrepreneurship/Backend/API-Vorlage/API.csproj",
-      "projectName": "API",
-      "projectPath": "/Users/julistudy/Documents/Hochschule/Semester 6/Digital Entrepreneurship/Gitlab/Projekt/digital_entrepreneurship/Backend/API-Vorlage/API.csproj",
-      "packagesPath": "/Users/julistudy/.nuget/packages/",
-      "outputPath": "/Users/julistudy/Documents/Hochschule/Semester 6/Digital Entrepreneurship/Gitlab/Projekt/digital_entrepreneurship/Backend/API-Vorlage/obj/",
-      "projectStyle": "PackageReference",
-      "configFilePaths": [
-        "/Users/julistudy/.nuget/NuGet/NuGet.Config"
->>>>>>> 384e6d195b1e96a8bd954371484aeae0668aaa54
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-<<<<<<< HEAD
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-=======
-        "/usr/local/share/dotnet/sdk/7.0.306/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
->>>>>>> 384e6d195b1e96a8bd954371484aeae0668aaa54
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -9737,11 +9718,7 @@
             "privateAssets": "all"
           }
         },
-<<<<<<< HEAD
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
-=======
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.306/RuntimeIdentifierGraph.json"
->>>>>>> 384e6d195b1e96a8bd954371484aeae0668aaa54
       }
     }
   }
