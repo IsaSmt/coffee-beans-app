@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mail;
@@ -35,14 +36,16 @@ namespace API.DataObject {
         public string Beantype { get; set; }
 
         [Required]
-        [MinLength(1)]
-        [MaxLength(100)]
+        // da es sich hier um eine nummer handelt kann min max nicht
+        // genutzt werden. lieber mit dem intervall range arbeiten
+        [Range(0, 1000)]
         // Preis
         public int CoffeePrice { get; set; }
 
         [Required]
-        [MinLength(1)]
-        [MaxLength(100)]
+        // da es sich hier um eine nummer handelt kann min max nicht
+        // genutzt werden. lieber mit dem intervall range arbeiten
+        [Range(0, 1000)]
         // gewicht des kaffees
         public int CoffeeWeight { get; set; }
 
