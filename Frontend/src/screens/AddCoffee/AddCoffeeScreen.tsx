@@ -4,25 +4,27 @@ import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { IP } from '../../../config';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const AddCoffeeScreen = () => {
   const [name, setName] = useState('');
-  const [beanType, setBeanType] = useState('');
+  const [beantype, setBeanType] = useState('');
   const [manufacturingPlace, setManufacturingPlace] = useState('');
   const [description, setDescription] = useState('');
-  const [roastDegree, setRoastDegree] = useState('');
-  const [roastDate, setRoastDate] = useState(new Date());
+  const [roastdegree, setRoastDegree] = useState('');
+  const [roastdate, setRoastDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [price, setPrice] = useState('');
-  const [weight, setWeight] = useState('');
+  const [price, setPrice] = useState(0);
+  const [weight, setWeight] = useState(0);
   const [image, setImage] = useState(null);
-  const [processing, setProcessing] = useState(null);
-  const [origin, setOrigin] = useState(null);
-  const [roastery, setRoastery] = useState(null);
+  const [processing, setProcessing] = useState('');
+  const [origin, setOrigin] = useState('');
+  const [roastery, setRoastery] = useState('');
   const [beanTypeModalVisible, setBeanTypeModalVisible] = useState(false);
   const [countryModalVisible, setCountryModalVisible] = useState(false);
   const [roastDegreeModalVisible, setRoastDegreeModalVisible] = useState(false);
   const navigation = useNavigation();
+
 
   useFocusEffect(
     useCallback(() => {
@@ -32,8 +34,8 @@ const AddCoffeeScreen = () => {
       setDescription('');
       setRoastDegree('');
       setRoastDate(new Date());
-      setPrice('');
-      setWeight('');
+      setPrice(0);
+      setWeight(0);
       setImage(null);
     }, [])
   );
@@ -65,12 +67,12 @@ const AddCoffeeScreen = () => {
         body: JSON.stringify({
           coffeeName: name,
           coffeeDescription: description,
-          origin: origin,
+          origin: manufacturingPlace,
           roastery: roastery,
-          beanType: beanType,
-          coffeePrice: parseFloat(price),
-          coffeeWeight: parseFloat(weight),
-          roastDate: roastDate,
+          beantype: beantype,
+          coffeePrice: price,
+          coffeeWeight: weight,
+          roastdate: roastdate.toISOString(),
           processing: processing
         }),
       });
@@ -78,7 +80,7 @@ const AddCoffeeScreen = () => {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      console.log(data); // You can do something with the response data if needed
+      console.log(data);
       navigation.goBack();
     } catch (error) {
       console.error('Fetch error:', error);
@@ -147,7 +149,7 @@ const AddCoffeeScreen = () => {
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Bohnenart</Text>
             <TouchableOpacity style={styles.input} onPress={() => setBeanTypeModalVisible(true)}>
-              <Text style={beanType ? styles.selectedText : styles.placeholderText}>{beanType || 'Bitte auswählen'}</Text>
+              <Text style={beantype ? styles.selectedText : styles.placeholderText}>{beantype || 'Bitte auswählen'}</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.inputGroup}>
@@ -169,19 +171,19 @@ const AddCoffeeScreen = () => {
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Röstgrad</Text>
             <TouchableOpacity style={styles.input} onPress={() => setRoastDegreeModalVisible(true)}>
-              <Text style={roastDegree ? styles.selectedText : styles.placeholderText}>{roastDegree || 'Bitte auswählen'}</Text>
+              <Text style={roastdegree ? styles.selectedText : styles.placeholderText}>{roastdegree || 'Bitte auswählen'}</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Röstdatum</Text>
             <TouchableOpacity onPress={showDatepicker} style={styles.dateInput}>
-              <Text>{formatDate(roastDate)}</Text>
+              <Text>{formatDate(roastdate)}</Text>
               <Ionicons name="calendar" size={20} color="black" />
            
               </TouchableOpacity>
         {showDatePicker && (
           <DateTimePicker
-            value={roastDate}
+            value={roastdate}
             mode="date"
             display="default"
             onChange={onChange}
@@ -216,6 +218,28 @@ const AddCoffeeScreen = () => {
           </View>
         </View>
       </View>
+      <View>
+      <View style={styles.inputGroup}>
+            <Text style={styles.label}>Rösterei</Text>
+            <TextInput
+              style={[styles.input, { height: 80 }]}
+              placeholder="..."
+              value={roastery}
+              onChangeText={setRoastery}
+              multiline
+            />
+        </View>
+        <View style={styles.inputGroup}>
+            <Text style={styles.label}>Processing</Text>
+            <TextInput
+              style={[styles.input, { height: 80 }]}
+              placeholder="..."
+              value={processing}
+              onChangeText={setProcessing}
+              multiline
+            />
+          </View>
+    </View>
     </ScrollView>
       <TouchableOpacity style={styles.button} onPress={handleSave}>
         <Text style={styles.buttonText}>SPEICHERN</Text>

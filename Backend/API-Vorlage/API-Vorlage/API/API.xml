@@ -54,7 +54,7 @@
         </member>
         <member name="M:API.Controllers.CoffeeController.AddCoffee(API.DataObject.Coffee)">
             <summary>
-            Adds a coffee.
+            Adds a coffee
             </summary>
         </member>
         <member name="M:API.Controllers.CoffeeController.DeleteCoffee(System.Int32)">
