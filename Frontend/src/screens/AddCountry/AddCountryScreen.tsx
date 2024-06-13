@@ -97,15 +97,6 @@ const AddCountryScreen = () => {
               onChangeText={setName}
             />
           </View>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Stadt</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Stadt"
-              value={city}
-              onChangeText={setCity}
-            />
-          </View>
         </ScrollView>
         <TouchableOpacity style={styles.button} onPress={handleSave}>
           <Text style={styles.buttonText}>SPEICHERN</Text>
