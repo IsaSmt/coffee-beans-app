@@ -60,10 +60,11 @@ const AddRoasteryScreen = () => {
         body: JSON.stringify({
           roasteryName: name,
           roasteryDescription: description,
-          plz: parseInt(plz),
           email: email,
           phone: contactNumber,
           street: street,
+          postcode: plz,
+          ort: stadt
         }),
       });
       if (!response.ok) {

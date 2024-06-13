@@ -17,7 +17,8 @@ namespace API.Controllers
     public class CoffeeController : ControllerBase
     {
         private Context context;
-        public CoffeeController (Context context) {
+        public CoffeeController(Context context)
+        {
             this.context = context;
         }
 
@@ -27,7 +28,8 @@ namespace API.Controllers
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<Coffee[]> GetAllMaterials() {
+        public ActionResult<Coffee[]> GetAllMaterials()
+        {
             return Ok(context.Coffees.ToArray());
         }
 
@@ -39,8 +41,9 @@ namespace API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Coffee> GetMaterial(int id) {
-            var coffee = context.Coffees.Where(cf => cf.Id == id).FirstOrDefault();
+        public ActionResult<Coffee> GetMaterial(int id)
+        {
+            var coffee = context.Coffees.FirstOrDefault(cf => cf.Id == id);
             if (coffee == null) return NotFound();
             return Ok(coffee);
         }
@@ -51,34 +54,39 @@ namespace API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<ActionResult<Coffee>> AddCoffee([FromBody] Coffee coffee) {
-            if (ModelState.IsValid) {
-                
+        public async Task<ActionResult<Coffee>> AddCoffee([FromBody] Coffee coffee)
+        {
+            if (ModelState.IsValid)
+            {
+
                 // checks if the given Roastery ID exists inside the database
-                if (context.Roasteries.Where(ro => ro.Id == coffee.Roastery).Any() is false){
+                if (!context.Roasteries.Any(ro => ro.Id.ToString() == coffee.Roastery))
+                {
                     return NotFound("Rösterei nicht gefunden.");
                 }
 
                 // checks if the given origin ID exists inside the database
-                if (context.Origins.Where(o => o.Id == coffee.Origin).Any() is false){
-                return NotFound("Herkunftsland nicht gefunden.");
+                if (!context.Origins.Any(o => o.Id.ToString() == coffee.Origin))
+                {
+                    return NotFound("Herkunftsland nicht gefunden.");
                 }
 
                 // checks if the given beantype ID exists inside the database
-                if (context.Beantypes.Where(bt => bt.Id == coffee.Beantype).Any() is false){
-                return NotFound("Bonentyp nicht gefunden.");
+                if (!context.Beantypes.Any(bt => bt.Id.ToString() == coffee.Beantype))
+                {
+                    return NotFound("Bohnentyp nicht gefunden.");
                 }
 
-                //test if coffee already exists
-                if (context.Coffees.Where(cf => cf.Id == coffee.Id).FirstOrDefault() != null)
-                    return Conflict(); //coffee with id already exists, we return a conflict
+                // test if coffee already exists
+                if (context.Coffees.Any(cf => cf.Id == coffee.Id))
+                    return Conflict(); // coffee with id already exists, we return a conflict
 
                 context.Coffees.Add(coffee);
                 await context.SaveChangesAsync();
 
-                return Ok(coffee); //we return the coffee
+                return Ok(coffee); // we return the coffee
             }
-            return BadRequest(ModelState); //Model is not valid -> Validation Annotation of Material
+            return BadRequest(ModelState); // Model is not valid -> Validation Annotation of Material
         }
 
         /// <summary>
@@ -91,7 +99,7 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCoffee(int id)
         {
-            var coffee = context.Coffees.Where(cf => cf.Id == id).FirstOrDefault();
+            var coffee = context.Coffees.FirstOrDefault(cf => cf.Id == id);
             if (coffee == null)
             {
                 return NotFound();
@@ -108,8 +116,9 @@ namespace API.Controllers
         [HttpGet("RoasteryOriginBeanQuery")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Coffee[]> Coffees([FromQuery] int? roasteryID = null, int? originID = null, int? beantypeID = null){
-            if (roasteryID == null && originID == null && beantypeID == null) 
+        public ActionResult<Coffee[]> Coffees([FromQuery] string roasteryID = null, string originID = null, string beantypeID = null)
+        {
+            if (roasteryID == null && originID == null && beantypeID == null)
             {
                 // no id given
                 return BadRequest("Rösterei, Herkunftsland oder Bohnentyp müssen angegeben werden.");
@@ -117,12 +126,13 @@ namespace API.Controllers
             else if (roasteryID != null && originID == null && beantypeID == null)
             {
                 // only roasteryID given
-                if (roasteryID != null && context.Roasteries.Where(ro => ro.Id == roasteryID).Any() is false){
+                if (roasteryID != null && !context.Roasteries.Any(ro => ro.Id.ToString() == roasteryID.ToString()))
+                {
                     return NotFound("Rösterei nicht gefunden.");
                 }
 
                 var r = context.Coffees.Where(cf =>
-                    (roasteryID == null || cf.Roastery == roasteryID) 
+                    roasteryID == null || cf.Roastery == roasteryID.ToString()
                 ).ToArray();
 
                 return Ok(r);
@@ -130,25 +140,27 @@ namespace API.Controllers
             else if (roasteryID == null && originID != null && beantypeID == null)
             {
                 // only originID given
-                if (originID != null && context.Origins.Where(o => o.Id == originID).Any() is false){
+                if (originID != null && !context.Origins.Any(o => o.Id.ToString() == originID.ToString()))
+                {
                     return NotFound("Herkunftsland nicht gefunden.");
                 }
 
                 var r = context.Coffees.Where(cf =>
-                    (originID == null || cf.Origin == originID) 
+                    originID == null || cf.Origin == originID.ToString()
                 ).ToArray();
 
                 return Ok(r);
             }
             else if (roasteryID == null && originID == null && beantypeID != null)
-            {     
+            {
                 // only beantype ID given
-                if (beantypeID != null && context.Beantypes.Where(bt => bt.Id == beantypeID).Any() is false){
+                if (beantypeID != null && !context.Beantypes.Any(bt => bt.Id.ToString() == beantypeID.ToString()))
+                {
                     return NotFound("Bohnentyp nicht gefunden.");
                 }
 
                 var r = context.Coffees.Where(cf =>
-                    (beantypeID == null || cf.Beantype == beantypeID) 
+                    beantypeID == null || cf.Beantype == beantypeID.ToString()
                 ).ToArray();
 
                 return Ok(r);
@@ -157,8 +169,6 @@ namespace API.Controllers
             {
                 return BadRequest("Bitte nur EINE ID maximal eingeben");
             }
-
-
         }
     }
 }

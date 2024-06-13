@@ -69,8 +69,13 @@ const AddCoffeeBeanScreen = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          typeDefintion: name,
-          typeExplaination: description
+          typeDefinition: name,
+          typeExplanation: description,
+          caffeineAmount: caffeineContent,
+          beanFormSize: beanSize,
+          tasteType: flavorProfile,
+          aromaType: aroma,
+          avgPrice: parseFloat(price)
         }),
       });
       if (!response.ok) {

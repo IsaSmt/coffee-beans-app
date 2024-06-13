@@ -8,10 +8,11 @@ interface Roastery {
   id: string;
   roasteryName: string;
   roasteryDescription: string;
-  plz: number;
   email: string;
   phone: string;
   street: string;
+  postcode: string;
+  ort: string;
 }
 
 interface Coffee {
@@ -21,14 +22,21 @@ interface Coffee {
   origin: number;
   roastery: number;
   beantype: number;
+  coffeePrice: number;
+  coffeeWeight: number;
   roastdate: string | null;
   processing: string;
 }
 
 interface CoffeeBean {
   id: string;
-  typeDefintion: string;
-  typeExplaination: string;
+  typeDefinition: string;
+  typeExplanation: string;
+  caffeineAmount: string;
+  beanFormSize: string;
+  tasteType: string | null;
+  aromaType: string | null;
+  avgPrice: number;
   imageUrl: string | number;
 }
 
@@ -80,17 +88,17 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
         const data = await response.json();
         console.log(data);
 
-        const combinedData = data.map((bean: CoffeeBean, index: number) => {
-          const dummyImages = [
-            require('../../assets/arabica_bean.png'),
-            require('../../assets/robusta_bean.png'),
-          ];
+        const dummyImages = [
+          require('../../assets/arabica_bean.png'),
+          require('../../assets/robusta_bean.png'),
+          require('../../assets/arabica_bean.png'),
+          require('../../assets/robusta_bean.png'),
+        ];
 
-          return {
-            ...bean,
-            imageUrl: dummyImages[index % dummyImages.length]
-          };
-        });
+        const combinedData = data.map((bean: CoffeeBean, index: number) => ({
+          ...bean,
+          imageUrl: dummyImages[index % dummyImages.length],
+        }));
 
         setCoffeeBeans(combinedData);
       } catch (error) {
@@ -141,7 +149,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
       <View style={styles.card}>
         <View style={styles.roasteryInfo}>
           <Text style={styles.roasteryName}>{item.roasteryName}</Text>
-            <Text style={styles.address}>{item.street}</Text>
+          <Text style={styles.address}>{item.street}</Text>
         </View>
         <Image source={require('../../assets/blend_roastery_icon.png')} style={styles.logo} />
       </View>
@@ -161,7 +169,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
       <View style={styles.beanCard}>
         <ImageBackground source={item.imageUrl} style={styles.beanImageBackground} imageStyle={{ borderRadius: 10 }}>
           <View style={styles.beanContent}>
-            <Text style={styles.beanName}>{item.typeDefintion}</Text>
+            <Text style={styles.beanName}>{item.typeDefinition}</Text>
           </View>
         </ImageBackground>
       </View>
@@ -200,20 +208,20 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ScrollView style={{ flex: 1 }}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Röstereien</Text>
-        <View style={{ flexDirection: 'row' }}>
-          <TouchableOpacity style={styles.filterButton}>
-            <Image source={require('../../assets/heart_icon.png')} style={styles.icon} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.filterButton}>
-            <Image source={require('../../assets/bell_icon.png')} style={styles.icon} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.filterButton}>
-            <Image source={require('../../assets/profile_icon.png')} style={styles.icon} />
-          </TouchableOpacity>
+        <View style={styles.header}>
+          <Text style={styles.title}>Röstereien</Text>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity style={styles.filterButton}>
+              <Image source={require('../../assets/heart_icon.png')} style={styles.icon} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.filterButton}>
+              <Image source={require('../../assets/bell_icon.png')} style={styles.icon} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.filterButton}>
+              <Image source={require('../../assets/profile_icon.png')} style={styles.icon} />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
         {/* Hier beginnt der scrollbare Bereich */}
         <FlatList
           horizontal
@@ -240,7 +248,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
             horizontal
             data={coffeeBeans}
             renderItem={renderCoffeeBean}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id.toString()}
             showsHorizontalScrollIndicator={true}
           />
         </View>
@@ -306,117 +314,121 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
     borderRadius: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 2,
     marginRight: 10,
     marginBottom: 5,
-    },
-   
-    logo: {
-      width: 50,
-      height: 50,
-      borderRadius: 25,
-      marginRight: 16,
-      marginLeft: 30
-    },
-    roasteryInfo: {
-      flex: 1,
-    },
-    roasteryName: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      color: '#333',
-    },
-    address: {
-      fontSize: 14,
-      color: '#777',
-    },
-    tag: {
-      backgroundColor: '#EFEFEF',
-      paddingVertical: 10,
-      paddingHorizontal: 20,
-      borderRadius: 20,
-      marginRight: 10,
-      marginBottom: 10,
-      marginTop: 5,
-    },
-    tagText: {
-      color: '#555',
-    },
-    beanCard: {
-      backgroundColor: '#FFF',
-      flex: 1,
-      margin: 5,
-      paddingBottom: 30,
-      borderRadius: 10, // Rounded corners
-      shadowColor: '#F2F2F2',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 3,
-      elevation: 2,
-      alignItems: 'center',
-      overflow: 'hidden',
-    },
-    beanContent: {
-      backgroundColor: 'rgba(255, 255, 255, 0)',
-      padding: 20,
-      borderRadius: 10,
-      alignItems: 'flex-start',
-      alignSelf: 'flex-end',
-    },
-    beanName: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      color: '#F2F2F2',
-      marginTop: 10,
-      alignSelf: 'flex-start',
-      marginBottom: 10
-    },
-    beanImageBackground: {
-      width: '100%',
-      height: 150,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 10,
-    },
-    coffeeCard: {
-      backgroundColor: '#FFF',
-      padding: 20,
-      paddingHorizontal: 30,
-      paddingTop: 30,
-      paddingBottom: 30,
-      borderRadius: 10,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 3,
-      elevation: 2,
-      alignItems: 'center',
-      marginRight: 10,
-      marginBottom: 10,
-      marginTop: 5,
-    },
-    coffeeImage: {
-      width: 80,
-      height: 80,
-      marginBottom: 5,
-    },
-    coffeeName: {
-      fontSize: 14,
-      fontWeight: 'bold',
-      color: '#333',
-    },
-    likeButton: {
-      position: 'absolute',
-      top: 10,
-      right: 10,
-    },
-    likeIcon: {
-      width: 20,
-      height: 20,
-    },
-  });
-  
-  export default HomePage;
+  },
+  logo: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 16,
+    marginLeft: 30
+  },
+  roasteryInfo: {
+    flex: 1,
+  },
+  roasteryName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  address: {
+    fontSize: 14,
+    color: '#777',
+  },
+  tag: {
+    backgroundColor: '#EFEFEF',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    marginRight: 10,
+    marginBottom: 10,
+    marginTop: 5,
+  },
+  tagText: {
+    color: '#555',
+  },
+  beanCard: {
+    backgroundColor: '#FFF',
+    flex: 1,
+    margin: 5,
+    paddingBottom: 30,
+    borderRadius: 10,
+    shadowColor: '#F2F2F2',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  beanContent: {
+    backgroundColor: 'rgba(255, 255, 255, 0)',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'flex-start',
+    alignSelf: 'flex-end',
+  },
+  beanName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#F2F2F2',
+    marginTop: 10,
+    alignSelf: 'flex-start',
+    marginBottom: 10
+  },
+  beanDetail: {
+    fontSize: 12,
+    color: '#F2F2F2',
+    marginTop: 5,
+  },
+  beanImageBackground: {
+    width: '100%',
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  coffeeCard: {
+    backgroundColor: '#FFF',
+    padding: 20,
+    paddingHorizontal: 30,
+    paddingTop: 30,
+    paddingBottom: 30,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+    alignItems: 'center',
+    marginRight: 10,
+    marginBottom: 10,
+    marginTop: 5,
+  },
+  coffeeImage: {
+    width: 80,
+    height: 80,
+    marginBottom: 5,
+  },
+  coffeeName: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  likeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  likeIcon: {
+    width: 20,
+    height: 20,
+  },
+});
+
+export default HomePage;

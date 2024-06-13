@@ -27,28 +27,29 @@ namespace API.DataObject {
         [MinLength(1)]
         [MaxLength(250)]
         // Koffeingehalt
-        public string caffeineAmount { get; set; }
+        public string CaffeineAmount { get; set; }
 
         [Required]
         [MinLength(1)]
         [MaxLength(250)]
         // Bohnenform und Größe
-        public string beanFormSize { get; set; }
+        public string BeanFormSize { get; set; }
 
         [MinLength(1)]
         [MaxLength(500)]
-        // taste aka. geschmaksprofil
-        public string tasteType { get; set; }
+        // Geschmacksprofil
+        public string TasteType { get; set; }
        
         [MinLength(1)]
         [MaxLength(500)]
-        // aroma aka. aroma
-        public string aromaType { get; set; }
+        // Aroma
+        public string AromaType { get; set; }
 
-        [MinLength(1)]
-        [MaxLength(500)]
-        // durchschnittspreis
-        public float avgPrice { get; set; }
+        // da es sich hier um eine nummer handelt kann min max nicht
+        // genutzt werden. lieber mit dem intervall range arbeiten
+        [Range(0, 1000)]
+        // Durchschnittspreis
+        public float AvgPrice { get; set; }
 
     }
 }

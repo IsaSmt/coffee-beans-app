@@ -18,28 +18,32 @@ namespace API.DataObject {
         public string Machine { get; set; }
 
         [Required]
-        [MinLength(1)]
-        [MaxLength(100)]
+        // da es sich hier um eine nummer handelt kann min max nicht
+        // genutzt werden. lieber mit dem intervall range arbeiten
+        [Range(0, 1000)]
         // how much time to finish
         // please add "sec." in the frontend
         public int Time { get; set; }
 
         [Required]
-        [MinLength(1)]
-        [MaxLength(100)]
+        // da es sich hier um eine nummer handelt kann min max nicht
+        // genutzt werden. lieber mit dem intervall range arbeiten
+        [Range(0, 1000)]
         // how much coffee
         // please add "g" in the frontend
         public float Amount { get; set; }
         
         [Required]
-        [MinLength(1)]
-        [MaxLength(100)]
+        // da es sich hier um eine nummer handelt kann min max nicht
+        // genutzt werden. lieber mit dem intervall range arbeiten
+        [Range(0, 1000)]
         // how many espressos are going to be produced
         public int Espressocount { get; set; }
 
         [Required]
-        [MinLength(1)]
-        [MaxLength(100)]
+        // da es sich hier um eine nummer handelt kann min max nicht
+        // genutzt werden. lieber mit dem intervall range arbeiten
+        [Range(0, 1000)]
          // weight of the mug after the coffee ran through
         // please add "g" in the frontend
         public float Mugweight { get; set; }
