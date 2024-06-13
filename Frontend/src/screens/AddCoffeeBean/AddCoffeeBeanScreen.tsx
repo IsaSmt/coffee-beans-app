@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, ScrollView, Modal, FlatList } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, ScrollView, Modal, FlatList, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,7 +16,7 @@ const AddCoffeeBeanScreen = () => {
   const [roastLevel, setRoastLevel] = useState('');
   const [beanSize, setBeanSize] = useState('');
   const [processingMethod, setProcessingMethod] = useState('');
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState(0);
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const navigation = useNavigation();
@@ -75,7 +75,7 @@ const AddCoffeeBeanScreen = () => {
           beanFormSize: beanSize,
           tasteType: flavorProfile,
           aromaType: aroma,
-          avgPrice: parseFloat(price)
+          avgPrice: price
         }),
       });
       if (!response.ok) {

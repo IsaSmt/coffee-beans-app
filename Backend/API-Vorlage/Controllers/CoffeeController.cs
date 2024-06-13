@@ -47,48 +47,27 @@ namespace API.Controllers
             if (coffee == null) return NotFound();
             return Ok(coffee);
         }
-
         /// <summary>
-        /// Adds a coffee.
+        /// Adds a coffee
         /// </summary>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<ActionResult<Coffee>> AddCoffee([FromBody] Coffee coffee)
-        {
-            if (ModelState.IsValid)
-            {
+        public async Task<ActionResult<Beantype>> AddCoffee([FromBody] Coffee coffee) {
+            if (ModelState.IsValid) {
 
-                // checks if the given Roastery ID exists inside the database
-                if (!context.Roasteries.Any(ro => ro.Id.ToString() == coffee.Roastery))
-                {
-                    return NotFound("Rösterei nicht gefunden.");
-                }
-
-                // checks if the given origin ID exists inside the database
-                if (!context.Origins.Any(o => o.Id.ToString() == coffee.Origin))
-                {
-                    return NotFound("Herkunftsland nicht gefunden.");
-                }
-
-                // checks if the given beantype ID exists inside the database
-                if (!context.Beantypes.Any(bt => bt.Id.ToString() == coffee.Beantype))
-                {
-                    return NotFound("Bohnentyp nicht gefunden.");
-                }
-
-                // test if coffee already exists
-                if (context.Coffees.Any(cf => cf.Id == coffee.Id))
-                    return Conflict(); // coffee with id already exists, we return a conflict
-
+                //test if coffee already exists
+                if (context.Coffees.Where(bt => bt.Id == coffee.Id).FirstOrDefault() != null)
+                    return Conflict(); //coffee with id already exists, we return a conflict
+            
                 context.Coffees.Add(coffee);
                 await context.SaveChangesAsync();
 
-                return Ok(coffee); // we return the coffee
+                return Ok(coffee); //we return the coffee
             }
-            return BadRequest(ModelState); // Model is not valid -> Validation Annotation of Material
+            return BadRequest(ModelState); //Model is not valid -> Validation Annotation of coffee
         }
-
+        
         /// <summary>
         /// Deletes the coffee with a given id.
         /// </summary>

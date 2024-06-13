@@ -49,7 +49,7 @@ namespace API.DataObject {
         // genutzt werden. lieber mit dem intervall range arbeiten
         [Range(0, 1000)]
         // Durchschnittspreis
-        public float AvgPrice { get; set; }
+        public int AvgPrice { get; set; }
 
     }
 }

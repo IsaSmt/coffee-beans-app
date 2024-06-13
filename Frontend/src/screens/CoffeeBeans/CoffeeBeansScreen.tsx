@@ -47,6 +47,10 @@ const CoffeeBeansScreen: React.FC = () => {
     navigation.navigate('AddCoffeeBean');
   };
 
+  const handleGoToBeanProfile = () => {
+    navigation.navigate('BeanProfile');
+  };
+
   const handleReloadCoffeeBeans = async () => {
     try {
       const response = await fetch(`http://${IP}:8080/api/beantypes`, {
@@ -68,7 +72,7 @@ const CoffeeBeansScreen: React.FC = () => {
   );
 
   const renderCoffeeBean = ({ item }: { item: CoffeeBean }) => (
-    <TouchableOpacity style={styles.beanCard}>
+    <TouchableOpacity style={styles.beanCard} onPress={handleGoToBeanProfile}>
       <ImageBackground source={require('../../assets/arabica_bean.png')} style={styles.beanImageBackground}>
         <View style={styles.beanContent}>
           <Text style={styles.beanName}>{item.typeDefinition}</Text>

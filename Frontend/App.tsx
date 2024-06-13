@@ -19,6 +19,8 @@ import UploadSuccessScreen from './src/screens/UploadSuccess/UploadSuccessScreen
 import AddCountryScreen from './src/screens/AddCountry/AddCountryScreen';
 import AddRoasteryScreen from './src/screens/AddRoastery/AddRoasteryScreen';
 import LoadingScreen from './src/screens/Loading/LoadingScreen';
+import RoasteryProfileScreen from './src/screens/RoasteryProfile/RoasteryProfile';
+import BeanProfileScreen from './src/screens/BeanProfile/BeanProfileScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -106,6 +108,8 @@ const MainTabNavigator = () => {
       <Tab.Screen name="AddRoastery" component={AddRoasteryScreen} options={{ headerShown: false }} />
       <Tab.Screen name="UploadSuccess" component={UploadSuccessScreen} options={{ headerShown: false }} />
       <Tab.Screen name="LoadingScreen" component={LoadingScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="RoasteryProfile" component={RoasteryProfileScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="BeanProfile" component={BeanProfileScreen} options={{ headerShown: false }} />
         
     </Tab.Navigator>
   );

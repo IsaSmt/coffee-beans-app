@@ -41,6 +41,11 @@ const RoasteriesScreen = () => {
   const handleBack = () => {
     navigation.goBack();
   };
+
+  const handleGoToRoasteryProfile = () => {
+    navigation.navigate('RoasteryProfile');
+  };
+  
   const handleAddRoastery = () => {
     navigation.navigate('AddRoastery');
   };
@@ -75,13 +80,15 @@ const RoasteriesScreen = () => {
       </View>
       <ScrollView style={styles.roasteriesContainer}>
         {roasteries.map((roastery) => (
-          <View key={roastery.id} style={styles.roasteryBox}>
+          <TouchableOpacity onPress={handleGoToRoasteryProfile}>
+            <View key={roastery.id} style={styles.roasteryBox}>
             <View style={styles.roasteryInfo}>
               <Text style={styles.roasteryName}>{roastery.roasteryName}</Text>
               <Text style={styles.roasteryAddress}>{roastery.street}</Text>
             </View>
             <Image source={require('../../assets/blend_roastery_icon.png')} style={styles.logo} />
           </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
       <TouchableOpacity style={styles.reloadButton} onPress={handleReloadRoasteries}>

@@ -28,21 +28,18 @@ namespace API.DataObject {
         public string Origin { get; set; }
 
         // connection between coffee and roastery
-        [Required]
         public string Roastery { get; set; }
 
         // connection between coffee and beantype
         [Required]
         public string Beantype { get; set; }
 
-        [Required]
         // da es sich hier um eine nummer handelt kann min max nicht
         // genutzt werden. lieber mit dem intervall range arbeiten
         [Range(0, 1000)]
         // Preis
         public int CoffeePrice { get; set; }
 
-        [Required]
         // da es sich hier um eine nummer handelt kann min max nicht
         // genutzt werden. lieber mit dem intervall range arbeiten
         [Range(0, 1000)]
