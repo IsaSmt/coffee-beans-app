@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -72,7 +72,8 @@ const AddRoasteryScreen = () => {
       }
       const data = await response.json();
       console.log(data); // You can do something with the response data if needed
-      navigation.goBack();
+      Alert.alert('Erfolg', 'Die Rösterei wurde erfolgreich hinzugefügt.');
+      navigation.navigate('Roastery', { reload: true }); // Navigation zur RoasteriesScreen und Reload-Flag setzen
     } catch (error) {
       console.error('Fetch error:', error);
       Alert.alert('Error', 'Failed to add roastery. Please try again later.');
@@ -81,7 +82,11 @@ const AddRoasteryScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={100}
+      >
         <View style={styles.header}>
           <TouchableOpacity style={styles.backIconContainer} onPress={() => navigation.goBack()}>
             <Image source={require('../../assets/back_icon.png')} style={styles.backIcon} />
@@ -101,7 +106,7 @@ const AddRoasteryScreen = () => {
           </TouchableOpacity>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Name</Text>
+            <Text style={styles.label}>Name <Text style={styles.required}>*</Text></Text>
             <TextInput
               style={styles.input}
               placeholder="Musterrösterei"
@@ -111,7 +116,7 @@ const AddRoasteryScreen = () => {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Straße</Text>
+            <Text style={styles.label}>Straße <Text style={styles.required}>*</Text></Text>
             <TextInput
               style={styles.input}
               placeholder="Musterstraße"
@@ -121,7 +126,7 @@ const AddRoasteryScreen = () => {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Hausnummer</Text>
+            <Text style={styles.label}>Hausnummer <Text style={styles.required}>*</Text></Text>
             <TextInput
               style={styles.input}
               placeholder=".."
@@ -131,7 +136,7 @@ const AddRoasteryScreen = () => {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>PLZ</Text>
+            <Text style={styles.label}>PLZ <Text style={styles.required}>*</Text></Text>
             <TextInput
               style={styles.input}
               placeholder="0000"
@@ -141,7 +146,7 @@ const AddRoasteryScreen = () => {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Stadt</Text>
+            <Text style={styles.label}>Stadt <Text style={styles.required}>*</Text></Text>
             <TextInput
               style={styles.input}
               placeholder="Musterstadt"
@@ -151,7 +156,7 @@ const AddRoasteryScreen = () => {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Land</Text>
+            <Text style={styles.label}>Land <Text style={styles.required}>*</Text></Text>
             <TextInput
               style={styles.input}
               placeholder="Musterland"
@@ -161,7 +166,7 @@ const AddRoasteryScreen = () => {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>E-Mail</Text>
+            <Text style={styles.label}>E-Mail <Text style={styles.required}>*</Text></Text>
             <TextInput
               style={styles.input}
               placeholder="E-Mail"
@@ -201,7 +206,7 @@ const AddRoasteryScreen = () => {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Beschreibung</Text>
+            <Text style={styles.label}>Beschreibung <Text style={styles.required}>*</Text></Text>
             <TextInput
               style={[styles.input, styles.descriptionInput]}
               placeholder="Die Rösterei.."
@@ -214,7 +219,7 @@ const AddRoasteryScreen = () => {
         <TouchableOpacity style={styles.button} onPress={handleSave}>
           <Text style={styles.buttonText}>SPEICHERN</Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };
@@ -247,37 +252,40 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    },
-    title: {
+  },
+  title: {
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    },
-    contentContainer: {
+  },
+  contentContainer: {
     padding: 16,
-    },
-    imageContainer: {
+  },
+  imageContainer: {
     height: 150,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
     marginBottom: 16,
     borderRadius: 20,
-    },
-    image: {
+  },
+  image: {
     width: '100%',
     height: '100%',
     borderRadius: 20,
-    },
-    inputGroup: {
+  },
+  inputGroup: {
     marginBottom: 16,
-    },
-    label: {
+  },
+  label: {
     fontSize: 16,
     color: '#333',
     marginBottom: 8,
-    },
-    input: {
+  },
+  required: {
+    color: 'red',
+  },
+  input: {
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
@@ -285,24 +293,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     backgroundColor: 'white',
     justifyContent: 'center',
-    },
-    descriptionInput: {
+  },
+  descriptionInput: {
     height: 100,
     textAlignVertical: 'top',
-    },
-    button: {
+  },
+  button: {
     backgroundColor: '#D2B48C',
     padding: 16,
     borderRadius: 30,
     alignItems: 'center',
     marginTop: 16,
-    },
-    buttonText: {
+    position: 'absolute',
+    bottom: 16,
+    left: 16,
+    right: 16,
+  },
+  buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
-    },
-    });
-    
-    export default AddRoasteryScreen;
-    
+  },
+});
+
+export default AddRoasteryScreen;
