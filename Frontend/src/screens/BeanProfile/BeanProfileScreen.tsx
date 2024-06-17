@@ -18,11 +18,12 @@ const BeanProfileScreen: React.FC = () => {
     const [coffeeBean, setCoffeeBean] = useState<any>(null);
     const navigation = useNavigation();
     const route = useRoute<RouteProp<RootStackParamList, 'BeanProfile'>>();
+    const { beanId } = route.params; // Get the ID from route params
 
     useEffect(() => {
         const fetchCoffeeBean = async () => {
             try {
-                const response = await fetch(`http://${IP}:8080/api/beantypes/4`, {
+                const response = await fetch(`http://${IP}:8080/api/beantypes/${beanId}`, { // Use the dynamic ID here
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -40,8 +41,7 @@ const BeanProfileScreen: React.FC = () => {
         };
 
         fetchCoffeeBean();
-
-    }, []);
+    }, [beanId]); // Rerun the effect if beanId changes
 
     const handleBack = () => {
         navigation.goBack();
