@@ -12,12 +12,12 @@ const RoasteryProfileScreen = () => {
     const [activeTab, setActiveTab] = useState('Beschreibung');
     const navigation = useNavigation();
     const route = useRoute();
-    const { roastery } = route.params;
+    const {roastery} = route.params;
 
     console.log('RoasteryProfileScreen received:', roastery);
 
     const handleBack = () => {
-        navigation.navigate('Roastery');
+        navigation.navigate('Home');
     };
 
     const handleGesture = ({ nativeEvent }) => {
@@ -62,11 +62,10 @@ const RoasteryProfileScreen = () => {
                     <Image source={require('../../assets/share_icon.png')} style={styles.icon}></Image>
                 </TouchableOpacity>
                 <ScrollView horizontal pagingEnabled style={styles.imageContainer}>
-                    <Image source={require('../../assets/the_barn_icon.png')} style={styles.image} />
+                    <Image source={require('../../assets/blend_roastery_icon.png')} style={styles.image} />
                 </ScrollView>
                 <PanGestureHandler onGestureEvent={handleGesture}>
                     <View style={[styles.card, { height: cardHeight }]}>
-                        <ScrollView>
                             <Text style={styles.title}>{roastery ? roastery.roasteryName : 'Lade...'}</Text>
                             <View style={styles.tabsContainer}>
                                 <TouchableOpacity onPress={() => setActiveTab('Beschreibung')} style={[styles.tabButton, activeTab === 'Beschreibung' && styles.activeTab]}>
@@ -79,6 +78,7 @@ const RoasteryProfileScreen = () => {
                                     <Text style={styles.tabText}>Diskussion</Text>
                                 </TouchableOpacity>
                             </View>
+                        <ScrollView>
                             {renderTabContent()}
                         </ScrollView>
                         <View style={styles.staticButtonsContainer}>

@@ -25,7 +25,7 @@ namespace API.DataObject {
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
-        // way of contacting the orastery
+        // way of contacting the roastery
         public string Email { get; set; }
         
         [MinLength(1)]
@@ -51,6 +51,21 @@ namespace API.DataObject {
         [MaxLength(100)]
         // city, village, ...
         public string Ort { get; set; }
-        
+
+        [MinLength(1)]
+        [MaxLength(100)]
+        // contact person first name
+        public string ContactPersonFirstName { get; set; }
+
+        [MinLength(1)]
+        [MaxLength(100)]
+        // contact person first name
+        public string ContactPersonLastName { get; set; }
+
+        [Required]
+        [MinLength(1)]
+        [MaxLength(100)]
+        public string Housenumber { get; set; }
+
     }
 }

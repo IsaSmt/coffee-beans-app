@@ -1,46 +1,78 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { IP } from '../../../config';
+
+type RootStackParamList = {
+    BeanProfile: { beanId: string };
+};
 
 const screenHeight = Dimensions.get('window').height;
 const cardInitialHeight = screenHeight * 0.6;
 
-const RoasteryProfileScreen = () => {
+const BeanProfileScreen: React.FC = () => {
     const [cardHeight, setCardHeight] = useState(cardInitialHeight);
     const [activeTab, setActiveTab] = useState('Beschreibung');
+    const [coffeeBean, setCoffeeBean] = useState<any>(null);
     const navigation = useNavigation();
-    const route = useRoute();
-    const { roastery } = route.params;
+    const route = useRoute<RouteProp<RootStackParamList, 'BeanProfile'>>();
 
-    console.log('RoasteryProfileScreen received:', roastery);
+    useEffect(() => {
+        const fetchCoffeeBean = async () => {
+            try {
+                const response = await fetch(`http://${IP}:8080/api/beantypes/4`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                console.log('Coffee Bean Data:', data);
+                setCoffeeBean(data);
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
+        };
+
+        fetchCoffeeBean();
+
+    }, []);
 
     const handleBack = () => {
-        navigation.navigate('Roastery');
+        navigation.goBack();
     };
 
-    const handleGesture = ({ nativeEvent }) => {
+    const handleGesture = ({ nativeEvent }: any) => {
         setCardHeight(Math.max(cardInitialHeight, cardInitialHeight - nativeEvent.translationY));
     };
 
     const renderTabContent = () => {
-        if (!roastery) {
-            return <Text>Keine Röstereidaten verfügbar</Text>;
+        if (!coffeeBean) {
+            return <Text>Keine Kaffeebohnendaten verfügbar</Text>;
         }
 
         switch (activeTab) {
             case 'Beschreibung':
                 return (
                     <>
-                        <Text style={styles.description}>{roastery.roasteryDescription}</Text>
-                        <Text style={styles.detailTitle}>Kontaktinformationen</Text>
-                        <Text style={styles.detail}>Kontaktperson: {roastery.contactPersonFirstName} {roastery.contactPersonLastName}</Text>
-                        <Text style={styles.detail}>Email: {roastery.email}</Text>
-                        <Text style={styles.detail}>Telefon: {roastery.phone}</Text>
-                        <Text style={styles.detailTitle}>Adresse</Text>
-                        <Text style={styles.detail}>{roastery.street} {roastery.housenumber}, {roastery.postcode} {roastery.ort}{roastery.country}</Text>
-
+                        <Text style={styles.detail}>{coffeeBean.typeExplanation}</Text>
+                        <Text style={styles.detailTitle}>Koffeinmenge</Text>
+                        <Text style={styles.detail}>{coffeeBean.caffeineAmount}</Text>
+                        <Text style={styles.detailTitle}>Bohnengröße</Text>
+                        <Text style={styles.detail}>{coffeeBean.beanFormSize}</Text>
+                        <Text style={styles.detailTitle}>Geschmackstyp</Text>
+                        <Text style={styles.detail}>{coffeeBean.tasteType}</Text>
+                        <Text style={styles.detailTitle}>Aromatyp</Text>
+                        <Text style={styles.detail}>{coffeeBean.aromaType}</Text>
+                        <Text style={styles.detailTitle}>Durchschnittspreis (kg)</Text>
+                        <Text style={styles.detail}>{coffeeBean.avgPrice}</Text>
+                        {/* Platzhalter am Ende des ScrollView */}
+                        <View style={{ height: 200 }}></View>
                     </>
                 );
             case 'Bewertungen':
@@ -56,29 +88,29 @@ const RoasteryProfileScreen = () => {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <View style={styles.container}>
                 <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-                    <Image source={require('../../assets/back_icon.png')} style={styles.icon}></Image>
+                    <Image source={require('../../assets/back_icon.png')} style={styles.icon} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.shareButton}>
-                    <Image source={require('../../assets/share_icon.png')} style={styles.icon}></Image>
+                    <Image source={require('../../assets/share_icon.png')} style={styles.icon} />
                 </TouchableOpacity>
                 <ScrollView horizontal pagingEnabled style={styles.imageContainer}>
-                    <Image source={require('../../assets/the_barn_icon.png')} style={styles.image} />
+                    <Image source={require('../../assets/arabica_bean.png')} style={styles.image} />
                 </ScrollView>
                 <PanGestureHandler onGestureEvent={handleGesture}>
                     <View style={[styles.card, { height: cardHeight }]}>
+                        <Text style={styles.title}>{coffeeBean ? coffeeBean.typeDefinition : 'Lade...'}</Text>
+                        <View style={styles.tabsContainer}>
+                            <TouchableOpacity onPress={() => setActiveTab('Beschreibung')} style={[styles.tabButton, activeTab === 'Beschreibung' && styles.activeTab]}>
+                                <Text style={styles.tabText}>Beschreibung</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => setActiveTab('Bewertungen')} style={[styles.tabButton, activeTab === 'Bewertungen' && styles.activeTab]}>
+                                <Text style={styles.tabText}>Bewertungen</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => setActiveTab('Diskussion')} style={[styles.tabButton, activeTab === 'Diskussion' && styles.activeTab]}>
+                                <Text style={styles.tabText}>Diskussion</Text>
+                            </TouchableOpacity>
+                        </View>
                         <ScrollView>
-                            <Text style={styles.title}>{roastery ? roastery.roasteryName : 'Lade...'}</Text>
-                            <View style={styles.tabsContainer}>
-                                <TouchableOpacity onPress={() => setActiveTab('Beschreibung')} style={[styles.tabButton, activeTab === 'Beschreibung' && styles.activeTab]}>
-                                    <Text style={styles.tabText}>Beschreibung</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => setActiveTab('Bewertungen')} style={[styles.tabButton, activeTab === 'Bewertungen' && styles.activeTab]}>
-                                    <Text style={styles.tabText}>Bewertungen</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => setActiveTab('Diskussion')} style={[styles.tabButton, activeTab === 'Diskussion' && styles.activeTab]}>
-                                    <Text style={styles.tabText}>Diskussion</Text>
-                                </TouchableOpacity>
-                            </View>
                             {renderTabContent()}
                         </ScrollView>
                         <View style={styles.staticButtonsContainer}>
@@ -202,4 +234,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default RoasteryProfileScreen;
+export default BeanProfileScreen;
