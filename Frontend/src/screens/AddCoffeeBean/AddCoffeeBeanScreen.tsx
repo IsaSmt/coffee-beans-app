@@ -14,6 +14,7 @@ const AddCoffeeBeanScreen = () => {
   const [caffeineContent, setCaffeineContent] = useState('');
   const [altitude, setAltitude] = useState('');
   const [roastLevel, setRoastLevel] = useState('');
+  const [beanForm, setBeanForm] = useState('');
   const [beanSize, setBeanSize] = useState('');
   const [processingMethod, setProcessingMethod] = useState('');
   const [price, setPrice] = useState(0);
@@ -27,6 +28,7 @@ const AddCoffeeBeanScreen = () => {
   const [acidityModalVisible, setAcidityModalVisible] = useState(false);
   const [caffeineContentModalVisible, setCaffeineContentModalVisible] = useState(false);
   const [roastLevelModalVisible, setRoastLevelModalVisible] = useState(false);
+  const [beanFormModalVisible, setBeanFormModalVisible] = useState(false);
   const [beanSizeModalVisible, setBeanSizeModalVisible] = useState(false);
   const [processingMethodModalVisible, setProcessingMethodModalVisible] = useState(false);
 
@@ -40,6 +42,7 @@ const AddCoffeeBeanScreen = () => {
       setCaffeineContent('');
       setAltitude('');
       setRoastLevel('');
+      setBeanForm('');
       setBeanSize('');
       setProcessingMethod('');
       setPrice('');
@@ -72,7 +75,7 @@ const AddCoffeeBeanScreen = () => {
           typeDefinition: name,
           typeExplanation: description,
           caffeineAmount: caffeineContent,
-          beanFormSize: beanSize,
+          beanFormSize: `${beanForm} - ${beanSize}`,
           tasteType: flavorProfile,
           aromaType: aroma,
           avgPrice: price
@@ -83,6 +86,7 @@ const AddCoffeeBeanScreen = () => {
       }
       const data = await response.json();
       console.log(data);
+      Alert.alert('Erfolg', 'Deine Kaffeebohne wurde erfolgreich gespeichert.');
       navigation.goBack();
     } catch (error) {
       console.error('Fetch error:', error);
@@ -178,13 +182,16 @@ const AddCoffeeBeanScreen = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Bohnenform und Größe</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Bohnenform und Größe"
-              value={beanSize}
-              onChangeText={setBeanSize}
-            />
+            <Text style={styles.label}>Bohnenform</Text>
+            <TouchableOpacity style={styles.input} onPress={() => setBeanFormModalVisible(true)}>
+              <Text style={beanForm ? styles.selectedText : styles.placeholderText}>{beanForm || 'Bitte auswählen'}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Bohnengröße</Text>
+            <TouchableOpacity style={styles.input} onPress={() => setBeanSizeModalVisible(true)}>
+              <Text style={beanSize ? styles.selectedText : styles.placeholderText}>{beanSize || 'Bitte auswählen'}</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Verarbeitungsmethode</Text>
@@ -193,14 +200,17 @@ const AddCoffeeBeanScreen = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Durchschnittspreis</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="..."
-              value={price}
-              onChangeText={setPrice}
-              keyboardType="numeric"
-            />
+            <Text style={styles.label}>Durchschnittspreis pro 100g</Text>
+            <View style={styles.priceInputContainer}>
+              <TextInput
+                style={styles.priceInput}
+                placeholder="..."
+                value={price}
+                onChangeText={setPrice}
+                keyboardType="numeric"
+              />
+              <Text style={styles.currency}>€</Text>
+            </View>
           </View>
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Beschreibung</Text>
@@ -332,6 +342,44 @@ const AddCoffeeBeanScreen = () => {
         </Modal>
 
         <Modal
+          visible={beanFormModalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={() => setBeanFormModalVisible(false)}
+        >
+          <TouchableWithoutFeedback onPress={() => setBeanFormModalVisible(false)}>
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                <FlatList
+                  data={['Rund', 'Länglich', 'Oval', 'Flach']}
+                  renderItem={({ item }) => renderModalItem(item, setBeanForm, setBeanFormModalVisible)}
+                  keyExtractor={(item) => item}
+                />
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+
+        <Modal
+          visible={beanSizeModalVisible}
+          transparent={true}
+          animationType="slide"
+          onRequestClose={() => setBeanSizeModalVisible(false)}
+        >
+          <TouchableWithoutFeedback onPress={() => setBeanSizeModalVisible(false)}>
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                <FlatList
+                  data={['Klein', 'Mittel', 'Groß']}
+                  renderItem={({ item }) => renderModalItem(item, setBeanSize, setBeanSizeModalVisible)}
+                  keyExtractor={(item) => item}
+                />
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+
+        <Modal
           visible={processingMethodModalVisible}
           transparent={true}
           animationType="slide"
@@ -427,6 +475,25 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: 'black',
+  },
+  priceInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingHorizontal: 8,
+    backgroundColor: 'white',
+  },
+  priceInput: {
+    flex: 1,
+    height: 40,
+    color: 'black',
+  },
+  currency: {
+    marginLeft: 8,
+    fontSize: 16,
+    color: '#9EA0A4', // Farbe angepasst, um grau zu sein
   },
   button: {
     backgroundColor: '#D2B48C',
