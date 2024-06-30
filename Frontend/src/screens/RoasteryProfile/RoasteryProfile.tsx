@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { IP } from '../../../config';
 
 const screenHeight = Dimensions.get('window').height;
 const cardInitialHeight = screenHeight * 0.6;
@@ -12,9 +13,31 @@ const RoasteryProfileScreen = () => {
     const [activeTab, setActiveTab] = useState('Beschreibung');
     const navigation = useNavigation();
     const route = useRoute();
-    const {roastery} = route.params;
+    const { roasteryId } = route.params;
 
-    console.log('RoasteryProfileScreen received:', roastery);
+    const [roastery, setRoastery] = useState(null);
+
+    useEffect(() => {
+        const fetchRoasteryData = async () => {
+            try {
+                const response = await fetch(`http://${IP}:8080/api/roasteries/${roasteryId}`, {
+                    method: 'GET',
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                console.log('Roastery Data:', data);
+                setRoastery(data);
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
+        };
+
+        if (roasteryId) {
+            fetchRoasteryData();
+        }
+    }, [roasteryId]);
 
     const handleBack = () => {
         navigation.navigate('Home');

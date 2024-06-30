@@ -46,8 +46,8 @@ const CoffeeScreen: React.FC = () => {
     navigation.navigate('AddCoffee');
   };
 
-  const handleClickOnCoffee = () => {
-    navigation.navigate('CoffeeProfileScreen');
+  const handleClickOnCoffee = (id: number) => {
+    navigation.navigate('CoffeeProfileScreen', { coffeeId: id });
   };
 
   const handleClickSearchIcon = () => {
