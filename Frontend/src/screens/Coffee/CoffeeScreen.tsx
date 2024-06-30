@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { IP } from '../../../config';
 
@@ -51,7 +51,6 @@ const CoffeeScreen: React.FC = () => {
   };
 
   const handleClickSearchIcon = () => {
-    console.log("clicked");
     navigation.navigate('Filter');
   };
 
@@ -70,13 +69,49 @@ const CoffeeScreen: React.FC = () => {
     }
   };
 
+  const handleDeleteCoffee = (id: number) => {
+    Alert.alert(
+      "Löschen bestätigen",
+      "Möchten Sie diesen Kaffee wirklich löschen?",
+      [
+        {
+          text: "Nein",
+          onPress: () => console.log("Löschen abgebrochen"),
+          style: "cancel"
+        },
+        {
+          text: "Ja",
+          onPress: async () => {
+            try {
+              const response = await fetch(`http://${IP}:8080/api/coffees/${id}`, {
+                method: 'DELETE',
+              });
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              setCoffees(coffees.filter(coffee => coffee.id !== id));
+              Alert.alert('Erfolg', 'Kaffee wurde erfolgreich gelöscht.');
+            } catch (error) {
+              console.error('Delete error:', error);
+              Alert.alert('Fehler', 'Fehler beim Löschen des Kaffees.');
+            }
+          }
+        }
+      ],
+      { cancelable: true }
+    );
+  };
+
   const filteredCoffees = coffees.filter(coffee =>
     coffee.coffeeName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const renderCoffee = ({ item }: { item: Coffee }) => (
-    <TouchableOpacity style={styles.beanCard} onPress={handleClickOnCoffee}>
-      {/* Hier können Sie das Image und die Details des Kaffees rendern */}
+    <TouchableOpacity
+      style={styles.beanCard}
+      onPress={handleClickOnCoffee}
+      onLongPress={() => handleDeleteCoffee(item.id)}
+    >
       <Image source={require('../../assets/jacobs_coffee.png')} style={styles.beanImage} />
       <Text style={styles.beanName}>{item.coffeeName}</Text>
     </TouchableOpacity>
