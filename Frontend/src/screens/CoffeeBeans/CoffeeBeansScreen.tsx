@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity, ImageBackground, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { IP } from '../../../config';
 
@@ -67,12 +67,51 @@ const CoffeeBeansScreen: React.FC = () => {
     }
   };
 
+  const deleteCoffeeBean = async (id: string) => {
+    try {
+      const response = await fetch(`http://${IP}:8080/api/beantypes/${id}`, {
+        method: 'DELETE'
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      setCoffeeBeans(coffeeBeans.filter(bean => bean.id !== id));
+      Alert.alert('Erfolg', 'Die Kaffeebohne wurde gelöscht.');
+    } catch (error) {
+      console.error('Delete error:', error);
+      Alert.alert('Fehler', 'Das Löschen der Kaffeebohne ist fehlgeschlagen. Bitte versuchen Sie es später erneut.');
+    }
+  };
+
+  const confirmDelete = (id: string) => {
+    Alert.alert(
+      'Kaffeebohne löschen',
+      'Möchten Sie diese Kaffeebohne wirklich löschen?',
+      [
+        {
+          text: 'Nein',
+          onPress: () => console.log('Löschen abgebrochen'),
+          style: 'cancel'
+        },
+        {
+          text: 'Ja',
+          onPress: () => deleteCoffeeBean(id)
+        }
+      ],
+      { cancelable: false }
+    );
+  };
+
   const filteredCoffeeBeans = coffeeBeans.filter(bean =>
     bean.typeDefinition.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const renderCoffeeBean = ({ item }: { item: CoffeeBean }) => (
-    <TouchableOpacity style={styles.beanCard} onPress={() => handleGoToBeanProfile(item.id)}>
+    <TouchableOpacity
+      style={styles.beanCard}
+      onPress={() => handleGoToBeanProfile(item.id)}
+      onLongPress={() => confirmDelete(item.id)}
+    >
       <ImageBackground source={require('../../assets/arabica_bean.png')} style={styles.beanImageBackground}>
         <View style={styles.beanContent}>
           <Text style={styles.beanName}>{item.typeDefinition}</Text>
@@ -105,7 +144,7 @@ const CoffeeBeansScreen: React.FC = () => {
         columnWrapperStyle={styles.row}
         contentContainerStyle={styles.coffeeBeansContainer}
       />
-       <TouchableOpacity style={styles.reloadButton} onPress={handleReloadCoffeeBeans}>
+      <TouchableOpacity style={styles.reloadButton} onPress={handleReloadCoffeeBeans}>
         <Image source={require('../../assets/reload_icon.png')} style={styles.reloadIcon} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.addButton} onPress={handleAddCoffeeBean}>
@@ -192,6 +231,10 @@ const styles = StyleSheet.create({
   beanName: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#F2F2F2',
+  },
+  beanId: {
+    fontSize: 12,
     color: '#F2F2F2',
   },
   beanImageBackground: {
