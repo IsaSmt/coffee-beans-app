@@ -46,8 +46,8 @@ const CoffeeScreen: React.FC = () => {
     navigation.navigate('AddCoffee');
   };
 
-  const handleClickOnCoffee = () => {
-    navigation.navigate('CoffeeProfileScreen');
+  const handleClickOnCoffee = (id: number) => {
+    navigation.navigate('CoffeeProfileScreen', { coffeeId: id });
   };
 
   const handleClickSearchIcon = () => {
@@ -75,7 +75,7 @@ const CoffeeScreen: React.FC = () => {
   );
 
   const renderCoffee = ({ item }: { item: Coffee }) => (
-    <TouchableOpacity style={styles.beanCard} onPress={handleClickOnCoffee}>
+    <TouchableOpacity style={styles.beanCard} onPress={() => handleClickOnCoffee(item.id)}>
       {/* Hier können Sie das Image und die Details des Kaffees rendern */}
       <Image source={require('../../assets/jacobs_coffee.png')} style={styles.beanImage} />
       <Text style={styles.beanName}>{item.coffeeName}</Text>

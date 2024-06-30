@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import { IP } from '../../../config';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 
 const screenHeight = Dimensions.get('window').height;
 const cardInitialHeight = screenHeight * 0.6;
@@ -15,6 +15,8 @@ const CoffeeProfileScreen = () => {
   const [coffeeData, setCoffeeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+  const route = useRoute();
+  const { coffeeId } = route.params;
 
   const handleBack = () => {
     navigation.navigate('Coffee');
@@ -22,15 +24,15 @@ const CoffeeProfileScreen = () => {
   
   useEffect(() => {
     const fetchCoffeeData = async () => {
+      setLoading(true);
       try {
-        const response = await fetch(`http://${IP}:8080/api/coffees/1`, {
+        const response = await fetch(`http://${IP}:8080/api/coffees/${coffeeId}`, {
           method: 'GET'
         });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        console.log(data);
         setCoffeeData(data);
       } catch (error) {
         console.error('Fetch error:', error);
@@ -40,7 +42,7 @@ const CoffeeProfileScreen = () => {
     };
 
     fetchCoffeeData();
-  }, []);
+  }, [coffeeId]);
 
   const handleGesture = ({ nativeEvent }) => {
     setCardHeight(Math.max(cardInitialHeight, cardInitialHeight - nativeEvent.translationY));
@@ -67,17 +69,17 @@ const CoffeeProfileScreen = () => {
       case 'Beschreibung':
         return (
           <>
-            <Text style={styles.description}>
-              {coffeeData.coffeeDescription}
-            </Text>
-            <Text style={styles.originTitle}>Herkunftsländer</Text>
-            <Text style={styles.origin}>
-              {coffeeData.origin}
-            </Text>
-            <Text style={styles.cuppingNotesTitle}>Bohnentyp</Text>
-            <Text style={styles.cuppingNotes}>
-              {coffeeData.beantype}
-            </Text>
+            <Text style={styles.description}>{coffeeData.coffeeDescription}</Text>
+            <Text style={styles.infoTitle}>Herkunftsländer</Text>
+            <Text style={styles.info}>{coffeeData.origin}</Text>
+            <Text style={styles.infoTitle}>Rösterei</Text>
+            <Text style={styles.info}>{coffeeData.roastery}</Text>
+            <Text style={styles.infoTitle}>Bohnentyp</Text>
+            <Text style={styles.info}>{coffeeData.beantype}</Text>
+            <Text style={styles.infoTitle}>Verarbeitungsmethode</Text>
+            <Text style={styles.info}>{coffeeData.processing}</Text>
+            <Text style={styles.infoTitle}>Röstdatum</Text>
+            <Text style={styles.info}>{coffeeData.roastdate}</Text>
           </>
         );
       case 'Bewertungen':
@@ -99,46 +101,43 @@ const CoffeeProfileScreen = () => {
           <Image source={require('../../assets/share_icon.png')} style={styles.icon}></Image>
         </TouchableOpacity>
         <ScrollView horizontal pagingEnabled style={styles.imageContainer}>
-          <Image
-            source={require('../../assets/hochland_coffee.png')}
-            style={styles.image}
-          />
-          <Image
-            source={require('../../assets/hochland_coffee.png')}
-            style={styles.image}
-          />
+          <Image source={require('../../assets/hochland_coffee.png')} style={styles.image} />
+          <Image source={require('../../assets/hochland_coffee.png')} style={styles.image} />
         </ScrollView>
         <PanGestureHandler onGestureEvent={handleGesture}>
           <View style={[styles.card, { height: cardHeight }]}>
+          <View style={styles.titleContainer}>
               <Text style={styles.title}>{coffeeData ? coffeeData.coffeeName : 'Lade...'}</Text>
-              <View style={styles.priceQuantityContainer}>
-                <Text style={styles.price}>€ {coffeeData ? coffeeData.coffeePrice.toFixed(2) : '0.00'}</Text>
-                <View style={styles.quantityContainer}>
-                  <TouchableOpacity onPress={decreaseQuantity} style={styles.quantityButton}>
-                    <Text style={styles.quantityButtonText}>-</Text>
-                  </TouchableOpacity>
-                  <Text style={styles.quantity}>{quantity}</Text>
-                  <TouchableOpacity onPress={increaseQuantity} style={styles.quantityButton}>
-                    <Text style={styles.quantityButtonText}>+</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.ratingContainer}>
-                <Icon name="star" size={24} color="gold" />
-                <Text style={styles.rating}>4.5 (128 reviews)</Text>
-              </View>
-              <View style={styles.tabsContainer}>
-                <TouchableOpacity onPress={() => setActiveTab('Beschreibung')} style={[styles.tabButton, activeTab === 'Beschreibung' && styles.activeTab]}>
-                  <Text style={styles.tabText}>Beschreibung</Text>
+              <Text style={styles.coffeeWeight}>{coffeeData ? `${coffeeData.coffeeWeight} g` : ''}</Text>
+            </View>
+            <View style={styles.priceQuantityContainer}>
+              <Text style={styles.price}>€ {coffeeData ? coffeeData.coffeePrice.toFixed(2) : '0.00'}</Text>
+              <View style={styles.quantityContainer}>
+                <TouchableOpacity onPress={decreaseQuantity} style={styles.quantityButton}>
+                  <Text style={styles.quantityButtonText}>-</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setActiveTab('Bewertungen')} style={[styles.tabButton, activeTab === 'Bewertungen' && styles.activeTab]}>
-                  <Text style={styles.tabText}>Bewertungen</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setActiveTab('Diskussion')} style={[styles.tabButton, activeTab === 'Diskussion' && styles.activeTab]}>
-                  <Text style={styles.tabText}>Diskussion</Text>
+                <Text style={styles.quantity}>{quantity}</Text>
+                <TouchableOpacity onPress={increaseQuantity} style={styles.quantityButton}>
+                  <Text style={styles.quantityButtonText}>+</Text>
                 </TouchableOpacity>
               </View>
-              <ScrollView style={[styles.scrollview, { paddingBottom: 80 }]}>
+            </View>
+            <View style={styles.ratingContainer}>
+              <Icon name="star" size={24} color="gold" />
+              <Text style={styles.rating}>4.5 (128 reviews)</Text>
+            </View>
+            <View style={styles.tabsContainer}>
+              <TouchableOpacity onPress={() => setActiveTab('Beschreibung')} style={[styles.tabButton, activeTab === 'Beschreibung' && styles.activeTab]}>
+                <Text style={styles.tabText}>Beschreibung</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setActiveTab('Bewertungen')} style={[styles.tabButton, activeTab === 'Bewertungen' && styles.activeTab]}>
+                <Text style={styles.tabText}>Bewertungen</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setActiveTab('Diskussion')} style={[styles.tabButton, activeTab === 'Diskussion' && styles.activeTab]}>
+                <Text style={styles.tabText}>Diskussion</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView style={[styles.scrollview, { paddingBottom: 80 }]}>
               {renderTabContent()}
             </ScrollView>
             <View style={styles.staticButtonsContainer}>
@@ -156,10 +155,11 @@ const CoffeeProfileScreen = () => {
         {/* Hier werden die beiden Buttons hinzugefügt */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.heartButton}>
-          <Image source={require('../../assets/heart_icon.png')} style={styles.heartImage} />
+            <Image source={require('../../assets/heart_icon.png')} style={styles.heartImage} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.cartButton}>
-            <Text style={styles.cartButtonText}>Zum Warenkorb</Text>
+            <Text style={styles.cartButtonText}>ZUM WARENKORB</Text>
+            <Text style={styles.cartButtonText}>{calculatePrice()} €</Text>
           </TouchableOpacity>
         </View>
         
@@ -197,16 +197,16 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   heartImage: {
-    width: 25,
-    height: 25,
+    width: 30,
+    height: 30,
     resizeMode: 'contain',
-},
+  },
   icon: {
     width: 24,
     height: 24,
   },
   scrollview: {
-    paddingBottom: 50
+    paddingBottom: 50,
   },
   card: {
     backgroundColor: '#fff',
@@ -217,7 +217,15 @@ const styles = StyleSheet.create({
     top: screenHeight * 0.4,
     left: 0,
     right: 0,
-    paddingBottom: 80,
+    paddingBottom: 290,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between', // Hinzugefügt, um den Titel und das Gewicht nebeneinander zu platzieren
+  },
+  coffeeWeight: {
+
   },
   title: {
     fontSize: 24,
@@ -261,8 +269,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginVertical: 10,
   },
-  tabButton
-  : {
+  tabButton: {
     padding: 10,
   },
   tabText: {
@@ -277,30 +284,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical: 10,
   },
-  descriptionTitle: {
+  infoTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     marginVertical: 10,
   },
-  description: {
-    fontSize: 16,
-    marginVertical: 10,
-  },
-  originTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginVertical: 10,
-  },
-  origin: {
-    fontSize: 16,
-    marginVertical: 10,
-  },
-  cuppingNotesTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginVertical: 10,
-  },
-  cuppingNotes: {
+  info: {
     fontSize: 16,
     marginVertical: 10,
   },
@@ -339,8 +328,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#D2B48C', // hellbraune Farbe
     borderRadius: 20, // abgerundete Ecken
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginLeft: 20,
+    paddingHorizontal: 30,
     marginBottom: 2,
     alignItems: 'center',
     justifyContent: 'center',
@@ -352,15 +340,16 @@ const styles = StyleSheet.create({
   cartButton: {
     backgroundColor: '#D2B48C', // hellbraune Farbe
     borderRadius: 20, // abgerundete Ecken
-    paddingVertical: 15,
-    paddingHorizontal: 60,
+    paddingVertical: 10,
+    paddingHorizontal: 70,
     marginBottom: 2,
+    marginLeft: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
   cartButtonText: {
     fontSize: 16,
-    color: '#fff', // weiße Schriftfarbe
+    color: '#000000', // weiße Schriftfarbe
   },
 });
 

@@ -17,12 +17,15 @@ const BeanProfileScreen: React.FC = () => {
     const [activeTab, setActiveTab] = useState('Beschreibung');
     const [coffeeBean, setCoffeeBean] = useState<any>(null);
     const navigation = useNavigation();
+    const [loading, setLoading] = useState(true);
     const route = useRoute<RouteProp<RootStackParamList, 'BeanProfile'>>();
+    const { beanId } = route.params;
 
     useEffect(() => {
         const fetchCoffeeBean = async () => {
+            setLoading(true);
             try {
-                const response = await fetch(`http://${IP}:8080/api/beantypes/4`, {
+                const response = await fetch(`http://${IP}:8080/api/beantypes/${beanId}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -41,7 +44,7 @@ const BeanProfileScreen: React.FC = () => {
 
         fetchCoffeeBean();
 
-    }, []);
+    }, [beanId]);
 
     const handleBack = () => {
         navigation.goBack();

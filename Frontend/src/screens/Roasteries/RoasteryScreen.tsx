@@ -50,9 +50,8 @@ const RoasteriesScreen = () => {
         navigation.goBack();
     };
 
-    const handleGoToRoasteryProfile = (roastery: Roastery) => {
-        console.log('Navigating to RoasteryProfile with:', roastery);
-        navigation.navigate('RoasteryProfile', { roastery });
+    const handleGoToRoasteryProfile = (id: number) => {
+        navigation.navigate('RoasteryProfile', { roasteryId: id });
     };
 
     const handleAddRoastery = () => {
@@ -109,7 +108,7 @@ const RoasteriesScreen = () => {
                 {roasteries.map((roastery) => (
                     <TouchableOpacity
                         key={roastery.id}
-                        onPress={() => handleGoToRoasteryProfile(roastery)}
+                        onPress={() => handleGoToRoasteryProfile(roastery.id)}
                         onLongPress={() => confirmDeleteRoastery(roastery.id)} // Add long press handler
                     >
                         <View style={styles.roasteryBox}>
