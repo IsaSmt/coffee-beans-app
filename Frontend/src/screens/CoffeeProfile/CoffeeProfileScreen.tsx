@@ -110,7 +110,6 @@ const CoffeeProfileScreen = () => {
         </ScrollView>
         <PanGestureHandler onGestureEvent={handleGesture}>
           <View style={[styles.card, { height: cardHeight }]}>
-            <ScrollView>
               <Text style={styles.title}>{coffeeData ? coffeeData.coffeeName : 'Lade...'}</Text>
               <View style={styles.priceQuantityContainer}>
                 <Text style={styles.price}>€ {coffeeData ? coffeeData.coffeePrice.toFixed(2) : '0.00'}</Text>
@@ -139,6 +138,7 @@ const CoffeeProfileScreen = () => {
                   <Text style={styles.tabText}>Diskussion</Text>
                 </TouchableOpacity>
               </View>
+              <ScrollView style={[styles.scrollview, { paddingBottom: 80 }]}>
               {renderTabContent()}
             </ScrollView>
             <View style={styles.staticButtonsContainer}>
@@ -152,6 +152,17 @@ const CoffeeProfileScreen = () => {
             </View>
           </View>
         </PanGestureHandler>
+        
+        {/* Hier werden die beiden Buttons hinzugefügt */}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.heartButton}>
+          <Image source={require('../../assets/heart_icon.png')} style={styles.heartImage} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.cartButton}>
+            <Text style={styles.cartButtonText}>Zum Warenkorb</Text>
+          </TouchableOpacity>
+        </View>
+        
       </View>
     </GestureHandlerRootView>
   );
@@ -176,8 +187,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   imageContainer: {
-    marginTop
-    : 100,
+    marginTop: 100,
     height: 200,
     marginVertical: 10,
   },
@@ -186,9 +196,17 @@ const styles = StyleSheet.create({
     height: 200,
     resizeMode: 'contain',
   },
+  heartImage: {
+    width: 25,
+    height: 25,
+    resizeMode: 'contain',
+},
   icon: {
     width: 24,
     height: 24,
+  },
+  scrollview: {
+    paddingBottom: 50
   },
   card: {
     backgroundColor: '#fff',
@@ -199,6 +217,7 @@ const styles = StyleSheet.create({
     top: screenHeight * 0.4,
     left: 0,
     right: 0,
+    paddingBottom: 80,
   },
   title: {
     fontSize: 24,
@@ -242,7 +261,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginVertical: 10,
   },
-  tabButton: {
+  tabButton
+  : {
     padding: 10,
   },
   tabText: {
@@ -307,6 +327,40 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flex: 1,
     marginLeft: 10,
+  },
+  // Neue Styles für die Buttons
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 20,
+    marginTop: 20,
+  },
+  heartButton: {
+    backgroundColor: '#D2B48C', // hellbraune Farbe
+    borderRadius: 20, // abgerundete Ecken
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginLeft: 20,
+    marginBottom: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  heartButtonText: {
+    fontSize: 16,
+    color: '#fff', // weiße Schriftfarbe
+  },
+  cartButton: {
+    backgroundColor: '#D2B48C', // hellbraune Farbe
+    borderRadius: 20, // abgerundete Ecken
+    paddingVertical: 15,
+    paddingHorizontal: 60,
+    marginBottom: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cartButtonText: {
+    fontSize: 16,
+    color: '#fff', // weiße Schriftfarbe
   },
 });
 

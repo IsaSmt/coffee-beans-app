@@ -64,7 +64,10 @@ const AddRoasteryScreen = () => {
           phone: contactNumber,
           street: street,
           postcode: plz,
-          ort: stadt
+          ort: stadt,
+          contactPersonFirstName: contactPersonFirstName,
+          contactPersonLastName: contactPersonLastName,
+          housenumber: housenumber
         }),
       });
       if (!response.ok) {

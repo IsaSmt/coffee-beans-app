@@ -205,12 +205,57 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
     navigation.navigate('CoffeeBean');
   };
 
+  const handleReloadEntities = async () => {
+    setLoading(true);
+    try {
+        const [roasteriesResponse, coffeeBeansResponse, originsResponse, coffeesResponse] = await Promise.all([
+            fetch(`http://${IP}:8080/api/roasteries`, { method: 'GET' }),
+            fetch(`http://${IP}:8080/api/beantypes`, { method: 'GET' }),
+            fetch(`http://${IP}:8080/api/origins`, { method: 'GET' }),
+            fetch(`http://${IP}:8080/api/coffees`, { method: 'GET' }),
+        ]);
+
+        if (!roasteriesResponse.ok || !coffeeBeansResponse.ok || !originsResponse.ok || !coffeesResponse.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const roasteriesData = await roasteriesResponse.json();
+        const coffeeBeansData = await coffeeBeansResponse.json();
+        const originsData = await originsResponse.json();
+        const coffeesData = await coffeesResponse.json();
+
+        const dummyImages = [
+            require('../../assets/arabica_bean.png'),
+            require('../../assets/robusta_bean.png'),
+            require('../../assets/arabica_bean.png'),
+            require('../../assets/robusta_bean.png'),
+        ];
+
+        const combinedCoffeeBeansData = coffeeBeansData.map((bean: CoffeeBean, index: number) => ({
+            ...bean,
+            imageUrl: dummyImages[index % dummyImages.length],
+        }));
+
+        setRoasteries(roasteriesData);
+        setCoffeeBeans(combinedCoffeeBeansData);
+        setOrigins(originsData.map((origin: Origin) => origin.originCountry));
+        setCoffees(coffeesData);
+    } catch (error) {
+        console.error('Reload error:', error);
+    } finally {
+        setLoading(false);
+    }
+};
+
   return (
     <View style={styles.container}>
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.header}>
           <Text style={styles.title}>Röstereien</Text>
           <View style={{ flexDirection: 'row' }}>
+          <TouchableOpacity style={styles.reloadButton} onPress={handleReloadEntities}>
+                <Image source={require('../../assets/reload_icon.png')} style={styles.reloadIcon} />
+            </TouchableOpacity>
             <TouchableOpacity style={styles.filterButton}>
               <Image source={require('../../assets/heart_icon.png')} style={styles.icon} />
             </TouchableOpacity>
@@ -278,12 +323,25 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     marginTop: 20
   },
+  reloadIcon: {
+    width: 25,
+    height: 25,
+  },
+  reloadButton: {
+    position: 'absolute',
+    top: -5,
+    right: 150,
+    backgroundColor: 'transparent',
+    borderRadius: 20,
+    padding: 10,
+},
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 10,
   },
+  
   title: {
     fontSize: 18,
     fontWeight: 'bold',

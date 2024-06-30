@@ -47,8 +47,8 @@ const CoffeeBeansScreen: React.FC = () => {
     navigation.navigate('AddCoffeeBean');
   };
 
-  const handleGoToBeanProfile = () => {
-    navigation.navigate('BeanProfile');
+  const handleGoToBeanProfile = (id: string) => {
+    navigation.navigate('BeanProfile', { beanId: id });
   };
 
   const handleReloadCoffeeBeans = async () => {
@@ -72,10 +72,11 @@ const CoffeeBeansScreen: React.FC = () => {
   );
 
   const renderCoffeeBean = ({ item }: { item: CoffeeBean }) => (
-    <TouchableOpacity style={styles.beanCard} onPress={handleGoToBeanProfile}>
+    <TouchableOpacity style={styles.beanCard} onPress={() => handleGoToBeanProfile(item.id)}>
       <ImageBackground source={require('../../assets/arabica_bean.png')} style={styles.beanImageBackground}>
         <View style={styles.beanContent}>
           <Text style={styles.beanName}>{item.typeDefinition}</Text>
+          <Text style={styles.beanId}>ID: {item.id}</Text>
         </View>
       </ImageBackground>
     </TouchableOpacity>
