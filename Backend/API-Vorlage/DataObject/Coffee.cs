@@ -24,6 +24,8 @@ namespace API.DataObject {
         public string CoffeeDescription { get; set; }
 
         [Required]
+        [MinLength(1)]
+        [MaxLength(100)]
         // connection between coffee and origin
         public string Origin { get; set; }
 
