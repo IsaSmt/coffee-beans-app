@@ -504,3 +504,6 @@ C:/Users/test/Desktop/Sommersemester2024/Dünnebeil/digital_entrepreneurship/Bac
 /Users/isabelsimmet/VisualStudio_Projects/digital_entrepreneurship/Backend/API-Vorlage/obj/Debug/net6.0/API.pdb
 /Users/isabelsimmet/VisualStudio_Projects/digital_entrepreneurship/Backend/API-Vorlage/obj/Debug/net6.0/API.genruntimeconfig.cache
 /Users/isabelsimmet/VisualStudio_Projects/digital_entrepreneurship/Backend/API-Vorlage/obj/Debug/net6.0/ref/API.dll
+<<<<<<< HEAD
+=======
+>>>>>>> parent of ec1d4cad2 (Startup file update)
