@@ -99,7 +99,7 @@ namespace API.Controllers
         {
             if (roasteryID == null && originID == null && beantypeID == null)
             {
-                // no id given
+                // no id given here
                 return BadRequest("Rösterei, Herkunftsland oder Bohnentyp müssen angegeben werden.");
             }
             else if (roasteryID != null && originID == null && beantypeID == null)
