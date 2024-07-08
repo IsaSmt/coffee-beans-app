@@ -115,7 +115,6 @@ const CoffeeBeansScreen: React.FC = () => {
       <ImageBackground source={require('../../assets/arabica_bean.png')} style={styles.beanImageBackground}>
         <View style={styles.beanContent}>
           <Text style={styles.beanName}>{item.typeDefinition}</Text>
-          <Text style={styles.beanId}>ID: {item.id}</Text>
         </View>
       </ImageBackground>
     </TouchableOpacity>
