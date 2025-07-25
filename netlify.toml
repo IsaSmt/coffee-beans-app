@@ -1,0 +1,8 @@
+[build]
+  publish = "Frontend/dist"
+  command = "cd Frontend && npm install && npx expo export --platform web --output-dir dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
