@@ -29,4 +29,5 @@ COPY --from=build /app/publish .
 
 # Der Startpunkt deines Containers. Docker führt diesen Befehl aus, um deine API zu starten.
 # Der Name der DLL entspricht meist dem Projektnamen (API.csproj -> API.dll)
-ENTRYPOINT ["dotnet", "API.dll"]
+# Der Name der DLL muss mit deinem .csproj-Dateinamen übereinstimmen (API-Vorlage.csproj -> API-Vorlage.dll)
+ENTRYPOINT ["dotnet", "API-Vorlage.dll"] 

@@ -1,0 +1,8 @@
+# .dockerignore
+
+# Ignoriere Build-Artefakte
+[Bb]in/
+[Oo]bj/
+
+# Ignoriere lokale User-Settings
+*.user
