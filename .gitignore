@@ -1,3 +1,5 @@
+# Node modules ignorieren
+node_modules/
 *-blx.bib
 *.aux
 *.log
