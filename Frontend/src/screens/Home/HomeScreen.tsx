@@ -167,7 +167,11 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
   const renderCoffeeBean = ({ item }: { item: CoffeeBean }) => (
     <TouchableOpacity onPress={() => handleClickCoffeeBean(item)}>
       <View style={styles.beanCard}>
-        <ImageBackground source={item.imageUrl} style={styles.beanImageBackground} imageStyle={{ borderRadius: 10 }}>
+        <ImageBackground
+          source={typeof item.imageUrl === 'string' ? { uri: item.imageUrl } : item.imageUrl}
+          style={styles.beanImageBackground}
+          imageStyle={{ borderRadius: 10 }}
+        >
           <View style={styles.beanContent}>
             <Text style={styles.beanName}>{item.typeDefinition}</Text>
           </View>
