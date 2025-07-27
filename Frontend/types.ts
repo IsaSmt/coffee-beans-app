@@ -8,5 +8,6 @@ export type RootStackParamList = {
   Filter: undefined;
   Main: undefined;
   AddCoffee: undefined;
-  CoffeeProfile: undefined;
-};
+  UploadSuccess: undefined;
+  AddCountry: undefined;
+}

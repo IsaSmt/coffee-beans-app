@@ -2,14 +2,15 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, ScrollView, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useFocusEffect, NavigationProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { IP } from '../../../config';
+import { API_URL } from '../../../config';
+import { RootStackParamList } from '../../../types';
 
 const AddCountryScreen = () => {
     const [name, setName] = useState('');
-    const [image, setImage] = useState(null);
-    const navigation = useNavigation();
+    const [image, setImage] = useState<string | null>(null);
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     useFocusEffect(
         useCallback(() => {
@@ -26,14 +27,14 @@ const AddCountryScreen = () => {
             quality: 1,
         });
 
-        if (!result.canceled) {
-            setImage(result.uri);
+        if (!result.canceled && result.assets && result.assets.length > 0) {
+            setImage(result.assets[0].uri);
         }
     };
 
     const handleSave = async () => {
         try {
-            const response = await fetch(`http://${IP}:8080/api/origins`, {
+            const response = await fetch(`${API_URL}/api/origins`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
