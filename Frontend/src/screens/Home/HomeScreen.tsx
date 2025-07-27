@@ -70,6 +70,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
         const data = await response.json();
         console.log(data);
         setRoasteries(data);
+        console.log('Roasteries im State:', data);
       } catch (error) {
         console.error('Fetch error:', error);
       } finally {
@@ -101,6 +102,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
         }));
 
         setCoffeeBeans(combinedData);
+        console.log('CoffeeBeans im State:', combinedData);
       } catch (error) {
         console.error('Fetch error:', error);
       }
@@ -133,6 +135,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
         const data: Coffee[] = await response.json();
         console.log(data);
         setCoffees(data);
+        console.log('Coffees im State:', data);
       } catch (error) {
         console.error('Fetch error:', error);
       }
