@@ -61,7 +61,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
   useEffect(() => {
     const fetchRoasteries = async () => {
       try {
-        const response = await fetch(`http://${API_URL}:8080/api/roasteries`, {
+        const response = await fetch(`${API_URL}/api/roasteries`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -108,7 +108,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
 
     const fetchOrigins = async () => {
       try {
-        const response = await fetch(`http://${API_URL}:8080/api/origins`, {
+        const response = await fetch(`${API_URL}/api/origins`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -124,7 +124,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
 
     const fetchCoffees = async () => {
       try {
-        const response = await fetch(`http://${API_URL}:8080/api/coffees`, {
+        const response = await fetch(`${API_URL}/api/coffees`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -209,10 +209,10 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
     setLoading(true);
     try {
         const [roasteriesResponse, coffeeBeansResponse, originsResponse, coffeesResponse] = await Promise.all([
-            fetch(`http://${API_URL}:8080/api/roasteries`, { method: 'GET' }),
-            fetch(`http://${API_URL}:8080/api/beantypes`, { method: 'GET' }),
-            fetch(`http://${API_URL}:8080/api/origins`, { method: 'GET' }),
-            fetch(`http://${API_URL}:8080/api/coffees`, { method: 'GET' }),
+            fetch(`${API_URL}/api/roasteries`, { method: 'GET' }),
+            fetch(`${API_URL}/api/beantypes`, { method: 'GET' }),
+            fetch(`${API_URL}/api/origins`, { method: 'GET' }),
+            fetch(`${API_URL}/api/coffees`, { method: 'GET' }),
         ]);
 
         if (!roasteriesResponse.ok || !coffeeBeansResponse.ok || !originsResponse.ok || !coffeesResponse.ok) {

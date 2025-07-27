@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { IP } from '../../../config';
-import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useRoute, useFocusEffect, RouteProp } from '@react-navigation/native';
+import { API_URL } from '../../../config';
 
 const screenHeight = Dimensions.get('window').height;
 const cardInitialHeight = screenHeight * 0.6;
@@ -11,22 +11,35 @@ const cardInitialHeight = screenHeight * 0.6;
 const CoffeeProfileScreen = () => {
   const [cardHeight, setCardHeight] = useState(cardInitialHeight);
   const [quantity, setQuantity] = useState(3);
-  const [activeTab, setActiveTab] = useState('Beschreibung');
-  const [coffeeData, setCoffeeData] = useState(null);
+  const [activeTab, setActiveTab] = useState<'Beschreibung' | 'Bewertungen' | 'Diskussion'>('Beschreibung');
+  const [coffeeData, setCoffeeData] = useState<CoffeeData | null>(null);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-  const route = useRoute();
+  type RootStackParamList = { CoffeeProfile: { coffeeId: string } };
+  const route = useRoute<RouteProp<RootStackParamList, 'CoffeeProfile'>>();
   const { coffeeId } = route.params;
 
+  interface CoffeeData {
+    coffeeName: string;
+    coffeeWeight: number;
+    coffeePrice: number;
+    coffeeDescription: string;
+    origin: string;
+    roastery: string;
+    beantype: string;
+    processing: string;
+    roastdate: string;
+  }
+
   const handleBack = () => {
-    navigation.navigate('Coffee');
+    navigation.navigate('Coffee' as never);
   };
   
   useEffect(() => {
     const fetchCoffeeData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://${IP}:8080/api/coffees/${coffeeId}`, {
+        const response = await fetch(`${API_URL}/api/coffees/${coffeeId}`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -44,8 +57,8 @@ const CoffeeProfileScreen = () => {
     fetchCoffeeData();
   }, [coffeeId]);
 
-  const handleGesture = ({ nativeEvent }) => {
-    setCardHeight(Math.max(cardInitialHeight, cardInitialHeight - nativeEvent.translationY));
+  const handleGesture = ({ nativeEvent }: { nativeEvent: any }) => {
+    setCardHeight(Math.max(cardInitialHeight, cardInitialHeight - (nativeEvent?.translationY ?? 0)));
   };
 
   const increaseQuantity = () => setQuantity(prevQuantity => prevQuantity + 1);
@@ -292,6 +305,11 @@ const styles = StyleSheet.create({
   info: {
     fontSize: 16,
     marginVertical: 10,
+  },
+  description: {
+    fontSize: 16,
+    marginVertical: 10,
+    color: '#333',
   },
   staticButtonsContainer: {
     flexDirection: 'row',
