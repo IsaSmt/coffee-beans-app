@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, ScrollView, FlatList, Image, TouchableOpacity, 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../types';
 import React, { useState, useEffect } from 'react';
-import { IP } from '../../../config';
+import { API_URL } from '../../../config';
 
 interface Roastery {
   id: string;
@@ -37,7 +37,7 @@ interface CoffeeBean {
   tasteType: string | null;
   aromaType: string | null;
   avgPrice: number;
-  imageUrl: string | number;
+  imageUrl: number;
 }
 
 interface Origin {
@@ -61,7 +61,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
   useEffect(() => {
     const fetchRoasteries = async () => {
       try {
-        const response = await fetch(`http://${IP}:8080/api/roasteries`, {
+        const response = await fetch(`http://${API_URL}:8080/api/roasteries`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -79,7 +79,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
 
     const fetchCoffeeBeans = async () => {
       try {
-        const response = await fetch(`http://${IP}:8080/api/beantypes`, {
+        const response = await fetch(`${API_URL}/api/beantypes`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -108,7 +108,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
 
     const fetchOrigins = async () => {
       try {
-        const response = await fetch(`http://${IP}:8080/api/origins`, {
+        const response = await fetch(`http://${API_URL}:8080/api/origins`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -124,7 +124,7 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
 
     const fetchCoffees = async () => {
       try {
-        const response = await fetch(`http://${IP}:8080/api/coffees`, {
+        const response = await fetch(`http://${API_URL}:8080/api/coffees`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -209,10 +209,10 @@ const HomePage: React.FC<Props> = ({ navigation }) => {
     setLoading(true);
     try {
         const [roasteriesResponse, coffeeBeansResponse, originsResponse, coffeesResponse] = await Promise.all([
-            fetch(`http://${IP}:8080/api/roasteries`, { method: 'GET' }),
-            fetch(`http://${IP}:8080/api/beantypes`, { method: 'GET' }),
-            fetch(`http://${IP}:8080/api/origins`, { method: 'GET' }),
-            fetch(`http://${IP}:8080/api/coffees`, { method: 'GET' }),
+            fetch(`http://${API_URL}:8080/api/roasteries`, { method: 'GET' }),
+            fetch(`http://${API_URL}:8080/api/beantypes`, { method: 'GET' }),
+            fetch(`http://${API_URL}:8080/api/origins`, { method: 'GET' }),
+            fetch(`http://${API_URL}:8080/api/coffees`, { method: 'GET' }),
         ]);
 
         if (!roasteriesResponse.ok || !coffeeBeansResponse.ok || !originsResponse.ok || !coffeesResponse.ok) {
