@@ -16,7 +16,7 @@ COPY API-Vorlage/DataObject ./API-Vorlage/DataObject
 COPY API-Vorlage/Properties ./API-Vorlage/Properties
 COPY API-Vorlage/Store ./API-Vorlage/Store
 
-RUN dotnet restore ./API.sln
+RUN dotnet restore ./API-Vorlage/API.csproj
 
 # Copy everything else and build
 COPY API-Vorlage/. ./API-Vorlage/
