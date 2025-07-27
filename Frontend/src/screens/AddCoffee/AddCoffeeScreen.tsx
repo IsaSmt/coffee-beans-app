@@ -1,10 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, ScrollView, Platform, Modal, FlatList, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useFocusEffect, NavigationProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { IP } from '../../../config';
+import { API_URL } from '../../../config';
 import DateTimePicker from '@react-native-community/datetimepicker';
+
+type RootStackParamList = {
+  Coffee: undefined;
+  AddCoffee: undefined;
+};
 
 const AddCoffeeScreen = () => {
   const [name, setName] = useState('');
@@ -16,14 +21,14 @@ const AddCoffeeScreen = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [price, setPrice] = useState(0);
   const [weight, setWeight] = useState(0);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string | null>(null);
   const [processing, setProcessing] = useState('');
   const [origin, setOrigin] = useState('');
   const [roastery, setRoastery] = useState('');
   const [beanTypeModalVisible, setBeanTypeModalVisible] = useState(false);
   const [countryModalVisible, setCountryModalVisible] = useState(false);
   const [roastDegreeModalVisible, setRoastDegreeModalVisible] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
 
   useFocusEffect(
@@ -41,15 +46,15 @@ const AddCoffeeScreen = () => {
   );
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-
-    if (!result.cancelled) {
-      setImage(result.uri);
+    // ImagePickerResult has 'canceled' (US spelling) and 'assets' array
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setImage(result.assets[0].uri);
     }
   };
 
@@ -59,7 +64,7 @@ const AddCoffeeScreen = () => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch(`http://${IP}:8080/api/coffees`, {
+      const response = await fetch(`${API_URL}/api/coffees`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,20 +97,24 @@ const AddCoffeeScreen = () => {
     setShowDatePicker(true);
   };
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || roastDate;
+  const onChange = (_event: any, selectedDate?: Date | undefined) => {
+    const currentDate = selectedDate || roastdate;
     setShowDatePicker(Platform.OS === 'ios');
     setRoastDate(currentDate);
   };
 
-  const formatDate = (date) => {
+  const formatDate = (date: Date) => {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
     return `${day}.${month}.${year}`;
   };
 
-  const renderModalItem = (item, setValue, closeModal) => (
+  const renderModalItem = (
+    item: string,
+    setValue: (val: string) => void,
+    closeModal: (val: boolean) => void
+  ) => (
     <TouchableOpacity
       style={styles.modalItem}
       onPress={() => {
@@ -197,8 +206,8 @@ const AddCoffeeScreen = () => {
             <TextInput
               style={styles.inputWithSymbolField}
               placeholder="..."
-              value={price}
-              onChangeText={setPrice}
+              value={price.toString()}
+              onChangeText={text => setPrice(Number(text))}
               keyboardType="numeric"
             />
             <Text style={styles.symbol}>€</Text>
@@ -210,8 +219,8 @@ const AddCoffeeScreen = () => {
             <TextInput
               style={styles.inputWithSymbolField}
               placeholder="..."
-              value={weight}
-              onChangeText={setWeight}
+              value={weight.toString()}
+              onChangeText={text => setWeight(Number(text))}
               keyboardType="numeric"
             />
             <Text style={styles.symbol}>g</Text>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity, ImageBackground, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { IP } from '../../../config';
+import { NavigationProp, useNavigation, useIsFocused } from '@react-navigation/native';
+import { API_URL } from '../../../config';
+import { RootStackParamList } from '../../navigation/types';
 
 interface CoffeeBean {
   id: string;
@@ -16,14 +17,14 @@ interface CoffeeBean {
 }
 
 const CoffeeBeansScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [coffeeBeans, setCoffeeBeans] = useState<CoffeeBean[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     const fetchCoffeeBeans = async () => {
       try {
-        const response = await fetch(`http://${IP}:8080/api/beantypes`, {
+        const response = await fetch(`${API_URL}/api/beantypes`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -53,7 +54,7 @@ const CoffeeBeansScreen: React.FC = () => {
 
   const handleReloadCoffeeBeans = async () => {
     try {
-      const response = await fetch(`http://${IP}:8080/api/beantypes`, {
+      const response = await fetch(`${API_URL}/api/beantypes`, {
         method: 'GET'
       });
       if (!response.ok) {
@@ -69,7 +70,7 @@ const CoffeeBeansScreen: React.FC = () => {
 
   const deleteCoffeeBean = async (id: string) => {
     try {
-      const response = await fetch(`http://${IP}:8080/api/beantypes/${id}`, {
+      const response = await fetch(`${API_URL}/api/beantypes/${id}`, {
         method: 'DELETE'
       });
       if (!response.ok) {

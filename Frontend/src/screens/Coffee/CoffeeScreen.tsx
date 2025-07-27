@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { IP } from '../../../config';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { API_URL } from '../../../config';
 
 interface Coffee {
   id: number;
@@ -14,15 +14,20 @@ interface Coffee {
   processing: string;
 }
 
+type RootStackParamList = {
+  AddCoffee: undefined;
+  CoffeeProfileScreen: { coffeeId: number };
+  Filter: undefined;
+};
 const CoffeeScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [coffees, setCoffees] = useState<Coffee[]>([]);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     const fetchCoffees = async () => {
       try {
-        const response = await fetch(`http://${IP}:8080/api/coffees`, {
+        const response = await fetch(`${API_URL}/api/coffees`, {
           method: 'GET'
         });
         if (!response.ok) {
@@ -56,7 +61,7 @@ const CoffeeScreen: React.FC = () => {
 
   const handleReloadCoffees = async () => {
     try {
-      const response = await fetch(`http://${IP}:8080/api/coffees`, {
+      const response = await fetch(`${API_URL}/api/coffees`, {
         method: 'GET'
       });
       if (!response.ok) {
@@ -83,7 +88,7 @@ const CoffeeScreen: React.FC = () => {
           text: "Ja",
           onPress: async () => {
             try {
-              const response = await fetch(`http://${IP}:8080/api/coffees/${id}`, {
+              const response = await fetch(`${API_URL}/api/coffees/${id}`, {
                 method: 'DELETE',
               });
               if (!response.ok) {
@@ -109,7 +114,7 @@ const CoffeeScreen: React.FC = () => {
   const renderCoffee = ({ item }: { item: Coffee }) => (
     <TouchableOpacity
       style={styles.beanCard}
-      onPress={handleClickOnCoffee}
+      onPress={() => handleClickOnCoffee(item.id)}
       onLongPress={() => handleDeleteCoffee(item.id)}
     >
       <Image source={require('../../assets/jacobs_coffee.png')} style={styles.beanImage} />

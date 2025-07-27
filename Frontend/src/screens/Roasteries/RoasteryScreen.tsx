@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TextInput, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
-import { IP } from '../../../config';
+import { NavigationProp, useNavigation, useIsFocused } from '@react-navigation/native';
+import { API_URL } from '../../../config';
+import { RootStackParamList } from '../../navigation/types';
 
 interface Roastery {
     id: string;
@@ -21,12 +22,12 @@ interface Roastery {
 
 const RoasteriesScreen = () => {
     const [roasteries, setRoasteries] = useState < Roastery[] > ([]);
-    const navigation = useNavigation();
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const isFocused = useIsFocused(); // Hook to check if the screen is focused
 
     const fetchRoasteries = async () => {
         try {
-            const response = await fetch(`http://${IP}:8080/api/roasteries`, {
+            const response = await fetch(`${API_URL}/api/roasteries`, {
                 method: 'GET'
             });
             if (!response.ok) {
@@ -50,7 +51,7 @@ const RoasteriesScreen = () => {
         navigation.goBack();
     };
 
-    const handleGoToRoasteryProfile = (id: number) => {
+    const handleGoToRoasteryProfile = (id: string) => {
         navigation.navigate('RoasteryProfile', { roasteryId: id });
     };
 
@@ -60,7 +61,7 @@ const RoasteriesScreen = () => {
 
     const handleDeleteRoastery = async (id: string) => {
         try {
-            const response = await fetch(`http://${IP}:8080/api/roasteries/${id}`, {
+            const response = await fetch(`${API_URL}/api/roasteries/${id}`, {
                 method: 'DELETE'
             });
             if (!response.ok) {
@@ -117,7 +118,7 @@ const RoasteriesScreen = () => {
                                 <Text style={styles.roasteryAddress}>{roastery.street}{roastery.housenumber}</Text>
                                 <Text style={styles.roasteryAddress}>{roastery.Postcode}{roastery.ort}</Text>
                             </View>
-                            <Image source={require('../../assets/blend_roastery_icon.png')} style={styles.logo} />
+                            <Image source={roastery.logoUrl ? { uri: roastery.logoUrl } : require('../../assets/blend_roastery_icon.png')} style={styles.logo} />
                         </View>
                     </TouchableOpacity>
                 ))}

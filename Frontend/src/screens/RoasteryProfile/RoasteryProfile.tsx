@@ -2,25 +2,44 @@ import React, { useState , useEffect} from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { IP } from '../../../config';
+import { useNavigation, useRoute, NavigationProp, RouteProp } from '@react-navigation/native';
+import { API_URL } from '../../../config';
 
 const screenHeight = Dimensions.get('window').height;
 const cardInitialHeight = screenHeight * 0.6;
 
+type RootStackParamList = {
+  Home: undefined;
+  RoasteryProfile: { roasteryId: string };
+};
+
+interface Roastery {
+  roasteryName: string;
+  roasteryDescription: string;
+  contactPersonFirstName: string;
+  contactPersonLastName: string;
+  email: string;
+  phone: string;
+  street: string;
+  housenumber: string;
+  postcode: string;
+  ort: string;
+  country: string;
+}
+
 const RoasteryProfileScreen = () => {
     const [cardHeight, setCardHeight] = useState(cardInitialHeight);
-    const [activeTab, setActiveTab] = useState('Beschreibung');
-    const navigation = useNavigation();
-    const route = useRoute();
+    const [activeTab, setActiveTab] = useState<'Beschreibung' | 'Bewertungen' | 'Diskussion'>('Beschreibung');
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const route = useRoute<RouteProp<RootStackParamList, 'RoasteryProfile'>>();
     const { roasteryId } = route.params;
 
-    const [roastery, setRoastery] = useState(null);
+    const [roastery, setRoastery] = useState<Roastery | null>(null);
 
     useEffect(() => {
         const fetchRoasteryData = async () => {
             try {
-                const response = await fetch(`http://${IP}:8080/api/roasteries/${roasteryId}`, {
+                const response = await fetch(`${API_URL}/api/roasteries/${roasteryId}`, {
                     method: 'GET',
                 });
                 if (!response.ok) {
@@ -43,7 +62,7 @@ const RoasteryProfileScreen = () => {
         navigation.navigate('Home');
     };
 
-    const handleGesture = ({ nativeEvent }) => {
+    const handleGesture = ({ nativeEvent }: { nativeEvent: { translationY: number } }) => {
         setCardHeight(Math.max(cardInitialHeight, cardInitialHeight - nativeEvent.translationY));
     };
 
@@ -56,14 +75,13 @@ const RoasteryProfileScreen = () => {
             case 'Beschreibung':
                 return (
                     <>
-                        <Text style={styles.description}>{roastery.roasteryDescription}</Text>
+                        <Text style={styles.description}>{roastery?.roasteryDescription ?? ''}</Text>
                         <Text style={styles.detailTitle}>Kontaktinformationen</Text>
-                        <Text style={styles.detail}>Kontaktperson: {roastery.contactPersonFirstName} {roastery.contactPersonLastName}</Text>
-                        <Text style={styles.detail}>Email: {roastery.email}</Text>
-                        <Text style={styles.detail}>Telefon: {roastery.phone}</Text>
+                        <Text style={styles.detail}>Kontaktperson: {roastery?.contactPersonFirstName ?? ''} {roastery?.contactPersonLastName ?? ''}</Text>
+                        <Text style={styles.detail}>Email: {roastery?.email ?? ''}</Text>
+                        <Text style={styles.detail}>Telefon: {roastery?.phone ?? ''}</Text>
                         <Text style={styles.detailTitle}>Adresse</Text>
-                        <Text style={styles.detail}>{roastery.street} {roastery.housenumber}, {roastery.postcode} {roastery.ort}{roastery.country}</Text>
-
+                        <Text style={styles.detail}>{roastery?.street ?? ''} {roastery?.housenumber ?? ''}, {roastery?.postcode ?? ''} {roastery?.ort ?? ''} {roastery?.country ?? ''}</Text>
                     </>
                 );
             case 'Bewertungen':

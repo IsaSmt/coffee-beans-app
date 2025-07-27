@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import { IP } from '../../../config';
+import { API_URL } from '../../../config';
 
 type RootStackParamList = {
     BeanProfile: { beanId: string };
@@ -25,7 +25,7 @@ const BeanProfileScreen: React.FC = () => {
         const fetchCoffeeBean = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`http://${IP}:8080/api/beantypes/${beanId}`, {
+                const response = await fetch(`${API_URL}/api/beantypes/${beanId}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

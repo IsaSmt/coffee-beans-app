@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
-import { IP } from '../../../config';
+import { NavigationProp, useNavigation, useIsFocused } from '@react-navigation/native';
+import { API_URL } from '../../../config';
+import { RootStackParamList } from '../../navigation/types';
 
 interface CountryOfOrigin {
     id: string;
@@ -10,14 +11,14 @@ interface CountryOfOrigin {
 
 const CountryOfOriginScreen: React.FC = () => {
     const [countries, setCountries] = useState < CountryOfOrigin[] > ([]);
-    const navigation = useNavigation();
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const [searchQuery, setSearchQuery] = useState < string > ('');
     const isFocused = useIsFocused();
 
     useEffect(() => {
         const fetchCountries = async () => {
             try {
-                const response = await fetch(`http://${IP}:8080/api/origins`, {
+                const response = await fetch(`${API_URL}/api/origins`, {
                     method: 'GET'
                 });
                 if (!response.ok) {
@@ -26,7 +27,7 @@ const CountryOfOriginScreen: React.FC = () => {
                 const data: CountryOfOrigin[] = await response.json();
                 console.log(data);
                 setCountries(data);
-            } catch (error) {
+            } catch (error: any) {
                 console.error('Fetch error:', error);
             }
         };
@@ -64,7 +65,7 @@ const CountryOfOriginScreen: React.FC = () => {
 
     const deleteCountry = async (id: string) => {
         try {
-            const response = await fetch(`http://${IP}:8080/api/origins/${id}`, {
+            const response = await fetch(`${API_URL}/api/origins/${id}`, {
                 method: 'DELETE'
             });
             if (!response.ok) {
@@ -75,7 +76,11 @@ const CountryOfOriginScreen: React.FC = () => {
             setCountries(countries.filter(country => country.id !== id));
         } catch (error) {
             console.error('Delete error:', error);
-            Alert.alert('Error', `Failed to delete country: ${error.message}`);
+            if (error instanceof Error) {
+                Alert.alert('Error', `Failed to delete country: ${error.message}`);
+            } else {
+                Alert.alert('Error', 'An unknown error occurred while deleting the country.');
+            }
         }
     };
 
@@ -94,12 +99,12 @@ const CountryOfOriginScreen: React.FC = () => {
     );
 
     const handleAddCountry = () => {
-        navigation.navigate('AddCountry'); // Ensure this name matches the registered screen name
+        navigation.navigate('AddCountry');
     };
 
     const handleReloadCountries = async () => {
         try {
-            const response = await fetch(`http://${IP}:8080/api/origins`, {
+            const response = await fetch(`${API_URL}/api/origins`, {
                 method: 'GET'
             });
             if (!response.ok) {

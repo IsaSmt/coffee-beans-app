@@ -1,9 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { NavigationProp, useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { IP } from '../../../config';
+import { API_URL } from '../../../config';
+import { RootStackParamList } from '../../navigation/types';
 
 const AddRoasteryScreen = () => {
   const [name, setName] = useState('');
@@ -17,8 +18,8 @@ const AddRoasteryScreen = () => {
   const [contactPersonFirstName, setContactPersonFirstName] = useState('');
   const [contactPersonLastName, setContactPersonLastName] = useState('');
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState(null);
-  const navigation = useNavigation();
+  const [image, setImage] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useFocusEffect(
     useCallback(() => {
@@ -45,14 +46,14 @@ const AddRoasteryScreen = () => {
       quality: 1,
     });
 
-    if (!result.cancelled) {
-      setImage(result.uri);
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setImage(result.assets[0].uri);
     }
   };
 
   const handleSave = async () => {
     try {
-      const response = await fetch(`http://${IP}:8080/api/roasteries`, {
+      const response = await fetch(`${API_URL}/api/roasteries`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -76,7 +77,7 @@ const AddRoasteryScreen = () => {
       const data = await response.json();
       console.log(data); // You can do something with the response data if needed
       Alert.alert('Erfolg', 'Die Rösterei wurde erfolgreich hinzugefügt.');
-      navigation.navigate('Roastery', { reload: true }); // Navigation zur RoasteriesScreen und Reload-Flag setzen
+      navigation.navigate('Roasteries', { reload: true }); // Navigation zur RoasteriesScreen und Reload-Flag setzen
     } catch (error) {
       console.error('Fetch error:', error);
       Alert.alert('Error', 'Failed to add roastery. Please try again later.');

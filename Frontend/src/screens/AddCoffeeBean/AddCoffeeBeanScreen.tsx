@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, TouchableWi
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { IP } from '../../../config';
+import { API_URL } from '../../../config';
 
 const AddCoffeeBeanScreen = () => {
   const [name, setName] = useState('');
@@ -19,7 +19,7 @@ const AddCoffeeBeanScreen = () => {
   const [processingMethod, setProcessingMethod] = useState('');
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string | null>(null);
   const navigation = useNavigation();
 
   const [originModalVisible, setOriginModalVisible] = useState(false);
@@ -45,7 +45,7 @@ const AddCoffeeBeanScreen = () => {
       setBeanForm('');
       setBeanSize('');
       setProcessingMethod('');
-      setPrice('');
+      setPrice(0);
       setDescription('');
       setImage(null);
     }, [])
@@ -59,14 +59,14 @@ const AddCoffeeBeanScreen = () => {
       quality: 1,
     });
 
-    if (!result.canceled) {
-      setImage(result.uri);
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setImage(result.assets[0].uri);
     }
   };
 
   const handleSave = async () => {
     try {
-      const response = await fetch(`http://${IP}:8080/api/beantypes`, {
+      const response = await fetch(`${API_URL}/api/beantypes`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,7 +94,11 @@ const AddCoffeeBeanScreen = () => {
     }
   };
 
-  const renderModalItem = (item, setValue, closeModal) => (
+  const renderModalItem = (
+    item: string,
+    setValue: (value: string) => void,
+    closeModal: (visible: boolean) => void
+  ) => (
     <TouchableOpacity
       style={styles.modalItem}
       onPress={() => {
@@ -205,8 +209,8 @@ const AddCoffeeBeanScreen = () => {
               <TextInput
                 style={styles.priceInput}
                 placeholder="..."
-                value={price}
-                onChangeText={setPrice}
+                value={price.toString()}
+                onChangeText={text => setPrice(Number(text))}
                 keyboardType="numeric"
               />
               <Text style={styles.currency}>€</Text>
