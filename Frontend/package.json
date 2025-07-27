@@ -30,11 +30,12 @@
     "react-native-vector-icons": "^10.1.0",
     "react-native-web": "~0.19.10",
     "react-dom": "18.2.0",
-    "@expo/metro-runtime": "~3.2.3"
+    "@expo/metro-runtime": "~3.2.3",
+    "metro": "^0.80.8"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "metro": "^0.80.8",
+    "@expo/metro-config": "^0.7.1",
     "@types/react": "^18.2.79",
     "@types/react-native": "^0.73.0",
     "@types/react-native-vector-icons": "^6.4.18",
