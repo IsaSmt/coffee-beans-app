@@ -5,7 +5,6 @@ WORKDIR /app
 # Copy solution and project files
 COPY API-Vorlage/API.sln ./API.sln
 COPY API-Vorlage/API.csproj ./API-Vorlage/
-COPY API-Vorlage/API.csproj.user ./API-Vorlage/
 COPY API-Vorlage/API.xml ./API-Vorlage/
 COPY API-Vorlage/appsettings*.json ./API-Vorlage/
 
