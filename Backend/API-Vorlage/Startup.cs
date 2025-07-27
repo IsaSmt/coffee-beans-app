@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 using API.DataObject;
 
 namespace API {
-    public class Startup {
+    public partial class Startup {
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
         }
@@ -41,6 +41,15 @@ namespace API {
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
             });
+
+            // CORS für Frontend erlauben
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend",
+                    builder => builder.WithOrigins("http://localhost:8081")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +62,9 @@ namespace API {
            //app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // CORS aktivieren
+            app.UseCors("AllowFrontend");
 
             app.UseSwagger();
             app.UseSwaggerUI(options => {

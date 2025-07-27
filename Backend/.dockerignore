@@ -1,0 +1,10 @@
+API-Vorlage/bin/
+API-Vorlage/obj/
+*.md
+*.user
+*.vs
+.vscode
+Dockerfile
+docs/
+.git
+.gitignore
