@@ -48,7 +48,8 @@ namespace API {
                 options.AddPolicy("AllowFrontend",
                     builder => builder.WithOrigins(
                         "http://localhost:8081",
-                        "https://coffee-beans-app.netlify.app"
+                        "https://coffee-beans-app.netlify.app",
+                        "https://digital-entrepreneurship.onrender.com"
                     )
                     .AllowAnyHeader()
                     .AllowAnyMethod());
